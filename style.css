@@ -1,11 +1,28 @@
-/* CSS files add styling rules to your content */
-
-body {
+html, body {  
   font-family: helvetica, arial, sans-serif;
-  margin: 2em;
+  background-color: black;
+  width: 100%;
+  height: 100%;
+  padding: 0px;
+  margin: 0px;
 }
 
-h1 {
-  font-style: italic;
-  color: #373fff;
+body {
+  display: flex;
+  justify-content: center;
+}
+
+.MAININPUT {
+  color: white;
+  background-color: transparent;
+  flex-grow: 2;
+  align-self: center;
+  font-size: 2em;
+  text-align: center;
+  border: none;
+  resize: none;
+}
+
+.MAININPUT:focus {
+  outline: none;
 }
