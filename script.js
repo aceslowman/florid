@@ -32,7 +32,8 @@ document
 let state = {
   tick: 0,
   tempo: 120,
-  pauseAfterLine: 0.5
+  pauseAfterLine: 0.5,
+  txtArray: ""
 };
 
 document.querySelector(".tickIndicator").textContent = state.tick++;
@@ -49,11 +50,20 @@ setInterval(() => {
 function handleMainTextChange(e) {
   console.log("change", e.keyCode);
   // disallow anything that isn't a dot, slash, new line, or space
-  if (e.keyCode !== 46 && e.keyCode !== 47 && e.keyCode !== 13 && e.keyCode !== 32) {
+  if (
+    e.keyCode !== 190 &&
+    e.keyCode !== 191 &&
+    e.keyCode !== 13 &&
+    e.keyCode !== 32
+  ) {
     e.preventDefault();
+  } else {
+    state.txtArray = e.target.value.split(/\r?\n/).map(e => e.split(" "));
+    // parse lines and units
+    console.log("TXT", state.txtArray);
   }
 }
 
 document
   .querySelector(".MAININPUT")
-  .addEventListener("keypress", handleMainTextChange);
+  .addEventListener("keyup", handleMainTextChange);
