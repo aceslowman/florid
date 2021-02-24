@@ -21,9 +21,9 @@ document.querySelector(".MAININPUT").addEventListener("keyup", keyUpUpdateSize);
 function toggleSettings() {
   console.log('settings')
   let settingsPanel = document.querySelector(".SETTINGS");
-  settingsPanel.style.width = settingsPanel.style.width === "0%" ? "38%" : "0%";
+  settingsPanel.style.width = settingsPanel.style.width === "0%" ? "28%" : "0%";
 }
 
 document
   .querySelector(".toggleSettings")
-  .addEventListener("onclick", toggleSettings);
+  .addEventListener("click", toggleSettings);

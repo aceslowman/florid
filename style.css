@@ -30,7 +30,7 @@ body {
 
 .SETTINGS {
   background-color: orange;
-  width: 10%;
+  width: 0%;
   height: 100%;
   overflow: hidden;
   -webkit-transition: width 1s ease-in-out;
@@ -44,10 +44,11 @@ body {
 }
 
 .toggleSettings {
-  background-color: cyan;
+  background-color: white;
   width: 20px;
   height: 20px;
-  transform: translate(-10px, -0px) rotate(45deg);
+  transform: translate(10px, -0px) rotate(45deg);
+  position: absolute;
 }
 
 .settingsInner {
