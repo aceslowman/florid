@@ -1,5 +1,5 @@
+// CENTERS MAININPUT TEXT
 // https://stackoverflow.com/questions/4954252/css-textarea-that-expands-as-you-type-text
-
 function updateSize(e) {
   let text = e.target.value + String.fromCharCode(event.keyCode);
   e.target.rows = text.split(/\r\n|\r|\n/).length;
@@ -18,6 +18,7 @@ document
   .addEventListener("keydown", keyDownUpdateSize);
 document.querySelector(".MAININPUT").addEventListener("keyup", keyUpUpdateSize);
 
+// SETTINGS TOGGLE
 function toggleSettings() {
   console.log("settings");
   let settingsPanel = document.querySelector(".SETTINGS");
@@ -28,18 +29,21 @@ document
   .querySelector(".toggleSettings")
   .addEventListener("click", toggleSettings);
 
-// let state = {
-//   testValue: 2
-// };
+// DISPLAY TICKS AS THEY CHANGE
+let state = {
+  tick: 0,
+  tempo: 120,
+  pauseAfterLine: 0.5
+}
 
-// // GUI
-// let gui = new dat.GUI({
-//   autoPlace: false,
-//   closeOnTop: false
-// });
+document.querySelector(".tickIndicator").textContent = state.tick++;
 
-// document.querySelector(".settingsInner").append(gui.domElement);
-
-// gui.remember(state);
-
-// gui.add(state, 'testValue');
+// MAIN TICK LOOP
+setInterval(() => {
+  state = {
+    ...state,
+    tick: state.tick++
+  }
+  
+  document.querySelector(".tickIndicator").textContent = state.tick;
+}, 100)

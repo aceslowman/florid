@@ -73,6 +73,12 @@ body {
   padding: 5px 0px;
 }
 
+.settingsInner input {
+  background-color: #0d0d0d;
+  color:white;
+  border: 1px dotted white;
+}
+
 .settingsInner > div {
   display: flex;
   align-self: flex-end;
