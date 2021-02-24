@@ -37,13 +37,11 @@ let state = {
 }
 
 document.querySelector(".tickIndicator").textContent = state.tick++;
+document.querySelector(".tempoInput").value = state.tempo;
+document.querySelector(".tempoInput").value = state.pauseAfterLine;
 
 // MAIN TICK LOOP
 setInterval(() => {
-  state = {
-    ...state,
-    tick: state.tick++
-  }
-  
-  document.querySelector(".tickIndicator").textContent = state.tick;
-}, 100)
+  state.tick += 1;
+  document.querySelector(".tickIndicator").textContent = `tick: ${state.tick}`;
+}, state.tempo * 60)
