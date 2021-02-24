@@ -20,7 +20,6 @@ document.querySelector(".MAININPUT").addEventListener("keyup", keyUpUpdateSize);
 
 // SETTINGS TOGGLE
 function toggleSettings() {
-  console.log("settings");
   let settingsPanel = document.querySelector(".SETTINGS");
   settingsPanel.style.width = settingsPanel.style.width === "0%" ? "28%" : "0%";
 }
@@ -38,10 +37,19 @@ let state = {
 
 document.querySelector(".tickIndicator").textContent = state.tick++;
 document.querySelector(".tempoInput").value = state.tempo;
-document.querySelector(".tempoInput").value = state.pauseAfterLine;
+document.querySelector(".pauseInput").value = state.pauseAfterLine;
 
 // MAIN TICK LOOP
 setInterval(() => {
   state.tick += 1;
   document.querySelector(".tickIndicator").textContent = `tick: ${state.tick}`;
-}, state.tempo * 60)
+}, state.tempo)
+
+// MAIN TEXT INPUT PARSING
+function handleMainTextChange(e) {
+  console.log('change',e.target.value)
+}
+
+document
+  .querySelector(".MAININPUT")
+  .addEventListener("onkeyup", handleMainTextChange);
