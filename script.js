@@ -50,6 +50,7 @@ setInterval(() => {
 // MAIN TEXT INPUT PARSING
 function handleMainTextChange(e) {
   state.txtArray = e.target.value.split(/\r?\n/).map(e => e.split(" "));
+  
   // parse lines and units
   console.log("TXT", state.txtArray);
 }
@@ -71,6 +72,7 @@ document.querySelector(".MAININPUT").addEventListener("keydown", e => {
 document.querySelector(".MAININPUT").addEventListener("keyup", e => {
   // enable audio if not already enabled
   if (Tone.Transport.state !== "started") {
+    console.log('starting audio context')
     Tone.Transport.start();
   } else {
     // Tone.Transport.stop();
@@ -87,3 +89,9 @@ const synth = new Tone.Synth().toDestination();
 
 synth.triggerAttackRelease("C4", "8n");
 
+// Tone.Transport.bpm.value = state.bpm;
+
+document.querySelector(".tempoInput").addEventListener("change", e => {
+  console.log(e.target.value)
+  Tone.Transport.bpm.value = state.bpm;
+});
