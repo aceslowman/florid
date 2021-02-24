@@ -6,14 +6,24 @@ function updateSize(e) {
 }
 
 function keyDownUpdateSize(e) {
-  if (event.keyCode != 8 && event.keyCode != 46)
-    updateSize(e);
+  if (event.keyCode != 8 && event.keyCode != 46) updateSize(e);
 }
 
 function keyUpUpdateSize(e) {
-  if (event.keyCode == 8 || event.keyCode == 46)
-    updateSize(e);
+  if (event.keyCode == 8 || event.keyCode == 46) updateSize(e);
 }
 
-document.querySelector(".MAININPUT").addEventListener("keydown", keyDownUpdateSize);
-document.querySelector(".MAININPUT").addEventListener("keyup", keyUpUpdateSize)
+document
+  .querySelector(".MAININPUT")
+  .addEventListener("keydown", keyDownUpdateSize);
+document.querySelector(".MAININPUT").addEventListener("keyup", keyUpUpdateSize);
+
+function toggleSettings() {
+  console.log('settings')
+  let settingsPanel = document.querySelector(".SETTINGS");
+  settingsPanel.style.width = settingsPanel.style.width === "0%" ? "38%" : "0%";
+}
+
+document
+  .querySelector(".toggleSettings")
+  .addEventListener("onclick", toggleSettings);

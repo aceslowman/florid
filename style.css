@@ -31,24 +31,28 @@ body {
 .SETTINGS {
   background-color: orange;
   width: 10%;
+  height: 100%;
   overflow: hidden;
   -webkit-transition: width 1s ease-in-out;
   -moz-transition: width 1s ease-in-out;
   -o-transition: width 1s ease-in-out;
   transition: width 1s ease-in-out;
   display: flex;
-  align-self: center;
+  /* align-self: center; */
+  justify-content: flex-end;
+  align-items: center;
 }
 
 .toggleSettings {
   background-color: cyan;
   width: 20px;
   height: 20px;
-  transform: translate(-10px, -10px);
-  transform: rotate(45deg);
+  transform: translate(-10px, -0px) rotate(45deg);
 }
 
 .settingsInner {
   background-color: green;
   width: 50px;
+  min-height: 100px;
+  flex-grow: 2;
 }
