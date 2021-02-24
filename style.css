@@ -29,7 +29,7 @@ body {
 }
 
 .SETTINGS {
-  background-color: orange;
+    background-color: black;
   width: 0%;
   height: 100%;
   overflow: hidden;
@@ -41,6 +41,8 @@ body {
   /* align-self: center; */
   justify-content: flex-end;
   align-items: center;
+  
+  z-index: 2;
 }
 
 .toggleSettings {
@@ -49,11 +51,30 @@ body {
   height: 20px;
   transform: translate(10px, -0px) rotate(45deg);
   position: absolute;
+  
+  z-index: 1;
 }
 
 .settingsInner {
-  background-color: green;
+  background-color: black;
+  /*   background-color: green; */
+  padding:15px;
   width: 50px;
   min-height: 100px;
+  display: flex;
+  flex-flow: column;
   flex-grow: 2;
+  color: white;
+  
+  z-index: 2;
+}
+
+.settingsInner label {
+  padding: 0px 5px;
+}
+
+.settingsInner > div {
+  display: flex;
+  align-self: flex-end;
+  flex-flow: column;
 }
