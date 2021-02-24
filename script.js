@@ -43,27 +43,47 @@ document.querySelector(".pauseInput").value = state.pauseAfterLine;
 // MAIN TICK LOOP
 setInterval(() => {
   state.tick += 1;
-  document.querySelector(".tickIndicator").textContent = `tick: ${state.tick}`;
+  const indicator = document.querySelector(".tickIndicator");
+  indicator.textContent = `tick: ${state.tick}`;
 }, state.tempo);
 
 // MAIN TEXT INPUT PARSING
 function handleMainTextChange(e) {
-  console.log("change", e.keyCode);
-  // disallow anything that isn't a dot, slash, new line, or space
+  state.txtArray = e.target.value.split(/\r?\n/).map(e => e.split(" "));
+  // parse lines and units
+  console.log("TXT", state.txtArray);
+}
+
+document.querySelector(".MAININPUT").addEventListener("keydown", e => {
+  // disallow anything that isn't a dot, slash, new line, space, or backspace
+  console.log(e.keyCode);
   if (
     e.keyCode !== 190 &&
     e.keyCode !== 191 &&
     e.keyCode !== 13 &&
-    e.keyCode !== 32
+    e.keyCode !== 32 &&
+    e.keyCode !== 8
   ) {
     e.preventDefault();
-  } else {
-    state.txtArray = e.target.value.split(/\r?\n/).map(e => e.split(" "));
-    // parse lines and units
-    console.log("TXT", state.txtArray);
   }
-}
+});
 
-document
-  .querySelector(".MAININPUT")
-  .addEventListener("keyup", handleMainTextChange);
+document.querySelector(".MAININPUT").addEventListener("keyup", e => {
+  // enable audio if not already enabled
+  if (Tone.Transport.state !== "started") {
+    Tone.Transport.start();
+  } else {
+    // Tone.Transport.stop();
+  }
+
+  state.txtArray = e.target.value.split(/\r?\n/).map(e => e.split(" "));
+  // parse lines and units
+  console.log("TXT", state.txtArray);
+});
+
+// setup basic synth
+
+const synth = new Tone.Synth().toDestination();
+
+synth.triggerAttackRelease("C4", "8n");
+
