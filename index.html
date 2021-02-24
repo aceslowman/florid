@@ -1,29 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>ditdah</title>
-    
+
     <!-- import the webpage's stylesheet -->
-    <link rel="stylesheet" href="/style.css">
-    
+    <link rel="stylesheet" href="/style.css" />
+
     <script src="/scripts/dat.gui.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.2.0/p5.min.js" integrity="sha512-b/htz6gIyFi3dwSoZ0Uv3cuv3Ony7EeKkacgrcVg8CMzu90n777qveu0PBcbZUA7TzyENGtU+qZRuFAkfqgyoQ==" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.2.0/addons/p5.sound.min.js" integrity="sha512-wM+t5MzLiNHl2fwT5rWSXr2JMeymTtixiw2lWyVk1JK/jDM4RBSFoH4J8LjucwlDdY6Mu84Kj0gPXp7rLGaDyA==" crossorigin="anonymous"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.2.0/p5.min.js"
+      integrity="sha512-b/htz6gIyFi3dwSoZ0Uv3cuv3Ony7EeKkacgrcVg8CMzu90n777qveu0PBcbZUA7TzyENGtU+qZRuFAkfqgyoQ=="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.2.0/addons/p5.sound.min.js"
+      integrity="sha512-wM+t5MzLiNHl2fwT5rWSXr2JMeymTtixiw2lWyVk1JK/jDM4RBSFoH4J8LjucwlDdY6Mu84Kj0gPXp7rLGaDyA=="
+      crossorigin="anonymous"
+    ></script>
     <!-- import the webpage's javascript file -->
-    <script src="/script.js" defer></script>    
-  </head>  
+    <script src="/script.js" defer></script>
+  </head>
   <body>
-    <div class="SETTINGS">
+    <div class="SETTINGS" style="width:0%">
       <div class="settingsInner">
-        
+        <div>
+          <label>pause after line</label>
+          <input class="input_pauseAfterLine" type="number" step="0.1" />
+        </div>
+        <div>
+          <label>tempo</label>
+          <input class="input_tempo" type="number" step="1" />
+        </div>
+        <div>
+          <label>tempo</label>
+          <input class="input_tempo" type="number" step="1" />
+        </div>
       </div>
       <div class="toggleSettings"></div>
     </div>
-    
+
     <textarea class="MAININPUT" placeholder="_"></textarea>
 
     <!-- include the Glitch button to show what the webpage is about and

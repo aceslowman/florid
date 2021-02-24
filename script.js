@@ -16,12 +16,10 @@ function keyUpUpdateSize(e) {
 document
   .querySelector(".MAININPUT")
   .addEventListener("keydown", keyDownUpdateSize);
-document
-  .querySelector(".MAININPUT")
-  .addEventListener("keyup", keyUpUpdateSize);
+document.querySelector(".MAININPUT").addEventListener("keyup", keyUpUpdateSize);
 
 function toggleSettings() {
-  console.log('settings')
+  console.log("settings");
   let settingsPanel = document.querySelector(".SETTINGS");
   settingsPanel.style.width = settingsPanel.style.width === "0%" ? "28%" : "0%";
 }
@@ -30,17 +28,18 @@ document
   .querySelector(".toggleSettings")
   .addEventListener("click", toggleSettings);
 
+// let state = {
+//   testValue: 2
+// };
 
-let state = {
-  testValue: 2
-};
+// // GUI
+// let gui = new dat.GUI({
+//   autoPlace: false,
+//   closeOnTop: false
+// });
 
-// GUI
-let gui = new dat.gui.GUI({
-  domElement: document.querySelector(".SETTINGS"),
-  autoPlace: false
-});
+// document.querySelector(".settingsInner").append(gui.domElement);
 
-gui.remember(state);
+// gui.remember(state);
 
-gui.add(state, 'testValue');
+// gui.add(state, 'testValue');
