@@ -33,7 +33,7 @@ let state = {
   tick: 0,
   tempo: 120,
   pauseAfterLine: 0.5
-}
+};
 
 document.querySelector(".tickIndicator").textContent = state.tick++;
 document.querySelector(".tempoInput").value = state.tempo;
@@ -43,13 +43,17 @@ document.querySelector(".pauseInput").value = state.pauseAfterLine;
 setInterval(() => {
   state.tick += 1;
   document.querySelector(".tickIndicator").textContent = `tick: ${state.tick}`;
-}, state.tempo)
+}, state.tempo);
 
 // MAIN TEXT INPUT PARSING
 function handleMainTextChange(e) {
-  console.log('change',e.target.value)
+  console.log("change", e.keyCode);
+  // disallow anything that isn't a dot, slash, new line, or space
+  if (e.keyCode !== 46 && e.keyCode !== 47 && e.keyCode !== 13 && e.keyCode !== 32) {
+    e.preventDefault();
+  }
 }
 
 document
   .querySelector(".MAININPUT")
-  .addEventListener("onkeyup", handleMainTextChange);
+  .addEventListener("keypress", handleMainTextChange);
