@@ -16,7 +16,9 @@ function keyUpUpdateSize(e) {
 document
   .querySelector(".MAININPUT")
   .addEventListener("keydown", keyDownUpdateSize);
-document.querySelector(".MAININPUT").addEventListener("keyup", keyUpUpdateSize);
+document
+  .querySelector(".MAININPUT")
+  .addEventListener("keyup", keyUpUpdateSize);
 
 function toggleSettings() {
   console.log('settings')
@@ -27,3 +29,18 @@ function toggleSettings() {
 document
   .querySelector(".toggleSettings")
   .addEventListener("click", toggleSettings);
+
+
+let state = {
+  testValue: 2
+};
+
+// GUI
+let gui = new dat.gui.GUI({
+  domElement: document.querySelector(".SETTINGS"),
+  autoPlace: false
+});
+
+gui.remember(state);
+
+gui.add(state, 'testValue');
