@@ -106,9 +106,6 @@ function restartSynth() {
   
   part.loop = true;
 
-  console.log("starting audio context");
-  Tone.Transport.stop();
-  Tone.Transport.start();
   Tone.Transport.bpm.value = parseFloat(state.bpm);
 } 
 
