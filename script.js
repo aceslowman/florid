@@ -52,7 +52,7 @@ function handleMainTextChange(e) {
   state.txtArray = e.target.value.split(/\r?\n/).map(e => e.split(" "));
 
   // parse lines and units
-  console.log("TXT", state.txtArray);
+  // console.log("TXT", state.txtArray);
 }
 
 document.querySelector(".MAININPUT").addEventListener("keydown", e => {
@@ -69,48 +69,49 @@ document.querySelector(".MAININPUT").addEventListener("keydown", e => {
   }
 });
 
-
 document.querySelector(".MAININPUT").addEventListener("keyup", async e => {
   // enable audio if not already enabled
   if (Tone.Transport.state !== "started") {
+    await Tone.start();
     restartSynth();
-    Tone.start().then(restartSynth);
   }
 
   if (e.target.value === "") Tone.Transport.stop();
 
-  console.log("event", e.target.value);
-
   state.txtArray = e.target.value.split(/\r?\n/).map(e => e.split(" "));
   // parse lines and units
-  console.log("TXT", state.txtArray);
 });
 
 // setup basic synth
 function restartSynth() {
   const synth = new Tone.Synth().toDestination();
-  
-  // synth.triggerAttackRelease("C4", "8n");
 
-  // Tone.Transport.bpm.value = state.bpm;
+  // synth.triggerAttackRelease("C4", "8n");
 
   // const loopA = new Tone.Loop(time => {
   //   synth.triggerAttackRelease("C2", "8n", time);
   // }, "4n").start(0);
 
+  // use an array of objects as long as the object has a "time" attribute
   const part = new Tone.Part(
-    (time, note) => {
-      // the notes given as the second element in the array
-      // will be passed in as the second argument
-      synth.triggerAttackRelease(note, "8n", time);
+    (time, value) => {
+      // the value is an object which contains both the note and the velocity
+      synth.triggerAttackRelease(value.note, "8n", time, value.velocity);
     },
-    [[0, "C2"], ["0:2", "C3"], ["0:3:2", "G2"]]
-  );
+    [
+      { time: 0, note: "C3", velocity: 0.9 },
+      { time: "0:2", note: "C4", velocity: 0.5 }
+    ]
+  ).start(0);
+  
+  part.loop = true;
 
   console.log("starting audio context");
+  Tone.Transport.stop();
   Tone.Transport.start();
-}
 
+  Tone.Transport.bpm = state.bpm;
+}
 
 document.querySelector(".tempoInput").addEventListener("change", e => {
   console.log(e.target.value);
