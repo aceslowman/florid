@@ -109,11 +109,10 @@ function restartSynth() {
   console.log("starting audio context");
   Tone.Transport.stop();
   Tone.Transport.start();
-
   Tone.Transport.bpm = state.bpm;
 }
 
 document.querySelector(".tempoInput").addEventListener("change", e => {
   console.log(e.target.value);
-  Tone.Transport.bpm.value = state.bpm;
+  Tone.Transport.bpm = state.bpm;
 });
