@@ -69,10 +69,12 @@ document.querySelector(".MAININPUT").addEventListener("keydown", e => {
   }
 });
 
-document.querySelector(".MAININPUT").addEventListener("keyup", e => {
+
+document.querySelector(".MAININPUT").addEventListener("keyup", async e => {
   // enable audio if not already enabled
   if (Tone.Transport.state !== "started") {
-    startSynth();
+    restartSynth();
+    Tone.start().then(restartSynth);
   }
 
   if (e.target.value === "") Tone.Transport.stop();
@@ -85,20 +87,30 @@ document.querySelector(".MAININPUT").addEventListener("keyup", e => {
 });
 
 // setup basic synth
-function startSynth() {
+function restartSynth() {
+  const synth = new Tone.Synth().toDestination();
+  
   // synth.triggerAttackRelease("C4", "8n");
 
   // Tone.Transport.bpm.value = state.bpm;
 
-  const loopA = new Tone.Loop(time => {
-    synth.triggerAttackRelease("C2", "8n", time);
-  }, "4n").start(0);
+  // const loopA = new Tone.Loop(time => {
+  //   synth.triggerAttackRelease("C2", "8n", time);
+  // }, "4n").start(0);
+
+  const part = new Tone.Part(
+    (time, note) => {
+      // the notes given as the second element in the array
+      // will be passed in as the second argument
+      synth.triggerAttackRelease(note, "8n", time);
+    },
+    [[0, "C2"], ["0:2", "C3"], ["0:3:2", "G2"]]
+  );
 
   console.log("starting audio context");
   Tone.Transport.start();
 }
 
-const synth = new Tone.Synth().toDestination();
 
 document.querySelector(".tempoInput").addEventListener("change", e => {
   console.log(e.target.value);
