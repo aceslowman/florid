@@ -70,6 +70,10 @@ document.querySelector(".MAININPUT").addEventListener("keydown", e => {
 });
 
 document.querySelector(".MAININPUT").addEventListener("keyup", async e => {
+  // parse lines and units
+  state.txtArray = e.target.value.split(/\r?\n/).map(e => e.split(" "));
+  console.log("text array", state.txtArray);
+
   // enable audio if not already enabled
   if (Tone.Transport.state !== "started") {
     await Tone.start();
@@ -77,9 +81,6 @@ document.querySelector(".MAININPUT").addEventListener("keyup", async e => {
   }
 
   if (e.target.value === "") Tone.Transport.stop();
-
-  state.txtArray = e.target.value.split(/\r?\n/).map(e => e.split(" "));
-  // parse lines and units
 });
 
 let synth, part;
@@ -94,25 +95,35 @@ function restartSynth() {
       // the value is an object which contains both the note and the velocity
       synth.triggerAttackRelease(value.note, "8n", time, value.velocity);
     },
-    // [
-    //   { time: 0, note: "C3", velocity: 0.9 },
-    //   { time: "0:2", note: "C4", velocity: 0.5 }
-    // ]
-    state.txtArray.map((e,i) => {
-      console.log(e)
-      return {
-        time: 0, note: "C3", velocity: 0.9
-      }
-    })
+    getPartFromText()
   ).start(0);
-  
+
   part.loop = true;
 
   console.log("restarting audio context");
   Tone.Transport.stop();
   Tone.Transport.start();
   Tone.Transport.bpm.value = parseFloat(state.tempo);
-} 
+}
+
+function getPartFromText() {
+  let partArray = [];
+  let iter = 0;
+  // get part from text
+  state.txtArray.forEach((line, l_i) => {
+    line.forEach((word, w_i) => {
+      console.log("word", word);
+      partArray.push({
+        time: 0 + (iter / 4.0),
+        note: word === '.' ? "C3" : "C4",
+        velocity: word === '.' ? 0.5 : 1.0
+      });
+      iter++;
+    });
+  });
+  
+  return partArray;
+}
 
 document.querySelector(".tempoInput").addEventListener("change", e => {
   state.tempo = e.target.value;
