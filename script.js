@@ -82,34 +82,39 @@ document.querySelector(".MAININPUT").addEventListener("keyup", async e => {
   // parse lines and units
 });
 
+let synth, part;
+
 // setup basic synth
 function restartSynth() {
-  const synth = new Tone.Synth().toDestination();
-
-  // synth.triggerAttackRelease("C4", "8n");
-
-  // const loopA = new Tone.Loop(time => {
-  //   synth.triggerAttackRelease("C2", "8n", time);
-  // }, "4n").start(0);
+  synth = new Tone.Synth().toDestination();
 
   // use an array of objects as long as the object has a "time" attribute
-  const part = new Tone.Part(
+  part = new Tone.Part(
     (time, value) => {
       // the value is an object which contains both the note and the velocity
       synth.triggerAttackRelease(value.note, "8n", time, value.velocity);
     },
-    [
-      { time: 0, note: "C3", velocity: 0.9 },
-      { time: "0:2", note: "C4", velocity: 0.5 }
-    ]
+    // [
+    //   { time: 0, note: "C3", velocity: 0.9 },
+    //   { time: "0:2", note: "C4", velocity: 0.5 }
+    // ]
+    state.txtArray.map((e,i) => {
+      console.log(e)
+      return {
+        time: 0, note: "C3", velocity: 0.9
+      }
+    })
   ).start(0);
   
   part.loop = true;
 
-  Tone.Transport.bpm.value = parseFloat(state.bpm);
+  console.log("restarting audio context");
+  Tone.Transport.stop();
+  Tone.Transport.start();
+  Tone.Transport.bpm.value = parseFloat(state.tempo);
 } 
 
 document.querySelector(".tempoInput").addEventListener("change", e => {
-  console.log(e.target.value);
-  Tone.Transport.bpm.value = parseFloat(state.bpm);
+  state.tempo = e.target.value;
+  Tone.Transport.bpm.value = parseFloat(state.tempo);
 });
