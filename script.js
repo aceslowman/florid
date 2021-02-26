@@ -69,34 +69,37 @@ document.querySelector(".MAININPUT").addEventListener("keydown", e => {
   }
 });
 
+let synth, part;
+
 document.querySelector(".MAININPUT").addEventListener("keyup", async e => {
   // parse lines and units
   state.txtArray = e.target.value.split(/\r?\n/).map(e => e.split(" "));
-  console.log("text array", state.txtArray);
 
   // enable audio if not already enabled
   if (Tone.Transport.state !== "started") {
     await Tone.start();
     restartSynth();
+  } else {
+    // update part with new text!
+    console.log(part)
+    part.remove();
+    getPartFromText().forEach(e => {
+      part.add(e);
+    });
   }
 
   if (e.target.value === "") Tone.Transport.stop();
 });
-
-let synth, part;
 
 // setup basic synth
 function restartSynth() {
   synth = new Tone.Synth().toDestination();
 
   // use an array of objects as long as the object has a "time" attribute
-  part = new Tone.Part(
-    (time, value) => {
-      // the value is an object which contains both the note and the velocity
-      synth.triggerAttackRelease(value.note, "8n", time, value.velocity);
-    },
-    getPartFromText()
-  ).start(0);
+  part = new Tone.Part((time, value) => {
+    // the value is an object which contains both the note and the velocity
+    synth.triggerAttackRelease(value.note, "8n", time, value.velocity);
+  }, getPartFromText()).start(0);
 
   part.loop = true;
 
@@ -112,16 +115,20 @@ function getPartFromText() {
   // get part from text
   state.txtArray.forEach((line, l_i) => {
     line.forEach((word, w_i) => {
-      console.log("word", word);
-      partArray.push({
-        time: 0 + (iter / 4.0),
-        note: word === '.' ? "C3" : "C4",
-        velocity: word === '.' ? 0.5 : 1.0
-      });
-      iter++;
+      console.log("word", word);   
+      word.split('').forEach((unit, u_i) => {
+        partArray.push({
+          time: 0 + iter / 4.0,
+          note: unit === "." ? "C3" : "C4",
+          velocity: unit === "." ? 0.5 : 1.0
+        });
+        iter++;
+      })      
     });
   });
   
+  console.log('partarray', partArray)
+
   return partArray;
 }
 
