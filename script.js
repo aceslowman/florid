@@ -114,11 +114,10 @@ function getPartFromText() {
   let iter = 0;
   // get part from text
   state.txtArray.forEach((line, l_i) => {
-    line.forEach((word, w_i) => {
-      console.log("word", word);   
-      word.split('').forEach((unit, u_i) => {
+    line.forEach((word, w_i) => { 
+      word.split('').forEach((unit, u_i) => {        
         partArray.push({
-          time: 0 + iter / 4.0,
+          time: iter / 4.0,
           note: unit === "." ? "C3" : "C4",
           velocity: unit === "." ? 0.5 : 1.0
         });
