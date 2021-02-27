@@ -86,6 +86,8 @@ document.querySelector(".MAININPUT").addEventListener("keyup", async e => {
     getPartFromText().forEach(e => {
       part.add(e);
     });
+    part.start(Tone.now());
+    part.loop = true;
   }
 
   if (e.target.value === "") Tone.Transport.stop();
@@ -117,30 +119,33 @@ function getPartFromText() {
     line.forEach((word, w_i) => {
       word.split("").forEach((unit, u_i) => {
         let unitTime = baseTime / 4;
+        let duration = unit === "." ? "8n" : "4n";
         let note = unit === "." ? "C3" : "C4";
         let velocity = unit === "." ? 0.5 : 1.0;
 
         // scale base time
         // time 1/= 4;
-        
+
         let isLineEnd = w_i === line.length - 1;
         let isWordEnd = u_i === word.split("").length - 1;
-        
+
         // hold for end of line
         if (isLineEnd && isWordEnd) {
           console.log("holding at end of line", unit);
           // unitTime += 1;
-        } else if (isWordEnd) { // hold for end of word
+        } else if (isWordEnd) {
+          // hold for end of word
           console.log("holding at end of word...", unit);
           // unitTime += 0.25;
         }
 
         partArray.push({
           time: unitTime,
+          duration: duration,
           note: note,
           velocity: velocity
         });
-        
+
         baseTime++;
       });
     });
