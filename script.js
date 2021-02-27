@@ -17,14 +17,15 @@ async function handleMainTextChange(e) {
     await Tone.start();
     restartSynth();
   } else {
-    console.log('hit')
-    part.clear();
+    restartSynth();
+//     console.log('hit')
+//     part.clear();
 
-    getPartFromText().forEach(e => {
-      part.add(e);
-    });
+//     getPartFromText().forEach(e => {
+//       part.add(e);
+//     });
 
-    part.loop = true;
+//     part.loop = true;
   }
 
   if (e.target.value === "") Tone.Transport.stop();
@@ -50,6 +51,8 @@ function filterUserInput(e) {
 function restartSynth() {
   if(part) part.stop();
   
+  let events = getPartFromText();
+  
   // use an array of objects as long as the object has a "time" attribute
   part = new Tone.Part((time, value) => {
     // the value is an object which contains both the note and the velocity
@@ -60,11 +63,12 @@ function restartSynth() {
       time,
       value.velocity
     );
-  }, getPartFromText()).start(0);
+  }, events).start(0);
 
   part.loop = true;
   // make sure loopEnd is the full length of the parts
-  part.loopEnd = 
+  // console.log('LOOP END', )
+  part.loopEnd = events[events.length-1].time + Tone.Time(events[events.length-1].duration).toSeconds()
 
   Tone.Transport.start();
   
