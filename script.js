@@ -111,28 +111,30 @@ function restartSynth() {
 
 function getPartFromText() {
   let partArray = [];
-  let iter = 0;
+  let baseTime = 0;
   // get part from text
   state.txtArray.forEach((line, l_i) => {
     line.forEach((word, w_i) => { 
       word.split('').forEach((unit, u_i) => {  
-        let time = iter / 4.0;
+        let time = baseTime / 4.0;
         let note = unit === "." ? "C3" : "C4";
         let velocity = unit === "." ? 0.5 : 1.0;
         
-        // if current word is last in line, hold for amount
+        // hold for end of line
         if(
           u_i === word.split('').length &&
           w_i === line.length) {
           console.log('word is last in line',unit)
         }
         
+        // hold for end of word
+        
         partArray.push({
           time: time,
           note: note,
           velocity: velocity
         });
-        iter++;
+        baseTime++;
       })      
     });
   });
