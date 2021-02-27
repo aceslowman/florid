@@ -4,6 +4,7 @@ let part;
 
 let state = {
   pauseAfterLine: 0.5,
+  pauseAfterWord: 0.25,
   txtArray: ""
 };
 
@@ -29,13 +30,17 @@ async function handleMainTextChange(e) {
 }
 
 function filterUserInput(e) {
-  // disallow anything that isn't a dot, slash, new line, space, or backspace
-  if (
-    e.keyCode !== 190 &&
-    e.keyCode !== 191 &&
-    e.keyCode !== 13 &&
-    e.keyCode !== 32 &&
-    e.keyCode !== 8
+  if (                   // allowed keys:
+    e.keyCode !== 190 && // dot
+    e.keyCode !== 191 && // slash
+    e.keyCode !== 13 &&  // new line
+    e.keyCode !== 32 &&  // space
+    e.keyCode !== 8 &&   // backspace
+    e.keyCode !== 37 &&  // left arrow
+    e.keyCode !== 38 &&  // up arrow
+    e.keyCode !== 39 &&  // right arrow
+    e.keyCode !== 40 &&  // down arrow
+    e.keyCode !== 16     // shift
   ) {
     e.preventDefault();
   }
@@ -62,6 +67,8 @@ function restartSynth() {
 
 function getPartFromText() {
   console.group()
+  let isLineEnd, isWordEnd;
+  
   let partArray = [];
   let baseTime = 0;
   // get part from text
@@ -76,8 +83,6 @@ function getPartFromText() {
         // scale base time
         // time 1/= 4;
 
-        let isLineEnd = w_i === line.length - 1;
-        let isWordEnd = u_i === word.split("").length - 1;
 
         // hold for end of line
         if (isLineEnd && isWordEnd) {
@@ -97,6 +102,10 @@ function getPartFromText() {
         });
 
         baseTime++;
+        
+        // pause needs to apply to the NEXT note after the line or word
+        isLineEnd = w_i === line.length - 1;
+        isWordEnd = u_i === word.split("").length - 1;
       });
     });
   });
@@ -121,3 +130,21 @@ document
 
 document.querySelector(".tempoInput")
   .addEventListener("change", onBPMChange);
+
+document.querySelector(".pauseLineInput")
+  .addEventListener("change", handlePauseAfterLine);
+
+document.querySelector(".pauseWordInput")
+  .addEventListener("change", handlePauseAfterWord);
+
+function handlePauseAfterLine(e) {
+  state.pauseAfterLine = e.target.value;
+}
+
+function handlePauseAfterWord(e) {
+  state.pauseAfterWord = e.target.value;
+}
+
+
+
+

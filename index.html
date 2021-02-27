@@ -12,7 +12,7 @@
 
     <script src="https://unpkg.com/tone@14.7.39/build/Tone.js"></script>
     <script src="https://unpkg.com/tone@14.7.39/build/Tone.js.map"></script>
-    
+
     <!-- import the webpage's javascript file -->
     <script src="/toggleSettings.js" defer></script>
     <script src="/script.js" defer></script>
@@ -22,11 +22,15 @@
       <div class="settingsInner">
         <div>
           <label>pause after line</label>
-          <input class="pauseInput" type="number" step="0.1" value="0.5"/>
+          <input class="pauseLineInput" type="number" step="0.01" value="0.5" />
+        </div>
+        <div>
+          <label>pause after word</label>
+          <input class="pauseWordInput" type="number" step="0.01" value="0.25" />
         </div>
         <div>
           <label>tempo</label>
-          <input class="tempoInput" type="number" step="1" value="120"/>
+          <input class="tempoInput" type="number" step="1" value="120" />
         </div>
         <div>
           <button>start</button>
