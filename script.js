@@ -17,15 +17,14 @@ async function handleMainTextChange(e) {
     await Tone.start();
     restartSynth();
   } else {
+    console.log('hit')
     part.clear();
 
     getPartFromText().forEach(e => {
       part.add(e);
     });
 
-    // part.loop = true;
-    part.start(0);
-    // Tone.Transport.start();
+    part.loop = true;
   }
 
   if (e.target.value === "") Tone.Transport.stop();
@@ -56,7 +55,8 @@ function restartSynth() {
     // the value is an object which contains both the note and the velocity
     synth.triggerAttackRelease(
       value.note,
-      value.duration,
+      "8n",
+      // value.duration,
       time,
       value.velocity
     );
