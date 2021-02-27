@@ -69,7 +69,9 @@ document.querySelector(".MAININPUT").addEventListener("keydown", e => {
   }
 });
 
-let synth, part;
+let part;
+
+let synth = new Tone.Synth().toDestination();
 
 document.querySelector(".MAININPUT").addEventListener("keyup", async e => {
   // parse lines and units
@@ -80,13 +82,12 @@ document.querySelector(".MAININPUT").addEventListener("keyup", async e => {
     await Tone.start();
     restartSynth();
   } else {
-    // update part with new text!
-    console.log(part);
-    part.remove();
+    part.clear();
+    
     getPartFromText().forEach(e => {
       part.add(e);
     });
-    part.start(Tone.now());
+    
     part.loop = true;
   }
 
@@ -95,25 +96,23 @@ document.querySelector(".MAININPUT").addEventListener("keyup", async e => {
 
 // setup basic synth
 function restartSynth() {
-  synth = new Tone.Synth().toDestination();
+  console.log("restarting audio context");
 
   // use an array of objects as long as the object has a "time" attribute
   part = new Tone.Part((time, value) => {
     // the value is an object which contains both the note and the velocity
-    synth.triggerAttackRelease(value.note, "8n", time, value.velocity);
+    synth.triggerAttackRelease(value.note, value.duration, time, value.velocity);
   }, getPartFromText()).start(0);
 
   part.loop = true;
 
-  console.log("restarting audio context");
-  Tone.Transport.stop();
   Tone.Transport.start();
   Tone.Transport.bpm.value = parseFloat(state.tempo);
 }
 
 function getPartFromText() {
   let partArray = [];
-  let baseTime = 0;
+  let baseTime = Tone.now();
   // get part from text
   state.txtArray.forEach((line, l_i) => {
     line.forEach((word, w_i) => {
