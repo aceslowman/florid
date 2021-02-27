@@ -23,7 +23,9 @@ async function handleMainTextChange(e) {
       part.add(e);
     });
 
-    part.loop = true;
+    // part.loop = true;
+    part.start(0);
+    // Tone.Transport.start();
   }
 
   if (e.target.value === "") Tone.Transport.stop();
@@ -55,12 +57,12 @@ function restartSynth() {
     synth.triggerAttackRelease(
       value.note,
       value.duration,
-      value.time,
+      time,
       value.velocity
     );
   }, getPartFromText()).start(0);
 
-  part.loop = true;
+  // part.loop = true;
 
   Tone.Transport.start();
 }
@@ -89,12 +91,12 @@ function getPartFromText() {
         // hold for end of line
         if (isLineEnd && isWordEnd) {
           console.log("holding at end of line", unit);
-          // unitTime += state.pauseAfterLine;
-          // unitTime = "4n"
+          unitTime += state.pauseAfterLine * qTime;
+          // duration = "1m";
         } else if (isWordEnd) {
           // hold for end of word
           console.log("holding at end of word...", unit);
-          // unitTime += state.pauseAfterWord;
+          unitTime += state.pauseAfterWord * qTime;          
         }
 
         partArray.push({
