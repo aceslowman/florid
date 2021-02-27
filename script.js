@@ -116,12 +116,12 @@ function getPartFromText() {
   state.txtArray.forEach((line, l_i) => {
     line.forEach((word, w_i) => {
       word.split("").forEach((unit, u_i) => {
-        let time = baseTime / 4.0;
+        let unitTime = baseTime / 4;
         let note = unit === "." ? "C3" : "C4";
         let velocity = unit === "." ? 0.5 : 1.0;
 
         // scale base time
-        // time = 4;
+        // time 1/= 4;
         
         let isLineEnd = w_i === line.length - 1;
         let isWordEnd = u_i === word.split("").length - 1;
@@ -129,19 +129,19 @@ function getPartFromText() {
         // hold for end of line
         if (isLineEnd && isWordEnd) {
           console.log("holding at end of line", unit);
-          time += 1;
+          // unitTime += 1;
         } else if (isWordEnd) { // hold for end of word
           console.log("holding at end of word...", unit);
-          time += 0.25;
+          // unitTime += 0.25;
         }
 
         partArray.push({
-          time: time,
+          time: unitTime,
           note: note,
           velocity: velocity
         });
         
-        baseTime = time;
+        baseTime++;
       });
     });
   });
