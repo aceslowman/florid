@@ -152,6 +152,9 @@ document.querySelector(".pauseLineInput")
 document.querySelector(".pauseWordInput")
   .addEventListener("change", handlePauseAfterWord);
 
+document.querySelector("#loopToggle)
+  .addEventListener("onclick", handleLoopToggle);                 
+
 function handlePauseAfterLine(e) {
   state.pauseAfterLine = e.target.value;
   restartSynth();
@@ -160,6 +163,10 @@ function handlePauseAfterLine(e) {
 function handlePauseAfterWord(e) {
   state.pauseAfterWord = e.target.value;
   restartSynth();
+}
+
+function handleLoopToggle(e) {
+  
 }
 
 
