@@ -81,7 +81,7 @@ document.querySelector(".MAININPUT").addEventListener("keyup", async e => {
     restartSynth();
   } else {
     // update part with new text!
-    console.log(part)
+    console.log(part);
     part.remove();
     getPartFromText().forEach(e => {
       part.add(e);
@@ -114,32 +114,39 @@ function getPartFromText() {
   let baseTime = 0;
   // get part from text
   state.txtArray.forEach((line, l_i) => {
-    line.forEach((word, w_i) => { 
-      word.split('').forEach((unit, u_i) => {  
+    line.forEach((word, w_i) => {
+      word.split("").forEach((unit, u_i) => {
         let time = baseTime / 4.0;
         let note = unit === "." ? "C3" : "C4";
         let velocity = unit === "." ? 0.5 : 1.0;
+
+        // scale base time
+        // time = 4;
+        
+        let isLineEnd = w_i === line.length - 1;
+        let isWordEnd = u_i === word.split("").length - 1;
         
         // hold for end of line
-        if(
-          u_i === word.split('').length &&
-          w_i === line.length) {
-          console.log('word is last in line',unit)
+        if (isLineEnd && isWordEnd) {
+          console.log("holding at end of line", unit);
+          time += 1;
+        } else if (isWordEnd) { // hold for end of word
+          console.log("holding at end of word...", unit);
+          time += 0.25;
         }
-        
-        // hold for end of word
-        
+
         partArray.push({
           time: time,
           note: note,
           velocity: velocity
         });
-        baseTime++;
-      })      
+        
+        baseTime = time;
+      });
     });
   });
-  
-  console.log('partarray', partArray)
+
+  console.log("partarray", partArray);
 
   return partArray;
 }
