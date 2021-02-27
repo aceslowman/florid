@@ -63,8 +63,13 @@ function restartSynth() {
   }, getPartFromText()).start(0);
 
   part.loop = true;
+  // make sure loopEnd is the full length of the parts
+  part.loopEnd = 
 
   Tone.Transport.start();
+  
+  console.log("loopStart", part.loopStart);
+  console.log("loopEnd", part.loopEnd)
 }
 
 function getPartFromText() {
@@ -101,7 +106,8 @@ function getPartFromText() {
 
         partArray.push({
           time: unitTime,
-          duration: duration,
+          duration: '8n',
+          // duration: duration,
           note: note,
           velocity: velocity
         });
