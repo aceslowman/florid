@@ -1,44 +1,19 @@
+/* global Tone */
+
+let part;
+let synth = new Tone.Synth().toDestination();
+
 // DISPLAY TICKS AS THEY CHANGE
 let state = {
-  tick: 0,
-  tempo: 120,
   pauseAfterLine: 0.5,
   txtArray: ""
 };
 
 document.querySelector(".tickIndicator").textContent = state.tick++;
-document.querySelector(".tempoInput").value = state.tempo;
+document.querySelector(".tempoInput").value = 120;
 document.querySelector(".pauseInput").value = state.pauseAfterLine;
 
-// MAIN TICK LOOP
-setInterval(() => {
-  state.tick += 1;
-  document.querySelector(".tickIndicator").textContent = `tick: ${state.tick}`;
-}, state.tempo);
-
-// MAIN TEXT INPUT PARSING
-function handleMainTextChange(e) {
-  // parse lines and units
-  state.txtArray = e.target.value.split(/\r?\n/).map(e => e.split(" "));
-}
-
-document.querySelector(".MAININPUT").addEventListener("keydown", e => {
-  // disallow anything that isn't a dot, slash, new line, space, or backspace
-  if (
-    e.keyCode !== 190 &&
-    e.keyCode !== 191 &&
-    e.keyCode !== 13 &&
-    e.keyCode !== 32 &&
-    e.keyCode !== 8
-  ) {
-    e.preventDefault();
-  }
-});
-
-let part;
-let synth = new Tone.Synth().toDestination();
-
-document.querySelector(".MAININPUT").addEventListener("keyup", async e => {
+async function handleMainTextChange(e) {
   // parse lines and units
   state.txtArray = e.target.value.split(/\r?\n/).map(e => e.split(" "));
 
@@ -57,12 +32,24 @@ document.querySelector(".MAININPUT").addEventListener("keyup", async e => {
   }
 
   if (e.target.value === "") Tone.Transport.stop();
-});
+}
+
+function filterUserInput(e) {
+  // disallow anything that isn't a dot, slash, new line, space, or backspace
+  if (
+    e.keyCode !== 190 &&
+    e.keyCode !== 191 &&
+    e.keyCode !== 13 &&
+    e.keyCode !== 32 &&
+    e.keyCode !== 8
+  ) {
+    e.preventDefault();
+  }
+}
 
 // setup basic synth
 function restartSynth() {
   console.log("restarting audio context");
-
   // use an array of objects as long as the object has a "time" attribute
   part = new Tone.Part((time, value) => {
     // the value is an object which contains both the note and the velocity
@@ -77,7 +64,6 @@ function restartSynth() {
   part.loop = true;
 
   Tone.Transport.start();
-  Tone.Transport.bpm.value = parseFloat(state.tempo);
 }
 
 function getPartFromText() {
@@ -125,7 +111,17 @@ function getPartFromText() {
   return partArray;
 }
 
-document.querySelector(".tempoInput").addEventListener("change", e => {
-  state.tempo = e.target.value;
-  Tone.Transport.bpm.value = parseFloat(state.tempo);
-});
+function onBPMChange(e) {
+  Tone.Transport.bpm.value = parseFloat(e.target.value);
+}
+
+document
+  .querySelector(".MAININPUT")
+  .addEventListener("keydown", filterUserInput);
+
+document
+  .querySelector(".MAININPUT")
+  .addEventListener("keyup", handleMainTextChange);
+
+document.querySelector(".tempoInput")
+  .addEventListener("change", onBPMChange);
