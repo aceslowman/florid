@@ -1,17 +1,11 @@
 /* global Tone */
-
-let part;
 let synth = new Tone.Synth().toDestination();
+let part;
 
-// DISPLAY TICKS AS THEY CHANGE
 let state = {
   pauseAfterLine: 0.5,
   txtArray: ""
 };
-
-document.querySelector(".tickIndicator").textContent = state.tick++;
-document.querySelector(".tempoInput").value = 120;
-document.querySelector(".pauseInput").value = state.pauseAfterLine;
 
 async function handleMainTextChange(e) {
   // parse lines and units
@@ -47,9 +41,9 @@ function filterUserInput(e) {
   }
 }
 
-// setup basic synth
 function restartSynth() {
-  console.log("restarting audio context");
+  if(part) part.stop();
+  
   // use an array of objects as long as the object has a "time" attribute
   part = new Tone.Part((time, value) => {
     // the value is an object which contains both the note and the velocity
@@ -67,8 +61,9 @@ function restartSynth() {
 }
 
 function getPartFromText() {
+  console.group()
   let partArray = [];
-  let baseTime = Tone.now();
+  let baseTime = 0;
   // get part from text
   state.txtArray.forEach((line, l_i) => {
     line.forEach((word, w_i) => {
@@ -87,11 +82,11 @@ function getPartFromText() {
         // hold for end of line
         if (isLineEnd && isWordEnd) {
           console.log("holding at end of line", unit);
-          // unitTime += 1;
+          unitTime += 0.25;
         } else if (isWordEnd) {
           // hold for end of word
           console.log("holding at end of word...", unit);
-          // unitTime += 0.25;
+          unitTime += 0.15;
         }
 
         partArray.push({
@@ -107,6 +102,7 @@ function getPartFromText() {
   });
 
   console.log("partarray", partArray);
+  console.groupEnd();
 
   return partArray;
 }
