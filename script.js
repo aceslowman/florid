@@ -55,7 +55,7 @@ function restartSynth() {
     synth.triggerAttackRelease(
       value.note,
       value.duration,
-      time,
+      value.time,
       value.velocity
     );
   }, getPartFromText()).start(0);
@@ -67,15 +67,18 @@ function restartSynth() {
 
 function getPartFromText() {
   console.group()
-  let isLineEnd, isWordEnd;
+  let isLineEnd, isWordEnd = false;
   
   let partArray = [];
-  let baseTime = 0;
+  let iter = 0;
+  
+  let qTime = Tone.Time("4n").toSeconds();
+  
   // get part from text
   state.txtArray.forEach((line, l_i) => {
     line.forEach((word, w_i) => {
       word.split("").forEach((unit, u_i) => {
-        let unitTime = baseTime / 4;
+        let unitTime = qTime * iter;
         let duration = unit === "." ? "8n" : "4n";
         let note = unit === "." ? "C3" : "C4";
         let velocity = unit === "." ? 0.5 : 1.0;
@@ -83,15 +86,15 @@ function getPartFromText() {
         // scale base time
         // time 1/= 4;
 
-
         // hold for end of line
         if (isLineEnd && isWordEnd) {
           console.log("holding at end of line", unit);
-          unitTime += 0.25;
+          // unitTime += state.pauseAfterLine;
+          // unitTime = "4n"
         } else if (isWordEnd) {
           // hold for end of word
           console.log("holding at end of word...", unit);
-          unitTime += 0.15;
+          // unitTime += state.pauseAfterWord;
         }
 
         partArray.push({
@@ -101,7 +104,7 @@ function getPartFromText() {
           velocity: velocity
         });
 
-        baseTime++;
+        iter++;
         
         // pause needs to apply to the NEXT note after the line or word
         isLineEnd = w_i === line.length - 1;
@@ -139,10 +142,12 @@ document.querySelector(".pauseWordInput")
 
 function handlePauseAfterLine(e) {
   state.pauseAfterLine = e.target.value;
+  restartSynth();
 }
 
 function handlePauseAfterWord(e) {
   state.pauseAfterWord = e.target.value;
+  restartSynth();
 }
 
 
