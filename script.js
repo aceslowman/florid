@@ -62,7 +62,7 @@ function restartSynth() {
     );
   }, getPartFromText()).start(0);
 
-  // part.loop = true;
+  part.loop = true;
 
   Tone.Transport.start();
 }
