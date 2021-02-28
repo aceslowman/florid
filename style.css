@@ -97,6 +97,7 @@ body, #APP {
 
 .STAFF {
   flex-grow:2;
+  
   align-self: center;
 }
 
@@ -105,7 +106,7 @@ body, #APP {
   padding: 15%;
   display: flex;
   flex-flow: column;
-  justify-content: center;
+  justify-content: space-between;
 }
 
 .LINES > div {
@@ -120,17 +121,28 @@ body, #APP {
   cursor: grab;
 }
 
-/* .NOTES {
-  min-height: 200px;
-  padding: 15%;
-  display: flex;
-  flex-flow: column;
-  justify-content: space-evenly;
-  
-  position:absolute;
-  top:0px;
+.NOTES {
+  background-color: orange;
 }
 
-.NOTES div {
-  cursor: grab;
-} */
+.note {
+  background-color: green;
+}
+
+.measure {
+  background-color: Violet;
+}
+
+.flex-fix {
+/*   position:absolute; */
+  display:flex;
+  width:100%;
+  height:100%;
+  align-items: center;
+  justify-content: center;
+/*   float:left; */
+}
+
+.flex-fix > div{
+  
+}
