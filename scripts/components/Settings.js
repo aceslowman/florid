@@ -27,7 +27,7 @@ const Settings = props => {
         <div>
           <label>tempo</label>
           <input
-            onChange={props.onToggleLoop}
+            onChange={props.onChangeBPM}
             className="tempoInput"
             type="number"
             step="1"

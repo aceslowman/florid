@@ -7,6 +7,8 @@ const App = () => {
   let [loop, setLoop] = React.useState(false);
   let [numBars, setNumBars] = React.useState(1);
   
+  let [selectedNote, setSelectedNote] = React.useState(null);
+  
   function restartSynth() {
     if (seq) seq.stop();
 
@@ -50,6 +52,10 @@ const App = () => {
   function handleBPMChange(e) {
     Tone.Transport.bpm.value = parseFloat(e.target.value);
   }  
+  
+  function handleNoteClick(e) {
+    console.log(e.target.value);
+  }
 
   return (
     <React.Fragment>
@@ -60,6 +66,7 @@ const App = () => {
       />
       <MusicStaff 
         melody={melody}
+        onNoteClick={handleNoteClick}
       />
     </React.Fragment>
   );
