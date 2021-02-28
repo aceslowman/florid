@@ -3,9 +3,7 @@ let synth = new Tone.Synth().toDestination();
 let part;
 
 let state = {
-  pauseAfterLine: 0.5,
-  pauseAfterWord: 0.25,
-  txtArray: ""
+  melody: []
 };
 
 async function handleMainTextChange(e) {
