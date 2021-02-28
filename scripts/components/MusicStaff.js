@@ -20,8 +20,7 @@ const MusicStaff = props => {
                     <Note
                       tabIndex={n_i+1}
                       key={m_i + note}
-                      onNoteClick={props.handleNoteClick}
-                      onKeyUp={e => {console.log('keyCode', e.keyCode)}}
+                      onKeyUp={(e) => props.onNoteChange(e, m_i, n_i)}
                       value={note}
                     />
                   );

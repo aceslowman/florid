@@ -53,8 +53,24 @@ const App = () => {
     Tone.Transport.bpm.value = parseFloat(e.target.value);
   }  
   
-  function handleNoteClick(e) {
-    console.log(e.target.value);
+  function handleNoteChange(e, measure_id, note_id) {    
+    console.log([e.keyCode, measure_id, note_id]);
+    
+    switch(e.keycode) {
+      case 37: // left
+        break;
+      case 38: // up
+        console.log('shift note up to')
+        break;
+      case 40: // down
+        console.log('shift note down to')
+        break;
+      case 41: // right
+        break;
+      default:
+        break
+    }
+    
   }
 
   return (
@@ -66,7 +82,7 @@ const App = () => {
       />
       <MusicStaff 
         melody={melody}
-        onNoteClick={handleNoteClick}
+        onNoteChange={handleNoteChange}
       />
     </React.Fragment>
   );
