@@ -1,4 +1,10 @@
 const MusicStaff = props => {
+  let measures = [];
+  
+  for(let i = 0; i < props.numBars; i++) {
+    measures.push(())
+  }
+  
   return (
     <div className="STAFF">
       <div className="LINES">
@@ -32,6 +38,16 @@ const MusicStaff = props => {
           <div></div>
           <div></div>
         </div>
+      </div>
+      <div className="MEASURES">
+        
+      </div>
+      <div className="NOTES">
+        {props.melody.map((e, i) => {
+          return (
+            <Note value={e} />
+          )
+        })}
       </div>
     </div>
   );
