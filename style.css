@@ -104,21 +104,14 @@ body,
 
 .LINES > div {
   border-top: 1px solid #6e2a00;
-  display: flex;
-  flex-flow: row;
-  justify-content: space-between;
-  padding: 0px 30px;
-}
-
-.LINES > div > div {
-  cursor: grab;
 }
 
 .NOTES {
-  align-self: stretch;
+/*   align-self: stretch; */
 }
 
 .note {
+  cursor: grab;
   background-color: green;
   border-top: 1px solid #6e2a00;
   display: flex;
@@ -134,7 +127,7 @@ body,
   flex-flow: row;
   justify-content: space-around;
   height: 100%;
-  border-right: 1px solid #6e2a00;
+  border-right: 2px solid #6e2a00;
 }
 
 .flex-fix {
@@ -144,7 +137,6 @@ body,
   height: 100%;
   align-items: center;
   justify-content: center;
-  /*   float:left; */
 }
 
 .flex-fix > div {
