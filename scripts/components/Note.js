@@ -1,6 +1,6 @@
 const Note = props => {
   return (
-    <div className="note">
+    <div className="note" onClick={props.onNoteClick}>
       {props.value}
     </div>
   )

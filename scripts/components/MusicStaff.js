@@ -1,4 +1,8 @@
 const MusicStaff = props => {
+  function handleNoteClick(e) {
+    console.log(e.target.value);
+  }
+
   return (
     <div className="STAFF">
       <div className="flex-fix">
@@ -16,7 +20,7 @@ const MusicStaff = props => {
             return (
               <div className="measure">
                 {measure.map((note, n_i) => {
-                  return <Note value={note} />;
+                  return <Note onNoteClick={handleNoteClick} value={note} />;
                 })}
               </div>
             );
