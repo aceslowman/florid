@@ -13,6 +13,9 @@
     <script src="https://unpkg.com/tone@14.7.39/build/Tone.js"></script>
     <script src="https://unpkg.com/tone@14.7.39/build/Tone.js.map"></script>
     
+    <!-- remove before 'production', should use precompiled script -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    
 <!--     <script crossorigin src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script> -->
     <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
@@ -20,79 +23,12 @@
     
     
     
-    <script src="./scripts/components/Settings.js"></script>
+    <script type="text/babel" src="./scripts/components/Settings.js"></script>
         
-    <script src="./scripts/App.js" defer></script>
+    <script type="text/babel" src="./scripts/App.js" defer></script>
   </head>
   <body>
-    <div id="APP">
-      
-    </div>
-<!--     <div class="SETTINGS" style="width:0%">
-      <div class="settingsInner">
-        <div>
-          <label>number of bars</label>
-          <input class="numBarsInput" type="number" step="1" value="1" />
-        </div>
-        <div>
-          <label>tempo</label>
-          <input class="tempoInput" type="number" step="1" value="120" />
-        </div>
-        <div>
-          <label>
-            loop
-            <input class="loopButton" type="checkbox" />
-          </label>
-        </div>
-      </div>
-      <div class="credits">cantus firmus by aceslowman 2021</div>
-      <div class="toggleSettings"></div>
-    </div>
-
-    <div class="MAININPUT">
-      <div class="STAFF">
-        <div class="LINES">
-          <div>
-            <div>E0</div>
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
-          <div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div>C0</div>
-          </div>
-          <div>
-            <div></div>
-            <div></div>
-            <div>A0</div>
-            <div></div>
-          </div>
-          <div>
-            <div></div>
-            <div>F0</div>
-            <div></div>
-            <div></div>
-          </div>
-          <div>
-            <div>D0</div>
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
-        </div>
-<!--         <div class="NOTES">
-          <div>C0</div>
-          <div>D0</div>
-          <div>E0</div>
-          <div>F0</div>
-          <div>G0</div>
-        </div> 
-      </div>
-    </div> -->
-
+    <div id="APP"></div>
     <!-- include the Glitch button to show what the webpage is about and
           to make it easier for folks to view source and remix 
     <div class="glitchButton" style="position:fixed;top:20px;right:20px1;"></div>

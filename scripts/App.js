@@ -1,11 +1,12 @@
 /* global ReactDOM, React */
 
 const App = () => {
-  return React.createElement(
-    'div', 
-    null,
-    'hello world'
-    )
+  return (
+    <div>
+      <Settings />
+      <MusicStaff />
+    </div>
+  )
 }
 
 const domContainer = document.getElementById('APP');
