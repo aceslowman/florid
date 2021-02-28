@@ -1,10 +1,5 @@
-/* global ReactDOM, React */
-
-const App = () => {
-  let 
-  
-  
-  /* global Tone */
+/* global Tone, ReactDOM, React */
+const App = () => {  
   let synth = new Tone.Synth().toDestination();
   let part;
 
@@ -130,31 +125,31 @@ const App = () => {
 
     return partArray;
   }
-
-  function handleBPMChange(e) {
-    Tone.Transport.bpm.value = parseFloat(e.target.value);
-  }
+  
+  function handleLoopToggle(e) {
+    
+  }  
 
   function handlePauseAfterLine(e) {
     state.pauseAfterLine = e.target.value;
     restartSynth();
   }
 
-  function handlePauseAfterWord(e) {
-    state.pauseAfterWord = e.target.value;
-    restartSynth();
+  function handleNumBarsChange(e) {
+    // state.pauseAfterWord = e.target.value;
+    // restartSynth();
   }
-
-  function handleLoopToggle(e) {
-    
-  }
+  
+  function handleBPMChange(e) {
+    Tone.Transport.bpm.value = parseFloat(e.target.value);
+  }  
 
   return (
-    <div>
+    <React.Fragment>
       <Settings 
         onToggleLoop={handleLoopToggle}  
         onChangePauseAfterLine={handlePauseAfterLine}
-        onChangePauseAfterWord={handlePauseAfterWord}
+        onNumBarsChange={handleNumBarsChange}
         onChangeBPM={handleBPMChange}
       />
       <MusicStaff />
