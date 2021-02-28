@@ -1,6 +1,6 @@
 const Settings = props => {
   return (
-    <div className="SETTINGS" style="width:0%">
+    <div className="SETTINGS" style={{ width: "0%" }}>
       <div className="settingsInner">
         <div>
           <label>number of bars</label>

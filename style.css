@@ -1,5 +1,5 @@
 html,
-body {
+body, #APP {
   font-family: monospace;
   background-color: #FAEBD7;
   width: 100%;
@@ -8,7 +8,7 @@ body {
   margin: 0px;
 }
 
-body {
+#APP {
   display: flex;
   justify-content: center;
 }
