@@ -96,6 +96,8 @@ body, #APP {
 }
 
 .STAFF {
+  flex-grow:2;
+  align-self: center;
 }
 
 .LINES {

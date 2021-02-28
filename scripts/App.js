@@ -2,44 +2,12 @@
 const App = () => {  
   let synth = new Tone.Synth().toDestination();
   let part;
+  
+  let [melody, setMelody] = React.useState([])
 
   let state = {
     melody: []
   };
-
-  async function handleMainTextChange(e) {
-    // parse lines and units
-    state.txtArray = e.target.value.split(/\r?\n/).map(e => e.split(" "));
-
-    // enable audio if not already enabled
-    if (Tone.Transport.state !== "started") {
-      await Tone.start();
-      restartSynth();
-    } else {
-      restartSynth();
-    }
-
-    if (e.target.value === "") Tone.Transport.stop();
-  }
-
-  function filterUserInput(e) {
-    if (
-      // allowed keys:
-      e.keyCode !== 190 && // dot
-      e.keyCode !== 191 && // slash
-      e.keyCode !== 13 && // new line
-      e.keyCode !== 32 && // space
-      e.keyCode !== 8 && // backspace
-      e.keyCode !== 37 && // left arrow
-      e.keyCode !== 38 && // up arrow
-      e.keyCode !== 39 && // right arrow
-      e.keyCode !== 40 && // down arrow
-      e.keyCode !== 16 // shift
-    ) {
-      e.preventDefault();
-    }
-  }
-
   function restartSynth() {
     if (part) part.stop();
 
@@ -130,11 +98,6 @@ const App = () => {
     
   }  
 
-  function handlePauseAfterLine(e) {
-    state.pauseAfterLine = e.target.value;
-    restartSynth();
-  }
-
   function handleNumBarsChange(e) {
     // state.pauseAfterWord = e.target.value;
     // restartSynth();
@@ -148,12 +111,11 @@ const App = () => {
     <React.Fragment>
       <Settings 
         onToggleLoop={handleLoopToggle}  
-        onChangePauseAfterLine={handlePauseAfterLine}
         onNumBarsChange={handleNumBarsChange}
         onChangeBPM={handleBPMChange}
       />
       <MusicStaff />
-    </div>
+    </React.Fragment>
   );
 };
 
