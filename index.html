@@ -12,13 +12,20 @@
 
     <script src="https://unpkg.com/tone@14.7.39/build/Tone.js"></script>
     <script src="https://unpkg.com/tone@14.7.39/build/Tone.js.map"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.21.1/babel.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
 
-    <!-- import the webpage's javascript file -->
-    <script src="/toggleSettings.js" defer></script>
-    <script src="/script.js" defer></script>
+    <script src="./scripts/components/Settings.js"></script>
+        
+    <script src="./scripts/App.js"></script>
   </head>
   <body>
-    <div class="SETTINGS" style="width:0%">
+    <div id="APP">
+      
+    </div>
+<!--     <div class="SETTINGS" style="width:0%">
       <div class="settingsInner">
         <div>
           <label>number of bars</label>
@@ -79,9 +86,9 @@
           <div>E0</div>
           <div>F0</div>
           <div>G0</div>
-        </div> -->
+        </div> 
       </div>
-    </div>
+    </div> -->
 
     <!-- include the Glitch button to show what the webpage is about and
           to make it easier for folks to view source and remix 
