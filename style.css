@@ -56,7 +56,7 @@ body {
 }
 
 .settingsInner {
-  background-color: transparent;
+  background-color: #FAEBD7;
   /*   background-color: green; */
   padding: 15px;
   width: 50px;
@@ -92,4 +92,16 @@ body {
   color: #6e2a00;
   line-break: anywhere;
   white-space: pre;
+}
+
+.STAFF {
+  display: flex;
+  flex-flow: column;
+  min-height: 200px;
+  justify-content: space-evenly;
+  padding: 15%;
+}
+
+.STAFF div {  
+  border-top: 1px solid #6e2a00;
 }
