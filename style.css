@@ -75,7 +75,7 @@ body {
 
 .settingsInner input {
   background-color: #ffecbff;
-  color:#6e2a00;
+  color: #6e2a00;
   border: 1px dotted #6e2a00;
 }
 
@@ -97,19 +97,27 @@ body {
 .STAFF {
 }
 
-.LINES {   
+.LINES {
   min-height: 200px;
   padding: 15%;
   display: flex;
   flex-flow: column;
-  justify-content: space-evenly;
+  justify-content: center;
 }
 
-.LINES div {
+.LINES > div {
   border-top: 1px solid #6e2a00;
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+  padding: 0px 30px;
 }
 
-.NOTES {
+.LINES > div > div {
+  cursor: grab;
+}
+
+/* .NOTES {
   min-height: 200px;
   padding: 15%;
   display: flex;
@@ -121,5 +129,5 @@ body {
 }
 
 .NOTES div {
-  
-}
+  cursor: grab;
+} */
