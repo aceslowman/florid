@@ -18,14 +18,6 @@ async function handleMainTextChange(e) {
     restartSynth();
   } else {
     restartSynth();
-//     console.log('hit')
-//     part.clear();
-
-//     getPartFromText().forEach(e => {
-//       part.add(e);
-//     });
-
-//     part.loop = true;
   }
 
   if (e.target.value === "") Tone.Transport.stop();
