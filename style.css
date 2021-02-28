@@ -95,13 +95,31 @@ body {
 }
 
 .STAFF {
-  display: flex;
-  flex-flow: column;
-  min-height: 200px;
-  justify-content: space-evenly;
-  padding: 15%;
 }
 
-.STAFF div {  
+.LINES {   
+  min-height: 200px;
+  padding: 15%;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-evenly;
+}
+
+.LINES div {
   border-top: 1px solid #6e2a00;
+}
+
+.NOTES {
+  min-height: 200px;
+  padding: 15%;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-evenly;
+  
+  position:absolute;
+  top:0px;
+}
+
+.NOTES div {
+  
 }
