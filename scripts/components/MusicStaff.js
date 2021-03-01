@@ -3,6 +3,10 @@ const MusicStaff = props => {
   let lineRef = React.useRef();
   let [ready, setReady] = React.useState(0);
   
+  function isAccidental(note) {
+    return note.match(/[#b]/g) ? true : false;
+  }
+  
   React.useEffect(() => {
     setReady(true);
   }, [])
@@ -28,15 +32,22 @@ const MusicStaff = props => {
                   let position = 0;
                   console.log('note',note)
                   // how far away is this note from B4?
-                  let b4 = Tone.Frequency("B4").toMidi();                  
-                  let midinote = Tone.Frequency(note).toMidi();
+                  let b4 = Tone.Frequency("B4").toMidi();  
+                  
+                  // strip out accidental first
+                  let withoutAccidental = note.replace(/[#b]/,'');
+                  console.log('note after stripping', withoutAccidental)
+                  let midinote = Tone.Frequency(withoutAccidental).toMidi();
+                  
                 
                   let diff = midinote - b4;
                                     
                   console.log(`${note} is ${midinote}`)
-                  console.log(`it is ${diff} steps away`)
+                  console.log(`it is ${diff} lines away`)
                   
                   let lineHeight = lineRef.current.getBoundingClientRect().height / 10;                
+                  
+                  console.log(`${note} is accidental`, isAccidental(note))
                   
                   return (
                     <Note
