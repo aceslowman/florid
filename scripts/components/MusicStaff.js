@@ -28,9 +28,9 @@ const MusicStaff = props => {
             return (
               <div key={m_i} className="measure">
                 {measure.map((note, n_i) => {
+                  let lineHeight = lineRef.current.getBoundingClientRect().height / 8;                                       
                   // need to calculate position here
                   let position = 0;
-                  let remap = [0,]
                   console.log('note',note)
                   // how far away is this note from B4?
                   let b4 = Tone.Frequency("B4").toMidi();  
@@ -41,9 +41,19 @@ const MusicStaff = props => {
                   
                   let diff = midinote - b4;
                   
-                  let lineHeight = lineRef.current.getBoundingClientRect().height / 8;                
+                  let remap;
                   
-                  position = lineHeight * diff;
+                  if(Math.sign(diff)) {
+                    // go up
+                    remap = [0,1,1,2,2,3,4,4,5,5,6,6][Math.abs(diff) % 12];
+                  } else {
+                    remap = [1,1,2,2]
+                  }
+                        
+                  let remap = 
+                  let upMap = [0,1,1,2,2,3,4,4,5,5,6,6];
+                  
+                  position = lineHeight * (remap * Math.sign(diff));
                   
                   return (
                     <Note
