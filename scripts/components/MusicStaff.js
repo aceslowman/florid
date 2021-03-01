@@ -47,7 +47,7 @@ const MusicStaff = props => {
                   style={{
                     height: staffHeight,
                     borderRight: `${
-                      isLastMeasure ? "8px solid" : "2px solid"
+                      isLastMeasure ? "10px solid" : "1px solid"
                     } #6e2a00`,
                       
                       paddingRight: isLastMeasure ? '10px' : '0px'
@@ -59,7 +59,7 @@ const MusicStaff = props => {
                       style={{
                         height: staffHeight,
                         borderRight: `${
-                          isLastMeasure ? "2px solid" : "2px solid"
+                          isLastMeasure ? "2px solid" : "1px solid"
                         } #6e2a00`,
                           
                       }}
