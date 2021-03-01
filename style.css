@@ -15,35 +15,18 @@ body,
   justify-content: center;
 }
 
-.MAININPUT {
-  color: #6e2a00;
-  background-color: transparent;
-  flex-grow: 2;
-  align-self: center;
-  font-size: 2em;
-  text-align: center;
-  border: none;
-  resize: none;
-}
-
-.MAININPUT:focus {
-  outline: none;
-}
-
 .SETTINGS {
   background-color: #FAEBD7;
   width: 0%;
   height: 100%;
   overflow: hidden;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;  
   -webkit-transition: width 1s ease-in-out;
   -moz-transition: width 1s ease-in-out;
   -o-transition: width 1s ease-in-out;
   transition: width 1s ease-in-out;
-  display: flex;
-  /* align-self: center; */
-  justify-content: flex-end;
-  align-items: center;
-
   z-index: 2;
 }
 
@@ -53,13 +36,11 @@ body,
   height: 20px;
   transform: translate(10px, -0px) rotate(45deg);
   position: absolute;
-
   z-index: 1;
 }
 
 .settingsInner {
-  background-color: #FAEBD7;
-  /*   background-color: green; */
+  background-color: #FAEBD7;l
   padding: 15px;
   width: 50px;
   min-height: 100px;
@@ -67,7 +48,6 @@ body,
   flex-flow: column;
   flex-grow: 2;
   color: brown;
-
   z-index: 2;
 }
 

@@ -1,3 +1,4 @@
+/* global Tone, ReactDOM, React */
 const MusicStaff = props => {
   return (
     <div className="STAFF">
