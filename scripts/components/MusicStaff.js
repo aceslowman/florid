@@ -15,13 +15,9 @@ const MusicStaff = props => {
     <div className="STAFF">
       <div className="flex-fix">
 
-            
+          <img className="CLEF" src="https://cdn.glitch.com/5952eddf-3ee4-437e-93ff-001a65fa1cf4%2FTreble_clef.svg?v=1614616900606"></img>
       </div>
       <div className="flex-fix">
-
-        <div className="CLEF">
-        <img src="https://cdn.glitch.com/5952eddf-3ee4-437e-93ff-001a65fa1cf4%2FTreble_clef.svg?v=1614616900606"></img>
-      </div>
         <div className="LINES" ref={lineRef}>
           <div></div>
           <div></div>
