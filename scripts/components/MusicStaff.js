@@ -35,19 +35,21 @@ const MusicStaff = props => {
                   let b4 = Tone.Frequency("B4").toMidi();  
                   
                   // strip out accidental first
+                  // console.log(`${note} is accidental`, isAccidental(note))                  
                   let withoutAccidental = note.replace(/[#b]/,'');
-                  console.log('note after stripping', withoutAccidental)
+                  // console.log('note after stripping', withoutAccidental)
+                  
                   let midinote = Tone.Frequency(withoutAccidental).toMidi();
                   
                 
                   let diff = midinote - b4;
                                     
-                  console.log(`${note} is ${midinote}`)
-                  console.log(`it is ${diff} lines away`)
+                  // console.log(`${withoutAccidental} is ${midinote}`)
+                  // console.log(`it is ${diff} lines away`)
                   
-                  let lineHeight = lineRef.current.getBoundingClientRect().height / 10;                
+                  let lineHeight = lineRef.current.getBoundingClientRect().height / 8;                
                   
-                  console.log(`${note} is accidental`, isAccidental(note))
+                  console.log(diff * lineHeight)
                   
                   return (
                     <Note
