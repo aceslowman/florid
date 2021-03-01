@@ -38,21 +38,38 @@ const MusicStaff = props => {
               let staffHeight = lineRef.current.getBoundingClientRect().height;
               let lineHeight = staffHeight / 8;
 
+              let isLastMeasure = props.melody.length - 1 === m_i;
+
               return (
                 <div
                   key={m_i}
                   className="measure"
-                  style={{ height: staffHeight }}
+                  style={{
+                    height: staffHeight,
+                    borderRight: `${
+                      isLastMeasure ? "8px solid" : "2px solid"
+                    } #6e2a00`,
+                      
+                      paddingRight: isLastMeasure ? '10px' : '0px'
+                  }}
                 >
-                  
-      <div className="flex-fix">
-                  <div className="MEASURELINES" style={{ height: staffHeight }}>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                  </div>
+                  <div className="flex-fix">
+                    <div
+                      className="MEASURELINES"
+                      style={{
+                        height: staffHeight,
+                        borderRight: `${
+                          isLastMeasure ? "2px solid" : "2px solid"
+                        } #6e2a00`,
+                          
+                      }}
+                    >
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                    </div>
                   </div>
                   {measure.map((note, n_i) => {
                     let centernote = Tone.Frequency("B4").toMidi();

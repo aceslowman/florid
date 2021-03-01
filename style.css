@@ -101,7 +101,8 @@ body,
   flex-flow: column;
   justify-content: space-between;  
 /*   width:100%; */
-  position:absolute
+  position:absolute;
+  box-sizing: border-box;
 }
 
 .MEASURELINES > div {
@@ -139,7 +140,7 @@ body,
   flex-flow: row;
   justify-content: space-around;
 /*   height: 100%; */
-  border-right: 2px solid #6e2a00;
+/*   border-right: 2px solid #6e2a00; */
   flex-grow: 2;
   position:relative;
   align-self: normal;
