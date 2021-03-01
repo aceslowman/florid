@@ -44,6 +44,13 @@ const Settings = props => {
             />
           </label>
         </div>
+        <div>
+            <button
+              onChange={props.onRandomize}
+              className="randomizeButton"
+              type="checkbox"
+              >randomize</button>
+        </div>
       </div>
       <div className="credits">cantus firmus by aceslowman 2021</div>
       <div className="toggleSettings" onClick={toggleSettings}></div>

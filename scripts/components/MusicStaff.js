@@ -49,8 +49,8 @@ const MusicStaff = props => {
                     borderRight: `${
                       isLastMeasure ? "10px solid" : "1px solid"
                     } #6e2a00`,
-                      
-                      paddingRight: isLastMeasure ? '10px' : '0px'
+                        margin:`${lineHeight*2}px 0px`,
+                      paddingRight: isLastMeasure ? '20px' : '0px'
                   }}
                 >
                   <div className="flex-fix">
