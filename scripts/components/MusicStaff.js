@@ -18,6 +18,7 @@ const MusicStaff = props => {
                 {measure.map((note, n_i) => {
                   // need to calculate position here
                   let position = 0;
+                  console.log('note',note)
                   
                   return (
                     <Note
