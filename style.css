@@ -40,7 +40,7 @@ body,
 }
 
 .settingsInner {
-  background-color: #FAEBD7;l
+  background-color: #FAEBD7;
   padding: 15px;
   width: 50px;
   min-height: 100px;
@@ -137,7 +137,8 @@ body,
   height: 100%;
   position: absolute;
   display: flex;
-  align-items: center;
+/*   align-items: center; */
+  align-items: flex-start;
   justify-content: center;
 }
 

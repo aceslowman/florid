@@ -14,10 +14,13 @@ const MusicStaff = props => {
   return (
     <div className="STAFF">
       <div className="flex-fix">
-
-          <img className="CLEF" src="https://cdn.glitch.com/5952eddf-3ee4-437e-93ff-001a65fa1cf4%2FTreble_clef.svg?v=1614616900606"></img>
-      </div>
-      <div className="flex-fix">
+        {/*ready && (
+          <img
+            className="CLEF"
+            style={{height: lineRef.current.getBoundingClientRect().height * 2}}
+            src="https://cdn.glitch.com/5952eddf-3ee4-437e-93ff-001a65fa1cf4%2FTreble_clef.svg?v=1614616900606"
+          ></img>
+        )*/}
         <div className="LINES" ref={lineRef}>
           <div></div>
           <div></div>
@@ -30,11 +33,16 @@ const MusicStaff = props => {
         <div className="NOTES">
           {ready &&
             props.melody.map((measure, m_i) => {
+              let staffHeight = lineRef.current.getBoundingClientRect().height;
+              let lineHeight = staffHeight / 8;
+
               return (
-                <div key={m_i} className="measure">
+                <div
+                  key={m_i}
+                  className="measure"
+                  style={{ height: staffHeight }}
+                >
                   {measure.map((note, n_i) => {
-                    let lineHeight =
-                      lineRef.current.getBoundingClientRect().height / 8;
                     let centernote = Tone.Frequency("B4").toMidi();
 
                     let withoutAccidental = note.replace(/[#b]/, "");
@@ -44,26 +52,27 @@ const MusicStaff = props => {
                     let remap;
 
                     /*
-                    these maps are worth some explaining
-                    
-                    I mapped the distance between b4 and the given note,
-                    and since notation includes specific half steps (b - c, e -f)
-                    
-                    ITER    REMAP
-                    +6   F   +4
-                    +5   E   +3
-                    +4   D#  +2
-                    +3   D   +2
-                    +2   C#  +1
-                    +1   C   +1
-                     0   B4   0 <-------- center of staff
-                    -1   A#  -1
-                    -2   A   -1
-                    -3   G#  -2
-                    -4   G   -2 
-                    -5   F#  -3
-                    -6   F   -3
-                  */
+                      these maps are worth some explaining
+
+                      I mapped the distance between b4 and the given note,
+                      and since notation includes specific half steps 
+                      (b - c, e -f), (w w h w w w h)
+
+                      ITER    REMAP
+                      +6   F   +4
+                      +5   E   +3
+                      +4   D#  +2
+                      +3   D   +2
+                      +2   C#  +1
+                      +1   C   +1
+                       0   B4   0 <-------- center of staff
+                      -1   A#  -1
+                      -2   A   -1
+                      -3   G#  -2
+                      -4   G   -2 
+                      -5   F#  -3
+                      -6   F   -3
+                    */
                     if (Math.sign(diff) > 0) {
                       // go up
                       remap = [0, 1, 1, 2, 2, 3, 4, 4, 5, 5, 6, 6][
