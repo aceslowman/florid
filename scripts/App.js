@@ -9,6 +9,10 @@ const App = () => {
   
   let [selectedNote, setSelectedNote] = React.useState(null);
   
+  function getNoteInMelody(measure_id) {
+    return "A0"
+  }
+  
   function restartSynth() {
     if (seq) seq.stop();
 
@@ -55,17 +59,24 @@ const App = () => {
   
   function handleNoteChange(e, measure_id, note_id) {    
     console.log([e.keyCode, measure_id, note_id]);
+    let currentNote = getNoteInMelody(measure_id, note_id);
+    let newNote;
     
-    switch(e.keycode) {
+    switch(e.keyCode) {
       case 37: // left
+        // shift focus to prevp element
         break;
       case 38: // up
-        console.log('shift note up to')
+        newNote = Tone.Frequency(currentNote).transpose(1).toNote();
+        console.log(`shift ${currentNote} note up to ${newNote}`)
+        // let 
         break;
       case 40: // down
-        console.log('shift note down to')
+        newNote = Tone.Frequency(currentNote).transpose(-1).toNote();
+        console.log(`shift ${currentNote} note down to ${newNote}`)
         break;
       case 41: // right
+        // shift focus to next element
         break;
       default:
         break
