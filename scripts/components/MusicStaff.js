@@ -21,13 +21,15 @@ const MusicStaff = props => {
             src="https://cdn.glitch.com/5952eddf-3ee4-437e-93ff-001a65fa1cf4%2FTreble_clef.svg?v=1614616900606"
           ></img>
         )*/}
-        {/*(<div className="LINES" ref={lineRef}>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>)*/}
+        {
+          <div className="LINES" ref={lineRef}>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        }
       </div>
       <div className="flex-fix">
         <div className="NOTES">
@@ -42,13 +44,16 @@ const MusicStaff = props => {
                   className="measure"
                   style={{ height: staffHeight }}
                 >
-                  <div className="LINES" ref={lineRef}>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
+                  
+      <div className="flex-fix">
+                  <div className="MEASURELINES" style={{ height: staffHeight }}>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                  </div>
+                  </div>
                   {measure.map((note, n_i) => {
                     let centernote = Tone.Frequency("B4").toMidi();
 
