@@ -99,15 +99,21 @@ body,
   align-items: center;
 }
 
-.note {
-  position: relative;  
-  cursor: grab;
-  background-color: #FAEBD7;
-  display: flex;
-  flex-flow: row;
+.noteWrapper {
+/*   background-color: orange; */
   justify-content: space-between;
   padding: 0px 15px;
   align-self: center;
+  width:100%;
+}
+
+.note {
+  justify-content:center;
+  background-color: #FAEBD7;
+    cursor: grab;
+    position: relative;  
+  display: flex;
+  flex-flow: row;
 }
 
 .measure {

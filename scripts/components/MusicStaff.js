@@ -29,18 +29,12 @@ const MusicStaff = props => {
               <div key={m_i} className="measure">
                 {measure.map((note, n_i) => {
                   let lineHeight = lineRef.current.getBoundingClientRect().height / 8;                                       
-                  // need to calculate position here
-                  let position = 0;
-                  console.log('note',note)
-                  // how far away is this note from B4?
-                  let b4 = Tone.Frequency("B4").toMidi();  
+                  let centernote = Tone.Frequency("B4").toMidi();  
                   
-                  let withoutAccidental = note.replace(/[#b]/,'');
+                  let withoutAccidental = note.replace(/[#b]/,'');                  
+                  let midinote = Tone.Frequency(withoutAccidental).toMidi(); 
                   
-                  let midinote = Tone.Frequency(withoutAccidental).toMidi();
-                  
-                  let diff = midinote - b4;
-                  
+                  let diff = midinote - centernote;                  
                   let remap;
                   
                   /*
@@ -49,15 +43,20 @@ const MusicStaff = props => {
                     I mapped the distance between b4 and the given note,
                     and since notation includes specific half steps (b - c, e -f)
                     
-                    i.e
                     ITER    REMAP
-                     0   B4  0 <--------
-                    -1   A# -1
-                    -2   A  -1
-                    -3   G# -2
-                    -4   G  -2 
-                    -5   F# -3
-                    -6   F  -3
+                    +6   F   +4
+                    +5   E   +3
+                    +4   D#  +2
+                    +3   D   +2
+                    +2   C#  +1
+                    +1   C   +1
+                     0   B4   0 <-------- center of staff
+                    -1   A#  -1
+                    -2   A   -1
+                    -3   G#  -2
+                    -4   G   -2 
+                    -5   F#  -3
+                    -6   F   -3
                   */
                   if(Math.sign(diff) > 0) {
                     // go up
@@ -68,13 +67,13 @@ const MusicStaff = props => {
                   }
                   
                   // scale this new mapping by the line height and reapply the sign
-                  position = lineHeight * (remap * Math.sign(diff));
+                  let position = lineHeight * (remap * Math.sign(diff));
                   
                   return (
                     <Note
                       tabIndex={n_i+1}
                       key={m_i + '_' + n_i}
-                      onKeyUp={(e) => props.onNoteChange(e, m_i, n_i)}
+                      onKeyDown={(e) => props.onNoteChange(e, m_i, n_i)}
                       value={note}
                       style={{
                         bottom: position
