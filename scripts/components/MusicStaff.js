@@ -20,7 +20,15 @@ const MusicStaff = props => {
                   // need to calculate position here
                   let position = 0;
                   console.log('note',note)
+                  // how far away is this note from B4?
+                  let b4 = Tone.Frequency("B4").toMidi();
+                  let midinote = Tone.Frequency(note).toMidi();
                   
+                  console.log(`${note} is ${midinote}`)
+                  
+                  let diff = midinote - b4;
+                  
+                  console.log(`it is ${diff} steps away`)
                   return (
                     <Note
                       tabIndex={n_i+1}

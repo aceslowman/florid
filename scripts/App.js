@@ -3,7 +3,7 @@ const App = () => {
   let synth = new Tone.Synth().toDestination();
   let seq;
 
-  let [melody, setMelody] = React.useState([["F4", "A4", "C4", "E4"]]);
+  let [melody, setMelody] = React.useState([["F4", "F#4", "G4", "E4"]]);
   let [loop, setLoop] = React.useState(false);
   let [numBars, setNumBars] = React.useState(1);
 
