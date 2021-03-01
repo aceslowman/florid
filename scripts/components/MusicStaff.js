@@ -2,18 +2,26 @@
 const MusicStaff = props => {
   let lineRef = React.useRef();
   let [ready, setReady] = React.useState(0);
-  
+
   function isAccidental(note) {
     return note.match(/[#b]/g) ? true : false;
   }
-  
+
   React.useEffect(() => {
     setReady(true);
-  }, [])
-  
+  }, []);
+
   return (
     <div className="STAFF">
       <div className="flex-fix">
+
+            
+      </div>
+      <div className="flex-fix">
+
+        <div className="CLEF">
+        <img src="https://cdn.glitch.com/5952eddf-3ee4-437e-93ff-001a65fa1cf4%2FTreble_clef.svg?v=1614616900606"></img>
+      </div>
         <div className="LINES" ref={lineRef}>
           <div></div>
           <div></div>
@@ -24,20 +32,22 @@ const MusicStaff = props => {
       </div>
       <div className="flex-fix">
         <div className="NOTES">
-          {ready && props.melody.map((measure, m_i) => {
-            return (
-              <div key={m_i} className="measure">
-                {measure.map((note, n_i) => {
-                  let lineHeight = lineRef.current.getBoundingClientRect().height / 8;                                       
-                  let centernote = Tone.Frequency("B4").toMidi();  
-                  
-                  let withoutAccidental = note.replace(/[#b]/,'');                  
-                  let midinote = Tone.Frequency(withoutAccidental).toMidi(); 
-                  
-                  let diff = midinote - centernote;                  
-                  let remap;
-                  
-                  /*
+          {ready &&
+            props.melody.map((measure, m_i) => {
+              return (
+                <div key={m_i} className="measure">
+                  {measure.map((note, n_i) => {
+                    let lineHeight =
+                      lineRef.current.getBoundingClientRect().height / 8;
+                    let centernote = Tone.Frequency("B4").toMidi();
+
+                    let withoutAccidental = note.replace(/[#b]/, "");
+                    let midinote = Tone.Frequency(withoutAccidental).toMidi();
+
+                    let diff = midinote - centernote;
+                    let remap;
+
+                    /*
                     these maps are worth some explaining
                     
                     I mapped the distance between b4 and the given note,
@@ -58,32 +68,36 @@ const MusicStaff = props => {
                     -5   F#  -3
                     -6   F   -3
                   */
-                  if(Math.sign(diff) > 0) {
-                    // go up
-                    remap = [0,1,1,2,2,3,4,4,5,5,6,6][Math.abs(diff) % 12];
-                  } else {
-                    // go down
-                    remap = [0,1,1,2,2,3,3,4,5,5,6,6][Math.abs(diff) % 12];
-                  }
-                  
-                  // scale this new mapping by the line height and reapply the sign
-                  let position = lineHeight * (remap * Math.sign(diff));
-                  
-                  return (
-                    <Note
-                      tabIndex={n_i+1}
-                      key={m_i + '_' + n_i}
-                      onKeyDown={(e) => props.onNoteChange(e, m_i, n_i)}
-                      value={note}
-                      style={{
-                        bottom: position
-                      }}
-                    />
-                  );
-                })}
-              </div>
-            );
-          })}
+                    if (Math.sign(diff) > 0) {
+                      // go up
+                      remap = [0, 1, 1, 2, 2, 3, 4, 4, 5, 5, 6, 6][
+                        Math.abs(diff) % 12
+                      ];
+                    } else {
+                      // go down
+                      remap = [0, 1, 1, 2, 2, 3, 3, 4, 5, 5, 6, 6][
+                        Math.abs(diff) % 12
+                      ];
+                    }
+
+                    // scale this new mapping by the line height and reapply the sign
+                    let position = lineHeight * (remap * Math.sign(diff));
+
+                    return (
+                      <Note
+                        tabIndex={n_i + 1}
+                        key={m_i + "_" + n_i}
+                        onKeyDown={e => props.onNoteChange(e, m_i, n_i)}
+                        value={note}
+                        style={{
+                          bottom: position
+                        }}
+                      />
+                    );
+                  })}
+                </div>
+              );
+            })}
         </div>
       </div>
     </div>

@@ -76,6 +76,10 @@ body,
   white-space: pre;
 }
 
+.CLEF {
+  height: 100%;
+}
+
 .STAFF {
   flex-grow: 2;  
   /*  allows child to grow  */
