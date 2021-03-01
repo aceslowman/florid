@@ -30,32 +30,20 @@ const MusicStaff = props => {
                 {measure.map((note, n_i) => {
                   // need to calculate position here
                   let position = 0;
+                  let remap = [0,]
                   console.log('note',note)
                   // how far away is this note from B4?
                   let b4 = Tone.Frequency("B4").toMidi();  
                   
-                  // strip out accidental first
-                  // console.log(`${note} is accidental`, isAccidental(note))                  
                   let withoutAccidental = note.replace(/[#b]/,'');
-                  // console.log('note after stripping', withoutAccidental)
                   
-                  let midinote = Tone.Frequency(note).toMidi();
-                  
+                  let midinote = Tone.Frequency(withoutAccidental).toMidi();
                   
                   let diff = midinote - b4;
                   
-                  if(isAccidental(note)) {
-                    // diff += 1;
-                  }
-                                    
-                  // console.log(`${withoutAccidental} is ${midinote}`)
-                  console.log(`${withoutAccidental} is ${diff} lines away from b4`)
-                  
                   let lineHeight = lineRef.current.getBoundingClientRect().height / 8;                
                   
-                  console.log(diff * lineHeight)
-                  
-                  // position = diff * lineHeight;
+                  position = lineHeight * diff;
                   
                   return (
                     <Note
