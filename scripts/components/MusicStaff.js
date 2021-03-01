@@ -43,16 +43,31 @@ const MusicStaff = props => {
                   
                   let remap;
                   
-                  if(Math.sign(diff)) {
+                  /*
+                    these maps are worth some explaining
+                    
+                    I mapped the distance between b4 and the given note,
+                    and since notation includes specific half steps (b - c, e -f)
+                    
+                    i.e
+                    ITER    REMAP
+                     0   B4  0 <--------
+                    -1   A# -1
+                    -2   A  -1
+                    -3   G# -2
+                    -4   G  -2 
+                    -5   F# -3
+                    -6   F  -3
+                  */
+                  if(Math.sign(diff) > 0) {
                     // go up
                     remap = [0,1,1,2,2,3,4,4,5,5,6,6][Math.abs(diff) % 12];
                   } else {
-                    remap = [1,1,2,2]
+                    // go down
+                    remap = [0,1,1,2,2,3,3,4,5,5,6,6][Math.abs(diff) % 12];
                   }
-                        
-                  let remap = 
-                  let upMap = [0,1,1,2,2,3,4,4,5,5,6,6];
                   
+                  // scale this new mapping by the line height and reapply the sign
                   position = lineHeight * (remap * Math.sign(diff));
                   
                   return (
