@@ -15,6 +15,7 @@ const Note = props => {
       onKeyUp={props.onKeyUp}
       tabIndex={props.tabIndex}
       style={{ 
+        ...props.style,
         fontWeight: selected ? "bold" : "normal" 
       }}
       ref={noteRef}

@@ -1,6 +1,11 @@
 /* global Tone, ReactDOM, React */
 const MusicStaff = props => {
-  let lineRef = 
+  let lineRef = React.useRef();
+  let [ready, setReady] = React.useState(0);
+  
+  React.useEffect(() => {
+    setReady(true);
+  }, [])
   
   return (
     <div className="STAFF">
@@ -15,7 +20,7 @@ const MusicStaff = props => {
       </div>
       <div className="flex-fix">
         <div className="NOTES">
-          {props.melody.map((measure, m_i) => {
+          {ready && props.melody.map((measure, m_i) => {
             return (
               <div key={m_i} className="measure">
                 {measure.map((note, n_i) => {
@@ -23,7 +28,7 @@ const MusicStaff = props => {
                   let position = 0;
                   console.log('note',note)
                   // how far away is this note from B4?
-                  let b4 = Tone.Frequency("B4").toMidi();
+                  let b4 = Tone.Frequency("B4").toMidi();                  
                   let midinote = Tone.Frequency(note).toMidi();
                 
                   let diff = midinote - b4;
@@ -31,7 +36,7 @@ const MusicStaff = props => {
                   console.log(`${note} is ${midinote}`)
                   console.log(`it is ${diff} steps away`)
                   
-                  // let lineHeight = 
+                  let lineHeight = lineRef.current.getBoundingClientRect().height / 10;                
                   
                   return (
                     <Note
@@ -40,7 +45,7 @@ const MusicStaff = props => {
                       onKeyUp={(e) => props.onNoteChange(e, m_i, n_i)}
                       value={note}
                       style={{
-                        top: diff * lineHeight
+                        bottom: diff * lineHeight
                       }}
                     />
                   );
