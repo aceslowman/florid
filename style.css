@@ -121,8 +121,8 @@ body,
 
 .note {
   cursor: grab;
-  background-color: green;
-  border-top: 1px solid #6e2a00;
+  background-color: #FAEBD7;
+/*   border-top: 1px solid #6e2a00; */
   display: flex;
   flex-flow: row;
   justify-content: space-between;

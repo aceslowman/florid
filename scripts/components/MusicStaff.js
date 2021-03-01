@@ -19,7 +19,7 @@ const MusicStaff = props => {
                   return (
                     <Note
                       tabIndex={n_i+1}
-                      key={m_i + note}
+                      key={m_i + '_' + n_i}
                       onKeyUp={(e) => props.onNoteChange(e, m_i, n_i)}
                       value={note}
                     />
