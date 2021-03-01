@@ -39,17 +39,23 @@ const MusicStaff = props => {
                   let withoutAccidental = note.replace(/[#b]/,'');
                   // console.log('note after stripping', withoutAccidental)
                   
-                  let midinote = Tone.Frequency(withoutAccidental).toMidi();
+                  let midinote = Tone.Frequency(note).toMidi();
                   
-                
+                  
                   let diff = midinote - b4;
+                  
+                  if(isAccidental(note)) {
+                    // diff += 1;
+                  }
                                     
                   // console.log(`${withoutAccidental} is ${midinote}`)
-                  // console.log(`it is ${diff} lines away`)
+                  console.log(`${withoutAccidental} is ${diff} lines away from b4`)
                   
                   let lineHeight = lineRef.current.getBoundingClientRect().height / 8;                
                   
                   console.log(diff * lineHeight)
+                  
+                  // position = diff * lineHeight;
                   
                   return (
                     <Note
@@ -58,7 +64,7 @@ const MusicStaff = props => {
                       onKeyUp={(e) => props.onNoteChange(e, m_i, n_i)}
                       value={note}
                       style={{
-                        bottom: diff * lineHeight
+                        bottom: position
                       }}
                     />
                   );
