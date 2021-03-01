@@ -16,6 +16,9 @@ const MusicStaff = props => {
             return (
               <div key={m_i} className="measure">
                 {measure.map((note, n_i) => {
+                  // need to calculate position here
+                  let position = 0;
+                  
                   return (
                     <Note
                       tabIndex={n_i+1}

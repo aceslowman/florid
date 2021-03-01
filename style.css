@@ -122,11 +122,10 @@ body,
 .note {
   cursor: grab;
   background-color: #FAEBD7;
-/*   border-top: 1px solid #6e2a00; */
   display: flex;
   flex-flow: row;
   justify-content: space-between;
-  padding: 0px 30px;
+  padding: 0px 15px;
   align-self: center;
 }
 
