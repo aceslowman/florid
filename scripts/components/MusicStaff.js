@@ -1,9 +1,11 @@
 /* global Tone, ReactDOM, React */
 const MusicStaff = props => {
+  let lineRef = 
+  
   return (
     <div className="STAFF">
       <div className="flex-fix">
-        <div className="LINES">
+        <div className="LINES" ref={lineRef}>
           <div></div>
           <div></div>
           <div></div>
@@ -23,18 +25,23 @@ const MusicStaff = props => {
                   // how far away is this note from B4?
                   let b4 = Tone.Frequency("B4").toMidi();
                   let midinote = Tone.Frequency(note).toMidi();
-                  
-                  console.log(`${note} is ${midinote}`)
-                  
+                
                   let diff = midinote - b4;
-                  
+                                    
+                  console.log(`${note} is ${midinote}`)
                   console.log(`it is ${diff} steps away`)
+                  
+                  // let lineHeight = 
+                  
                   return (
                     <Note
                       tabIndex={n_i+1}
                       key={m_i + '_' + n_i}
                       onKeyUp={(e) => props.onNoteChange(e, m_i, n_i)}
                       value={note}
+                      style={{
+                        top: diff * lineHeight
+                      }}
                     />
                   );
                 })}
