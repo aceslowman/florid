@@ -129,8 +129,6 @@ const App = () => {
   return (
     <React.Fragment>
       <Settings
-        midiInputs={midiInputs}
-        midiOutputs={midiOutputs}
         onPressPlay={handlePressPlay}        
         onPressStop={handlePressStop}
         onMidiInputChange={handleMidiInputChange}
@@ -140,6 +138,8 @@ const App = () => {
         onBPMChange={handleBPMChange}
         bpm={bpm}
         loop={loop}
+        midiInputs={midiInputs}
+        midiOutputs={midiOutputs}
       />
       <MusicStaff melody={melody} onNoteChange={handleNoteChange} />
     </React.Fragment>
