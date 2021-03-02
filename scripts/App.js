@@ -1,17 +1,18 @@
 /* global Tone, ReactDOM, React */
 const App = () => {
   let [melody, setMelody] = React.useState([
-    ["B4", "A#4", "E4", "F4"],
-    ["B4", "A#4", "E4", "F4"]
+    ["C4", "D4", "E4", "F#4"],
+    ["G4", "A#4", "G4", "B4"],
+    ["A#4", "G4", "F#4", "B4"]
   ]);
-  
+
   let [loop, setLoop] = React.useState(false);
   let [numBars, setNumBars] = React.useState(1);
 
   let [selectedNote, setSelectedNote] = React.useState(null);
   let [midiInputs, setMidiInputs] = React.useState(null);
   let [midiOutputs, setMidiOutputs] = React.useState(null);
-  
+
   const synth = new Tone.Synth().toDestination();
   let sequence;
 
@@ -21,7 +22,8 @@ const App = () => {
         await navigator.requestMIDIAccess().then(access => {
           // Get lists of available MIDI controllers
           const inputs = access.inputs.values();
-          const outputs = access.outputs.values();111
+          const outputs = access.outputs.values();
+          111;
 
           setMidiInputs([...inputs]);
           setMidiOutputs([...outputs]);
@@ -36,23 +38,25 @@ const App = () => {
 
     initMIDI();
   }, [midiInputs, midiOutputs]);
-  
+
   React.useEffect(() => {
-    if(sequence) {
-      sequence.clear();
-      sequence.cancel();
-      sequence.stop();
+    Tone.Transport.cancel();
+    
+    if (sequence) {
+      sequence.events = melody;
+    } else {
+      // set up toneJS to repeat melody in sequence
+      sequence = new Tone.Sequence(
+        (time, note) => {
+          synth.triggerAttackRelease(note, 0.1, time);
+        },
+        melody,
+        "4n"
+      ).start(0);
     }
-    
-    console.log(melody)
-    
-    // set up toneJS to repeat melody in sequence
-    sequence = new Tone.Sequence((time, note) => {      
-      synth.triggerAttackRelease(note, 0.1, time);
-    }, melody, "4n").start(0);
-    
+
     Tone.Transport.start();
-  }, [melody])
+  }, [melody]);
 
   function handleLoopToggle(e) {
     sequence.loop = !loop;
@@ -99,21 +103,21 @@ const App = () => {
   const handleMidiInputChange = e => {
     console.log("input", e.target.value);
     let device_id = e.target.value;
-    
+
     // set input/output
-  }
+  };
 
   const handleMidiOutputChange = e => {
     console.log("output", e.target.value);
     let device_id = e.target.value;
-    
+
     // set input/output
-  }
-  
+  };
+
   const handlePressPlay = e => {
-console.log('i')
+    console.log("i");
     Tone.start();
-  }
+  };
 
   return (
     <React.Fragment>
