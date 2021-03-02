@@ -118,11 +118,12 @@ const App = () => {
   const handlePressPlay = e => {
     console.log("i");
     Tone.start();
+    Tone.Transport.start();
   };
   
-  const handlePressPlay = e => {
+  const handlePressStop = e => {
     console.log("i");
-    Tone.stop();
+    Tone.Transport.stop();
   };
 
   return (
@@ -130,7 +131,8 @@ const App = () => {
       <Settings
         midiInputs={midiInputs}
         midiOutputs={midiOutputs}
-        onPressPlay={handlePressPlay}
+        onPressPlay={handlePressPlay}        
+        onPressStop={handlePressStop}
         onMidiInputChange={handleMidiInputChange}
         onMidiOutputChange={handleMidiOutputChange}
         onToggleLoop={handleLoopToggle}
