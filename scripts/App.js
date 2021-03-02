@@ -13,6 +13,8 @@ const App = () => {
   let [selectedNote, setSelectedNote] = React.useState(null);
   let [midiInputs, setMidiInputs] = React.useState(null);
   let [midiOutputs, setMidiOutputs] = React.useState(null);
+  
+  let sequence;
 
   React.useEffect(() => {
     const initMIDI = async () => {
@@ -35,6 +37,15 @@ const App = () => {
 
     initMIDI();
   }, [midiInputs, midiOutputs]);
+  
+  React.useEffect(() => {
+    // set up toneJS to repeat melody in sequence
+    sequence = new Tone.Sequence((time, note) => {
+      
+    }, melody).start(0);
+    
+    Tone.Transport.
+  })
 
   function handleLoopToggle(e) {
     seq.loop = !loop;
@@ -51,7 +62,6 @@ const App = () => {
   }
 
   function handleNoteChange(e, measure_id, note_id) {
-    console.log([e.keyCode, measure_id, note_id]);
     let currentNote = melody[measure_id][note_id];
     let newMelody = [...melody];
 
@@ -63,18 +73,11 @@ const App = () => {
         newMelody[measure_id][note_id] = Tone.Frequency(currentNote)
           .transpose(1)
           .toNote();
-        console.log(
-          `shift ${currentNote} note up to ${newMelody[measure_id][note_id]}`
-        );
-        // let
         break;
       case 40: // down
         newMelody[measure_id][note_id] = Tone.Frequency(currentNote)
           .transpose(-1)
           .toNote();
-        console.log(
-          `shift ${currentNote} note down to ${newMelody[measure_id][note_id]}`
-        );
         break;
       case 41: // right
         // shift focus to next element
@@ -86,12 +89,18 @@ const App = () => {
     setMelody(newMelody);
   }
 
-  const handleMidiInputChange = (input) => {
-    console.log("input", input);
+  const handleMidiInputChange = e => {
+    console.log("input", e.target.value);
+    let device_id = e.target.value;
+    
+    // set input/output
   }
 
-  const handleMidiOutputChange = (output) => {
-    console.log("output", output);
+  const handleMidiOutputChange = e => {
+    console.log("output", e.target.value);
+    let device_id = e.target.value;
+    
+    // set input/output
   }
 
   return (
@@ -99,8 +108,8 @@ const App = () => {
       <Settings
         midiInputs={midiInputs}
         midiOutputs={midiOutputs}
-        onMidiInputChange={handleMidiInputChange}
-        onMidiOutputChange={handleMidiOutputChange}
+        onMidiInputChange={(e) => handleMidiInputChange(e)}
+        onMidiOutputChange={(e) => handleMidiOutputChange(e)}
         onToggleLoop={handleLoopToggle}
         onNumBarsChange={handleNumBarsChange}
         onChangeBPM={handleBPMChange}

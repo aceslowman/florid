@@ -52,8 +52,8 @@ const Settings = props => {
               >randomize</button>
         </div>
         <div>
-          <label>Midi Input</label>
-          <select name="midi inputs" onChange={props.handleMidiInputChange}>
+          <label htmlFor="midiinputs">Midi Input</label>
+          <select name="midiinputs" onChange={props.onMidiInputChange}>
             <option>select an input</option>
             {props.midiInputs && [...props.midiInputs].map(e => {
               return (
@@ -63,8 +63,8 @@ const Settings = props => {
           </select>
         </div>
         <div>
-          <label>Midi Output</label>
-          <select name="midi outputs" onChange={props.handleMidiOutputChange}>
+          <label htmlFor="midioutputs">Midi Output</label>
+          <select name="midioutputs" onChange={props.onMidiOutputChange}>
             <option>select an output</option>
             {props.midiOutputs && [...props.midiOutputs].map(e => {
               return (
