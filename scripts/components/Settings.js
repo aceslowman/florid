@@ -11,13 +11,6 @@ const Settings = props => {
     setExpanded(prev => !prev)
   }
   
-        //   midiInputs={midiInputs}
-        // midiOutputs={midiOutputs}
-        // onMidiInputChange={handleMidiInputChange}
-        // onMidiOutputChange={handleMidiOutputChange}
-  if(props.midiInputs)
-    console.log('hello', [...props.midiInputs])
-  
   return (
     <div className="SETTINGS" style={{width: expanded ? '28%' : '0%'}}>
       <div className="settingsInner">
@@ -59,11 +52,23 @@ const Settings = props => {
               >randomize</button>
         </div>
         <div>
-          <select onChange={props.handleMidiInputChange}>
-            {props.midiInputs && props.midiInputs.map(e => {
-              console.log(e)
+          <label>Midi Input</label>
+          <select name="midi inputs" onChange={props.handleMidiInputChange}>
+            <option>select an input</option>
+            {props.midiInputs && [...props.midiInputs].map(e => {
               return (
-                <options value={e.id}>{e.name}</options>
+                <option key={e.id} value={e.id}>{e.name}</option>
+              )
+            })}
+          </select>
+        </div>
+        <div>
+          <label>Midi Output</label>
+          <select name="midi outputs" onChange={props.handleMidiOutputChange}>
+            <option>select an output</option>
+            {props.midiOutputs && [...props.midiOutputs].map(e => {
+              return (
+                <option key={e.id} value={e.id}>{e.name}</option>
               )
             })}
           </select>
