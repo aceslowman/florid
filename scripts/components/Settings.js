@@ -27,11 +27,11 @@ const Settings = props => {
         <div>
           <label>tempo</label>
           <input
-            onChange={props.onChangeBPM}
+            onChange={props.onBPMChange}
             className="tempoInput"
             type="number"
             step="1"
-            value="120"
+            value={props.bpm}
           />
         </div>
         <div>
@@ -39,6 +39,7 @@ const Settings = props => {
             loop
             <input
               onChange={props.onToggleLoop}
+              checked={props.loop}
               className="loopButton"
               type="checkbox"
             />
@@ -55,6 +56,12 @@ const Settings = props => {
               onClick={props.onPressPlay}
               className="playButton"
               >play</button>
+        </div>
+        <div>
+            <button
+              onClick={props.onPressStop}
+              className="stopButton"
+              >stop</button>
         </div>
         <div>
           <label htmlFor="midiinputs">Midi Input</label>

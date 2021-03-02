@@ -12,6 +12,7 @@ const App = () => {
   let [selectedNote, setSelectedNote] = React.useState(null);
   let [midiInputs, setMidiInputs] = React.useState(null);
   let [midiOutputs, setMidiOutputs] = React.useState(null);
+  let [bpm, setBPM] = React.useState(120);
 
   const synth = new Tone.Synth().toDestination();
   let sequence;
@@ -23,8 +24,7 @@ const App = () => {
           // Get lists of available MIDI controllers
           const inputs = access.inputs.values();
           const outputs = access.outputs.values();
-          111;
-
+          
           setMidiInputs([...inputs]);
           setMidiOutputs([...outputs]);
 
@@ -59,7 +59,7 @@ const App = () => {
   }, [melody]);
 
   function handleLoopToggle(e) {
-    sequence.loop = !loop;
+    if(sequence) sequence.loop.value = !loop;
     setLoop(prev => !prev);
   }
 
@@ -69,6 +69,7 @@ const App = () => {
   }
 
   function handleBPMChange(e) {
+    setBPM(parseFloat(e.target.value));
     Tone.Transport.bpm.value = parseFloat(e.target.value);
   }
 
@@ -118,6 +119,11 @@ const App = () => {
     console.log("i");
     Tone.start();
   };
+  
+  const handlePressPlay = e => {
+    console.log("i");
+    Tone.stop();
+  };
 
   return (
     <React.Fragment>
@@ -129,7 +135,9 @@ const App = () => {
         onMidiOutputChange={handleMidiOutputChange}
         onToggleLoop={handleLoopToggle}
         onNumBarsChange={handleNumBarsChange}
-        onChangeBPM={handleBPMChange}
+        onBPMChange={handleBPMChange}
+        bpm={bpm}
+        loop={loop}
       />
       <MusicStaff melody={melody} onNoteChange={handleNoteChange} />
     </React.Fragment>
