@@ -46,10 +46,15 @@ const Settings = props => {
         </div>
         <div>
             <button
-              onChange={props.onRandomize}
+              onClick={props.onRandomize}
               className="randomizeButton"
-              type="checkbox"
               >randomize</button>
+        </div>
+        <div>
+            <button
+              onClick={props.onPressPlay}
+              className="playButton"
+              >play</button>
         </div>
         <div>
           <label htmlFor="midiinputs">Midi Input</label>

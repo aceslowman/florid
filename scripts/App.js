@@ -1,12 +1,10 @@
 /* global Tone, ReactDOM, React */
 const App = () => {
-  let synth = new Tone.Synth().toDestination();
-  let seq;
-
   let [melody, setMelody] = React.useState([
     ["B4", "A#4", "E4", "F4"],
     ["B4", "A#4", "E4", "F4"]
   ]);
+  
   let [loop, setLoop] = React.useState(false);
   let [numBars, setNumBars] = React.useState(1);
 
@@ -14,6 +12,7 @@ const App = () => {
   let [midiInputs, setMidiInputs] = React.useState(null);
   let [midiOutputs, setMidiOutputs] = React.useState(null);
   
+  const synth = new Tone.Synth().toDestination();
   let sequence;
 
   React.useEffect(() => {
@@ -39,16 +38,24 @@ const App = () => {
   }, [midiInputs, midiOutputs]);
   
   React.useEffect(() => {
-    // set up toneJS to repeat melody in sequence
-    sequence = new Tone.Sequence((time, note) => {
-      
-    }, melody).start(0);
+    if(sequence) {
+      sequence.clear();
+      sequence.cancel();
+      sequence.stop();
+    }
     
-    Tone.Transport.
-  })
+    console.log(melody)
+    
+    // set up toneJS to repeat melody in sequence
+    sequence = new Tone.Sequence((time, note) => {      
+      synth.triggerAttackRelease(note, 0.1, time);
+    }, melody, "4n").start(0);
+    
+    Tone.Transport.start();
+  }, [melody])
 
   function handleLoopToggle(e) {
-    seq.loop = !loop;
+    sequence.loop = !loop;
     setLoop(prev => !prev);
   }
 
@@ -102,14 +109,20 @@ const App = () => {
     
     // set input/output
   }
+  
+  const handlePressPlay = e => {
+console.log('i')
+    Tone.start();
+  }
 
   return (
     <React.Fragment>
       <Settings
         midiInputs={midiInputs}
         midiOutputs={midiOutputs}
-        onMidiInputChange={(e) => handleMidiInputChange(e)}
-        onMidiOutputChange={(e) => handleMidiOutputChange(e)}
+        onPressPlay={handlePressPlay}
+        onMidiInputChange={handleMidiInputChange}
+        onMidiOutputChange={handleMidiOutputChange}
         onToggleLoop={handleLoopToggle}
         onNumBarsChange={handleNumBarsChange}
         onChangeBPM={handleBPMChange}
