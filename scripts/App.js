@@ -15,7 +15,8 @@ const App = () => {
   let [midiOutputs, setMidiOutputs] = React.useState([]);
 
   React.useEffect(() => {
-    navigator.requestMIDIAccess().then(function(access) {
+    const initializeMIDI = async (access) => {
+    
       // Get lists of available MIDI controllers
       const inputs = access.inputs.values();
       const outputs = access.outputs.values();
@@ -30,8 +31,10 @@ const App = () => {
         // Print information about the (dis)connected MIDI controller
         console.log(e.port.name, e.port.manufacturer, e.port.state);
       };
-    });
-  });
+    
+    }
+    
+  }, []);
 
   function handleLoopToggle(e) {
     seq.loop = !loop;
@@ -90,6 +93,8 @@ const App = () => {
   function handleMidiOutputChange(output) {
     console.log('output', output)
   }  
+  
+  console.log('check this', midiInputs)
 
   return (
     <React.Fragment>
