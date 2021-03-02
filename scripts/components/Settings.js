@@ -10,6 +10,11 @@ const Settings = props => {
   function toggleSettings() {
     setExpanded(prev => !prev)
   }
+  
+        //   midiInputs={midiInputs}
+        // midiOutputs={midiOutputs}
+        // onMidiInputChange={handleMidiInputChange}
+        // onMidiOutputChange={handleMidiOutputChange}
 
   return (
     <div className="SETTINGS" style={{width: expanded ? '28%' : '0%'}}>
@@ -50,6 +55,15 @@ const Settings = props => {
               className="randomizeButton"
               type="checkbox"
               >randomize</button>
+        </div>
+        <div>
+          <select onChange={props.handleMidiInputChange}>
+            {props.inputs.map(e => {
+              return (
+                <options>{}</options>
+              )
+            })}
+          </select>
         </div>
       </div>
       <div className="credits">cantus firmus by aceslowman 2021</div>

@@ -11,6 +11,8 @@ const App = () => {
   let [numBars, setNumBars] = React.useState(1);
 
   let [selectedNote, setSelectedNote] = React.useState(null);
+  let [midiInputs, setMidiInputs] = React.useState([]);
+  let [midiOutputs, setMidiOutputs] = React.useState([]);
 
   React.useEffect(() => {
     navigator.requestMIDIAccess().then(function(access) {
@@ -18,8 +20,11 @@ const App = () => {
       const inputs = access.inputs.values();
       const outputs = access.outputs.values();
       
-      console.log("MIDI INPUTS", inputs);
-      console.log("MIDI OUTPUTS", outputs);
+      console.log("MIDI INPUTS", [...inputs]);
+      console.log("MIDI OUTPUTS", [...outputs]);
+      
+      setMidiInputs([...inputs]);
+      setMidiOutputs([...outputs]);
 
       access.onstatechange = function(e) {
         // Print information about the (dis)connected MIDI controller
@@ -77,10 +82,22 @@ const App = () => {
 
     setMelody(newMelody);
   }
+  
+  function handleMidiInputChange(input) {
+    console.log('input', input)
+  }
+  
+  function handleMidiOutputChange(output) {
+    console.log('output', output)
+  }  
 
   return (
     <React.Fragment>
       <Settings
+        midiInputs={midiInputs}
+        midiOutputs={midiOutputs}
+        onMidiInputChange={handleMidiInputChange}
+        onMidiOutputChange={handleMidiOutputChange}
         onToggleLoop={handleLoopToggle}
         onNumBarsChange={handleNumBarsChange}
         onChangeBPM={handleBPMChange}
