@@ -15,8 +15,8 @@ const Settings = props => {
         // midiOutputs={midiOutputs}
         // onMidiInputChange={handleMidiInputChange}
         // onMidiOutputChange={handleMidiOutputChange}
-
-  console.log('hello', [...props.midiInputs])
+  if(props.midiInputs)
+    console.log('hello', [...props.midiInputs])
   
   return (
     <div className="SETTINGS" style={{width: expanded ? '28%' : '0%'}}>
@@ -60,7 +60,7 @@ const Settings = props => {
         </div>
         <div>
           <select onChange={props.handleMidiInputChange}>
-            {props.midiInputs && [...props.midiInputs].map(e => {
+            {props.midiInputs && props.midiInputs.map(e => {
               console.log(e)
               return (
                 <options value={e.id}>{e.name}</options>
