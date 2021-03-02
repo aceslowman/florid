@@ -3,11 +3,30 @@ const App = () => {
   let synth = new Tone.Synth().toDestination();
   let seq;
 
-  let [melody, setMelody] = React.useState([["B4", "A#4", "E4", "F4"], ["B4", "A#4", "E4", "F4"]]);
+  let [melody, setMelody] = React.useState([
+    ["B4", "A#4", "E4", "F4"],
+    ["B4", "A#4", "E4", "F4"]
+  ]);
   let [loop, setLoop] = React.useState(false);
   let [numBars, setNumBars] = React.useState(1);
 
   let [selectedNote, setSelectedNote] = React.useState(null);
+
+  React.useEffect(() => {
+    navigator.requestMIDIAccess().then(function(access) {
+      // Get lists of available MIDI controllers
+      const inputs = access.inputs.values();
+      const outputs = access.outputs.values();
+      
+      console.log("MIDI INPUTS", inputs);
+      console.log("MIDI OUTPUTS", outputs);
+
+      access.onstatechange = function(e) {
+        // Print information about the (dis)connected MIDI controller
+        console.log(e.port.name, e.port.manufacturer, e.port.state);
+      };
+    });
+  });
 
   function handleLoopToggle(e) {
     seq.loop = !loop;
@@ -30,7 +49,7 @@ const App = () => {
 
     switch (e.keyCode) {
       case 37: // left
-        // shift focus to prevp element
+        // shift focus to prev element
         break;
       case 38: // up
         newMelody[measure_id][note_id] = Tone.Frequency(currentNote)
