@@ -11,12 +11,12 @@ const App = () => {
   let [numBars, setNumBars] = React.useState(1);
 
   let [selectedNote, setSelectedNote] = React.useState(null);
-  let [midiInputs, setMidiInputs] = React.useState([]);
-  let [midiOutputs, setMidiOutputs] = React.useState([]);
+  let [midiInputs, setMidiInputs] = React.useState(null);
+  let [midiOutputs, setMidiOutputs] = React.useState(null);
 
   React.useEffect(() => {
-    const initializeMIDI = async () => {
-      await navigator.requestMIDIAccess().then(function(access) {
+    if (!midiInputs) {
+      navigator.requestMIDIAccess().then(access => {
         // Get lists of available MIDI controllers
         const inputs = access.inputs.values();
         const outputs = access.outputs.values();
@@ -24,18 +24,16 @@ const App = () => {
         console.log("MIDI INPUTS", [...inputs]);
         console.log("MIDI OUTPUTS", [...outputs]);
 
-        setMidiInputs([...inputs]);
-        setMidiOutputs([...outputs]);
+        setMidiInputs(inputs);
+        setMidiOutputs(outputs);
 
         access.onstatechange = function(e) {
           // Print information about the (dis)connected MIDI controller
           console.log(e.port.name, e.port.manufacturer, e.port.state);
         };
       });
-    };
-    
-    initializeMIDI();
-  }, []);
+    }
+  }, [setMidiInputs, setMidiOutputs, midiInputs, midiOutputs]);
 
   function handleLoopToggle(e) {
     seq.loop = !loop;
