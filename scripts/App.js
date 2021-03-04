@@ -31,11 +31,11 @@ const App = () => {
         case 32: // space bar
           if (Tone.Transport.state === "started") {
             Tone.Transport.stop();
-            setIsPlaying(false)
+            setIsPlaying(false);
           } else {
             Tone.start();
             Tone.Transport.start();
-            setIsPlaying(true)
+            setIsPlaying(true);
           }
           break;
         default:
@@ -75,16 +75,17 @@ const App = () => {
           setMidiInputs(inputs);
           setMidiOutputs(outputs);
 
+          // set first midi input/output as default
           setActiveMidiInput(inputs[Object.keys(inputs)[0]]);
           setActiveMidiOutput(outputs[Object.keys(outputs)[0]]);
-               
-          // setting up midi in 
-          const handleMidiIn = (m) => {
-            console.log('receiving midi', m.data);
-          }
-          
-          inputs[Object.keys(inputs)[0]].removeEventListener("midimessage", (m) => handleMidiIn(m), true);
-          inputs[Object.keys(inputs)[0]].addEventListener("midimessage", (m) => handleMidiIn(m), true);
+
+          // setting up midi in
+          // inputs[Object.keys(inputs)[0]].removeEventListener("midimessage", m =>
+          //   handleMidiIn(m)
+          // );
+          inputs[Object.keys(inputs)[0]].addEventListener("midimessage", m =>
+            handleMidiIn(m)
+          );
 
           access.onstatechange = function(e) {
             // Print information about the (dis)connected MIDI controller
@@ -95,7 +96,7 @@ const App = () => {
     };
 
     initMIDI();
-  }, [midiInputs, midiOutputs]);
+  }, [midiInputs, midiOutputs, handleMidiIn]);
 
   /* create and update melody */
   React.useEffect(() => {
@@ -122,6 +123,10 @@ const App = () => {
 
     Tone.Transport.start();
   }, [melody, activeMidiOutput]);
+
+  function handleMidiIn(m) {
+    console.log("receiving midi", m.data);
+  }
 
   function handleLoopToggle(e) {
     if (sequence) sequence.loop.value = !loop;
@@ -172,10 +177,10 @@ const App = () => {
   };
 
   const handleTogglePlay = e => {
-    if(Tone.Transport.state === 'started') {
+    if (Tone.Transport.state === "started") {
       Tone.Transport.stop();
       setIsPlaying(stop);
-    } else {      
+    } else {
       Tone.start();
       Tone.Transport.start();
       setIsPlaying(true);
@@ -206,7 +211,7 @@ const App = () => {
   return (
     <React.Fragment>
       <Settings
-        onTogglePlay={handleTogglePlay}        
+        onTogglePlay={handleTogglePlay}
         onMidiInputChange={handleMidiInputChange}
         onMidiOutputChange={handleMidiOutputChange}
         onToggleLoop={handleLoopToggle}
