@@ -168,12 +168,13 @@ const App = () => {
     setMelody(newMelody);
   }
 
-  const handleMidiInputChange = e => {
-    setActiveMidiInput(midiInputs[e.target.value]);
+  const handleMidiInputChange = input_id => {    
+    activeMidiOutput.removeEventListener('midimessage', handleMidiIn);
+    setActiveMidiInput(midiInputs[input_id]);
   };
 
-  const handleMidiOutputChange = e => {
-    setActiveMidiOutput(midiOutputs[e.target.value]);
+  const handleMidiOutputChange = output_id => {
+    setActiveMidiOutput(midiOutputs[output_id]);
   };
 
   const handleTogglePlay = e => {
@@ -187,27 +188,6 @@ const App = () => {
     }
   };
 
-  const handleRandomize = (e, type = "jitter") => {
-    /*
-      random techniques...
-      
-      jitter: move notes up or down at random, in variable steps
-      drunk: step up or down from the beginning within a certain range
-    */
-    let jitter_amount = 2;
-
-    setMelody(
-      melody.map((measure, m_i) => {
-        return measure.map((note, n_i) => {
-          let tr = (Math.random() * 2 - 1) * jitter_amount;
-          return Tone.Frequency(note)
-            .transpose(tr)
-            .toNote();
-        });
-      })
-    );
-  };
-
   return (
     <React.Fragment>
       <Settings
@@ -217,7 +197,6 @@ const App = () => {
         onToggleLoop={handleLoopToggle}
         onNumBarsChange={handleNumBarsChange}
         onBPMChange={handleBPMChange}
-        onRandomize={handleRandomize}
         bpm={bpm}
         loop={loop}
         isPlaying={isPlaying}
