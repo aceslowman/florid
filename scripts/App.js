@@ -78,14 +78,17 @@ const App = () => {
           // set first midi input/output as default
           setActiveMidiInput(inputs[Object.keys(inputs)[0]]);
           setActiveMidiOutput(outputs[Object.keys(outputs)[0]]);
+          
+          handleMidiInputChange()
+          handleMidiOutputChange()
 
-          // setting up midi in
-          // inputs[Object.keys(inputs)[0]].removeEventListener("midimessage", m =>
-          //   handleMidiIn(m)
-          // );
-          inputs[Object.keys(inputs)[0]].addEventListener("midimessage", m =>
-            handleMidiIn(m)
-          );
+//           // setting up midi in
+//           // inputs[Object.keys(inputs)[0]].removeEventListener("midimessage", m =>
+//           //   handleMidiIn(m)
+//           // );
+//           inputs[Object.keys(inputs)[0]].addEventListener("midimessage", m =>
+//             handleMidiIn(m)
+//           );
 
           access.onstatechange = function(e) {
             // Print information about the (dis)connected MIDI controller
@@ -97,6 +100,8 @@ const App = () => {
 
     initMIDI();
   }, [midiInputs, midiOutputs, handleMidiIn]);
+  
+  React.useEffect(() => {}, [activeMidiInput])
 
   /* create and update melody */
   React.useEffect(() => {
@@ -169,7 +174,10 @@ const App = () => {
   }
 
   const handleMidiInputChange = input_id => {    
-    activeMidiOutput.removeEventListener('midimessage', handleMidiIn);
+    if(activeMidiInput)
+      activeMidiInput.removeEventListener('midimessage', handleMidiIn);
+    
+    midiInputs[input_id].addEventListener('midimessage', handleMidiIn);
     setActiveMidiInput(midiInputs[input_id]);
   };
 
@@ -192,8 +200,8 @@ const App = () => {
     <React.Fragment>
       <Settings
         onTogglePlay={handleTogglePlay}
-        onMidiInputChange={handleMidiInputChange}
-        onMidiOutputChange={handleMidiOutputChange}
+        onMidiInputChange={(e) => handleMidiInputChange(e.target.value)}
+        onMidiOutputChange={(e) => handleMidiOutputChange(e.target.value)}
         onToggleLoop={handleLoopToggle}
         onNumBarsChange={handleNumBarsChange}
         onBPMChange={handleBPMChange}
