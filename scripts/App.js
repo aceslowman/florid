@@ -79,10 +79,12 @@ const App = () => {
           setActiveMidiOutput(outputs[Object.keys(outputs)[0]]);
                
           // setting up midi in 
-          inputs[Object.keys(inputs)[0]].onmidimessage = null;
-          inputs[Object.keys(inputs)[0]].onmidimessage = (m) => {
+          const handleMidiIn = (m) => {
             console.log('receiving midi', m.data);
           }
+          
+          inputs[Object.keys(inputs)[0]].removeEventListener("midimessage", (m) => handleMidiIn(m), true);
+          inputs[Object.keys(inputs)[0]].addEventListener("midimessage", (m) => handleMidiIn(m), true);
 
           access.onstatechange = function(e) {
             // Print information about the (dis)connected MIDI controller
