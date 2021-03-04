@@ -77,13 +77,11 @@ const App = () => {
 
           setActiveMidiInput(inputs[Object.keys(inputs)[0]]);
           setActiveMidiOutput(outputs[Object.keys(outputs)[0]]);
-          
-          
-          
+               
           // setting up midi in 
           inputs[Object.keys(inputs)[0]].onmidimessage = null;
           inputs[Object.keys(inputs)[0]].onmidimessage = (m) => {
-            console.log('midi note in', m.data);
+            console.log('receiving midi', m.data);
           }
 
           access.onstatechange = function(e) {
