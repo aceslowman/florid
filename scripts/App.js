@@ -77,6 +77,14 @@ const App = () => {
 
           setActiveMidiInput(inputs[Object.keys(inputs)[0]]);
           setActiveMidiOutput(outputs[Object.keys(outputs)[0]]);
+          
+          
+          
+          // setting up midi in 
+          inputs[Object.keys(inputs)[0]].onmidimessage = null;
+          inputs[Object.keys(inputs)[0]].onmidimessage = (m) => {
+            console.log('midi note in', m.data);
+          }
 
           access.onstatechange = function(e) {
             // Print information about the (dis)connected MIDI controller
@@ -101,7 +109,7 @@ const App = () => {
         (time, note) => {
           // synth.triggerAttackRelease(note, 0.1, time);
           // [NOTE ON, NOTE, VELOCITY]
-          activeMidiOutput.send([128, Tone.Frequency(note).toMidi(), 41]);
+          // activeMidiOutput.send([128, Tone.Frequency(note).toMidi(), 41]);
 
           setCurrentStep(
             prev => (prev = (prev + 1) % (sequence.events.length * 4))
