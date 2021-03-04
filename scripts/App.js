@@ -20,7 +20,7 @@ const App = () => {
   React.useEffect(() => {
     const initMIDI = async () => {
       if (!midiInputs || !midiOutputs) {
-        await navigator.requestMIDIAccess().then(access => {
+      t>  await navigator.requestMIDIAccess().then(access => {
           // Get lists of available MIDI controllers
           const inputs = access.inputs.values();
           const outputs = access.outputs.values();
