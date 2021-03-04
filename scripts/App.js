@@ -72,23 +72,16 @@ const App = () => {
             };
           }
 
+          // set midi inputs and outputs for selection
           setMidiInputs(inputs);
           setMidiOutputs(outputs);
 
           // set first midi input/output as default
           setActiveMidiInput(inputs[Object.keys(inputs)[0]]);
           setActiveMidiOutput(outputs[Object.keys(outputs)[0]]);
-          
-          handleMidiInputChange()
-          handleMidiOutputChange()
 
-//           // setting up midi in
-//           // inputs[Object.keys(inputs)[0]].removeEventListener("midimessage", m =>
-//           //   handleMidiIn(m)
-//           // );
-//           inputs[Object.keys(inputs)[0]].addEventListener("midimessage", m =>
-//             handleMidiIn(m)
-//           );
+          // setting up midi in
+          inputs[Object.keys(inputs)[0]];
 
           access.onstatechange = function(e) {
             // Print information about the (dis)connected MIDI controller
@@ -99,35 +92,18 @@ const App = () => {
     };
 
     initMIDI();
-  }, [midiInputs, midiOutputs, handleMidiIn]);
-  
-  React.useEffect(() => {}, [activeMidiInput])
+  }, [midiInputs, midiOutputs]);
 
-  /* create and update melody */
+  /*
+    set up and remove listener for activeMidiInput
+  */
   React.useEffect(() => {
-    Tone.Transport.cancel();
-
-    if (sequence) {
-      sequence.events = melody;
-    } else {
-      // set up toneJS to repeat melody in sequence
-      sequence = new Tone.Sequence(
-        (time, note) => {
-          // synth.triggerAttackRelease(note, 0.1, time);
-          // [NOTE ON, NOTE, VELOCITY]
-          // activeMidiOutput.send([128, Tone.Frequency(note).toMidi(), 41]);
-
-          setCurrentStep(
-            prev => (prev = (prev + 1) % (sequence.events.length * 4))
-          );
-        },
-        melody,
-        "1m"
-      ).start(0);
+    if (activeMidiInput) {
+      activeMidiInput.addEventListener("midimessage", handleMidiIn);
+      return () =>
+        activeMidiInput.removeEventListener("midimessage", handleMidiIn);
     }
-
-    Tone.Transport.start();
-  }, [melody, activeMidiOutput]);
+  }, [activeMidiInput]);
 
   function handleMidiIn(m) {
     console.log("receiving midi", m.data);
@@ -173,11 +149,11 @@ const App = () => {
     setMelody(newMelody);
   }
 
-  const handleMidiInputChange = input_id => {    
-    if(activeMidiInput)
-      activeMidiInput.removeEventListener('midimessage', handleMidiIn);
-    
-    midiInputs[input_id].addEventListener('midimessage', handleMidiIn);
+  const handleMidiInputChange = input_id => {
+    //     if(activeMidiInput)
+    //       activeMidiInput.removeEventListener('midimessage', handleMidiIn);
+
+    //     midiInputs[input_id].addEventListener('midimessage', handleMidiIn);
     setActiveMidiInput(midiInputs[input_id]);
   };
 
@@ -200,8 +176,8 @@ const App = () => {
     <React.Fragment>
       <Settings
         onTogglePlay={handleTogglePlay}
-        onMidiInputChange={(e) => handleMidiInputChange(e.target.value)}
-        onMidiOutputChange={(e) => handleMidiOutputChange(e.target.value)}
+        onMidiInputChange={e => handleMidiInputChange(e.target.value)}
+        onMidiOutputChange={e => handleMidiOutputChange(e.target.value)}
         onToggleLoop={handleLoopToggle}
         onNumBarsChange={handleNumBarsChange}
         onBPMChange={handleBPMChange}
