@@ -1,10 +1,32 @@
 /* global Tone, ReactDOM, React */
 const App = () => {
-  let [melody, setMelody] = React.useState([
-    ["C4", "D4", "E4", "F#4"],
-    ["G4", "A#4", "G4", "B4"],
-    ["A#4", "G4", "F#4", "B4"]
-  ]);
+  /*
+    here I store voices in this structure:    
+      [voices][melodies][measures][notes]
+      
+      this array is of a fixed length 
+        (number of voices, 
+        then number of measures, 
+        then number of subdivisions)
+      as notes come in thru MIDI, they are 
+      added to the start of the array, and
+      the last element is pushed off (from each voice)
+      
+      it should be initialized with 'null' in place for 
+      (num_voices, num_measures, num_subdivisions)
+  */
+  let [melody, setMelody] = React.useState(
+    [ // voice 1
+      ["C4", "D4", "E4", "F#4"], // measure 1
+      ["G4", "A#4", "G4", "B4"], // measure 2
+      ["A#4", "G4", "F#4", "B4"] // measure 3
+    ],
+    [ // voice 2
+      ["C4", "D4", "E4", "F#4"], // measure 1
+      ["G4", "A#4", "G4", "B4"], // measure 2
+      ["A#4", "G4", "F#4", "B4"] // measure 3
+    ]
+  );
 
   let [loop, setLoop] = React.useState(false);
   let [numBars, setNumBars] = React.useState(1);
@@ -25,8 +47,6 @@ const App = () => {
   */
   React.useEffect(() => {
     const keybindings = function(e) {
-      console.log("key", e.keyCode);
-      console.log(Tone.Transport.state);
       switch (e.keyCode) {
         case 32: // space bar
           if (Tone.Transport.state === "started") {
