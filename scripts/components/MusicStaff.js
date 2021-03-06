@@ -21,63 +21,66 @@ const MusicStaff = props => {
   React.useEffect(() => {}, []);
 
   let iter = 0;
-  let measures =
+  let voices =
     ready &&
-    props.melody.map((measure, m_i) => {
-      staffHeight = lineRef.current.getBoundingClientRect().height;
+    props.melody.map((voice, v_i) => {
+      voice.map((measure, m_i) => {
+        staffHeight = lineRef.current.getBoundingClientRect().height;
 
-      let lineHeight = staffHeight / 8;
+        let lineHeight = staffHeight / 8;
 
-      let isLastMeasure = props.melody.length - 1 === m_i;
-      let isFirstMeasure = m_i === 0;
+        let isLastMeasure = props.melody.length - 1 === m_i;
+        let isFirstMeasure = m_i === 0;
 
-      return (
-        <div
-          key={m_i}
-          className="measure"
-          style={{
-            height: staffHeight,
-            borderRight: `${isLastMeasure ? "8px solid" : "1px solid"} #6e2a00`,
-            margin: `${lineHeight * 3}px 0px`,
-            paddingRight: isLastMeasure ? "20px" : "0px"
-          }}
-        >
-          {isFirstMeasure && (
-            <img
-              className="CLEF"
-              style={{
-                height: lineRef.current.getBoundingClientRect().height * 2
-              }}
-              src="https://cdn.glitch.com/5952eddf-3ee4-437e-93ff-001a65fa1cf4%2FTreble_clef.svg?v=1614749305855"
-            />
-          )}
-          <div className="flex-fix">
-            <div
-              className="MEASURELINES"
-              style={{
-                height: staffHeight,
-                borderRight: `${
-                  isLastMeasure ? "10px double" : "1px solid"
-                } #6e2a00`
-              }}
-            >
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
+        return (
+          <div
+            key={m_i}
+            className="measure"
+            style={{
+              height: staffHeight,
+              borderRight: `${
+                isLastMeasure ? "8px solid" : "1px solid"
+              } #6e2a00`,
+              margin: `${lineHeight * 3}px 0px`,
+              paddingRight: isLastMeasure ? "20px" : "0px"
+            }}
+          >
+            {isFirstMeasure && (
+              <img
+                className="CLEF"
+                style={{
+                  height: lineRef.current.getBoundingClientRect().height * 2
+                }}
+                src="https://cdn.glitch.com/5952eddf-3ee4-437e-93ff-001a65fa1cf4%2FTreble_clef.svg?v=1614749305855"
+              />
+            )}
+            <div className="flex-fix">
+              <div
+                className="MEASURELINES"
+                style={{
+                  height: staffHeight,
+                  borderRight: `${
+                    isLastMeasure ? "10px double" : "1px solid"
+                  } #6e2a00`
+                }}
+              >
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
             </div>
-          </div>
-          {measure.map((note, n_i) => {
-            let centernote = Tone.Frequency("B4").toMidi();
+            {measure.map((note, n_i) => {
+              let centernote = Tone.Frequency("B4").toMidi();
 
-            let withoutAccidental = note.replace(/[#b]/, "");
-            let midinote = Tone.Frequency(withoutAccidental).toMidi();
+              let withoutAccidental = note.replace(/[#b]/, "");
+              let midinote = Tone.Frequency(withoutAccidental).toMidi();
 
-            let diff = midinote - centernote;
-            let remap;
+              let diff = midinote - centernote;
+              let remap;
 
-            /*
+              /*
                       these maps are worth some explaining
 
                       I mapped the distance between b4 and the given note,
@@ -99,35 +102,40 @@ const MusicStaff = props => {
                       -5   F#  -3
                       -6   F   -3
                     */
-            if (Math.sign(diff) > 0) {
-              // go up
-              remap = [0, 1, 1, 2, 2, 3, 4, 4, 5, 5, 6, 6][Math.abs(diff) % 12];
-            } else {
-              // go down
-              remap = [0, 1, 1, 2, 2, 3, 3, 4, 5, 5, 6, 6][Math.abs(diff) % 12];
-            }
+              if (Math.sign(diff) > 0) {
+                // go up
+                remap = [0, 1, 1, 2, 2, 3, 4, 4, 5, 5, 6, 6][
+                  Math.abs(diff) % 12
+                ];
+              } else {
+                // go down
+                remap = [0, 1, 1, 2, 2, 3, 3, 4, 5, 5, 6, 6][
+                  Math.abs(diff) % 12
+                ];
+              }
 
-            // scale this new mapping by the line height and reapply the sign
-            let position = lineHeight * (remap * Math.sign(diff));
+              // scale this new mapping by the line height and reapply the sign
+              let position = lineHeight * (remap * Math.sign(diff));
 
-            iter++;
+              iter++;
 
-            return (
-              <Note
-                tabIndex={iter + 1}
-                key={m_i + "_" + n_i}
-                onKeyDown={e => props.onNoteChange(e, m_i, n_i)}
-                value={note}
-                style={{
-                  bottom: position,
-                  backgroundColor:
-                    props.currentStep + 1 === iter ? "#ff5454" : "#602500"
-                }}
-              />
-            );
-          })}
-        </div>
-      );
+              return (
+                <Note
+                  tabIndex={iter + 1}
+                  key={m_i + "_" + n_i}
+                  onKeyDown={e => props.onNoteChange(e, m_i, n_i)}
+                  value={note}
+                  style={{
+                    bottom: position,
+                    backgroundColor:
+                      props.currentStep + 1 === iter ? "#ff5454" : "#602500"
+                  }}
+                />
+              );
+            })}
+          </div>
+        );
+      });
     });
 
   return (
@@ -146,9 +154,7 @@ const MusicStaff = props => {
         </div>
       </div>
       <div className="flex-fix">
-        <div className="NOTES">
-          {measures}
-        </div>
+        <div className="NOTES">{measures}</div>
       </div>
     </div>
   );

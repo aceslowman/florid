@@ -15,18 +15,20 @@ const App = () => {
       it should be initialized with 'null' in place for 
       (num_voices, num_measures, num_subdivisions)
   */
-  let [melody, setMelody] = React.useState(
-    [ // voice 1
+  let [melody, setMelody] = React.useState([
+    [
+      // voice 1
       ["C4", "D4", "E4", "F#4"], // measure 1
       ["G4", "A#4", "G4", "B4"], // measure 2
       ["A#4", "G4", "F#4", "B4"] // measure 3
     ],
-    [ // voice 2
+    [
+      // voice 2
       ["C4", "D4", "E4", "F#4"], // measure 1
       ["G4", "A#4", "G4", "B4"], // measure 2
       ["A#4", "G4", "F#4", "B4"] // measure 3
     ]
-  );
+  ]);
 
   let [loop, setLoop] = React.useState(false);
   let [numBars, setNumBars] = React.useState(1);
@@ -127,14 +129,18 @@ const App = () => {
 
   function handleMidiIn(m) {
     console.log("receiving midi", m.data);
-    
+
     // generate interval below
     let [noteon, note, velocity] = m.data;
-    
+    note = Tone.Frequency(note).toNote();
+
     let newMelody = melody;
-    newMelody[0]
-    
+
+    newMelody[0][currentStep / 4][currentStep % 4] = note;
+    console.log(note);
+
     setMelody(newMelody);
+    setCurrentStep(prev => prev++);
   }
 
   function handleLoopToggle(e) {
