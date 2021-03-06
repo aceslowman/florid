@@ -127,6 +127,14 @@ const App = () => {
 
   function handleMidiIn(m) {
     console.log("receiving midi", m.data);
+    
+    // generate interval below
+    let [noteon, note, velocity] = m.data;
+    
+    let newMelody = melody;
+    newMelody[0]
+    
+    setMelody(newMelody);
   }
 
   function handleLoopToggle(e) {

@@ -3,6 +3,10 @@
   light: #d8d7fa
 */
 
+* {
+  box-sizing:border-box;
+}
+
 html,
 body,
 #APP {
@@ -50,6 +54,8 @@ body,
   display: flex;
   flex-flow: column;
   color: #602500;
+  width: 100%;
+  box-sizing: border-box;
   align-content: stretch;
   z-index: 2;
 }
@@ -61,15 +67,16 @@ body,
 .settingsInner button {
   background-color: #fff;
   color: #602500;
-  border: 1px solid #602500;  
-  margin: 0px 5px;
-  flex-grow; 2;
+  border: 1px solid #602500;
+  flex-grow: 2;
+  white-space: nowrap;
 }
 
 .settingsInner input {
   background-color: #fff;
   color: #602500;
   border: 1px dotted #602500;
+  min-width:0px;  
 }
 
 .settingsInner > div {
@@ -83,11 +90,8 @@ body,
 
 .buttonGroup {
   flex-flow: row;
-  width:100%;
-}
-
-.buttonGroup button {
-  flex-grow: 2;
+  width: 100%;
+  align-items: center;
 }
 
 .credits {
@@ -152,7 +156,7 @@ body,
   display: flex;
   flex-flow: row;
   font-size: 1.4em;
-  color: #d8d7fa;  
+  color: #FAEBD7;
   box-sizing: border-box;
 }
 
@@ -178,9 +182,17 @@ body,
   min-height: 100px;
   margin: 15%;
 }
- 
+
 .tempo-marker {
   width: auto;
   align-self: start;
   margin: 0px !important;
+}
+
+.midiLog table {
+  width: 100%;
+}
+
+.midiLog table tr:nth-child(odd) {
+   background-color: #ccc;
 }
