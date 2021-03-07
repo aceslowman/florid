@@ -1,11 +1,6 @@
 /* global Tone, ReactDOM, React */
 const App = () => {
-  let [melody, setMelody] = React.useState([
-    [],
-    // [[{ 0: "C4" }], [{ 0: "D4" }], [{ 0: "E4" }], [{ 0: "F#4" }]],
-    // [[{ 0: "G4" }], [{ 0: "A#4" }], [{ 0: "G4" }], [{ 0: "B4" }]],
-    // [[{ 0: "A#4" }], [{ 0: "G4" }], [{ 0: "F#4" }], [{ 0: "B4" }]]
-  ]);
+  let [melody, setMelody] = React.useState([[]]);
 
   let [loop, setLoop] = React.useState(false);
   let [numBars, setNumBars] = React.useState(2);
@@ -105,27 +100,21 @@ const App = () => {
   }, [activeMidiInput]);
 
   function handleMidiIn(m) {
-    console.log("receiving midi", m.data);
-    if(currentStep > 0 && currentStep % 4 === 0) {
-      melody.push([])
+    if (currentStep > 0 && currentStep % 4 === 0 && melody.length < numBars) {
+      melody.push([]);
     }
-    // generate interval below
+    
     let [noteon, note, velocity] = m.data;
     note = Tone.Frequency(note, "midi").toNote();
-    
-    
+
     let measure = Math.floor(currentStep / 4) % numBars;
     let beat = currentStep % 4;
-    console.log('Melody', melody)
-    console.log('currentStep',currentStep)
-    // push into the LAST MEASURE
-    // measure = melody[melody.length - 1];
-    if(melody[measure].length === 4) {
-      melody[measure]
+
+    if (melody[measure].length === 4) {
+      melody[measure][currentStep % 4] = [{ 0: note }];
+    } else {
+      melody[measure].push([{ 0: note }]);
     }
-    melody[measure].push([{0:note}])
-    // melody[0][currentStep / 4][currentStep % 4] = note;
-    
 
     setMelody([...melody]);
     setCurrentStep(currentStep++);
@@ -145,20 +134,24 @@ const App = () => {
     Tone.Transport.bpm.value = parseFloat(e.target.value);
   }
 
-  function handleNoteChange(e, measure_id, note_id) {
-    let currentNote = melody[measure_id][note_id];
+  function handleNoteChange(e, measure_id, beat_id, voice_id) {
+    let currentNote = melody[measure_id][beat_id][0][voice_id];
     let newMelody = [...melody];
 
     switch (e.keyCode) {
       case 37: // prev note
         break;
       case 38: // note up
-        newMelody[measure_id][note_id] = Tone.Frequency(currentNote)
+        newMelody[measure_id][beat_id][0][voice_id] = Tone.Frequency(
+          currentNote
+        )
           .transpose(1)
           .toNote();
         break;
       case 40: // note down
-        newMelody[measure_id][note_id] = Tone.Frequency(currentNote)
+        newMelody[measure_id][beat_id][0][voice_id] = Tone.Frequency(
+          currentNote
+        )
           .transpose(-1)
           .toNote();
         break;
@@ -215,7 +208,7 @@ const App = () => {
       <MusicStaff
         melody={melody}
         onNoteChange={handleNoteChange}
-        currentStep={currentStep}
+        currentStep={currentStep % (4 * numBars)}
       />
     </React.Fragment>
   );
