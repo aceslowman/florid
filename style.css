@@ -1,17 +1,17 @@
 /* 
   dark: #602500
-  light: #d8d7fa
+  light: #FAEBD7
 */
 
 * {
-  box-sizing:border-box;
+  box-sizing: border-box;
 }
 
 html,
 body,
 #APP {
   font-family: monospace;
-  background-color: #d8d7fa;
+  background-color: #FAEBD7;
   width: 100%;
   height: 100%;
   padding: 0px;
@@ -25,7 +25,7 @@ body,
 }
 
 .SETTINGS {
-  background-color: #d8d7fa;
+  background-color: #FAEBD7;
   width: 0%;
   height: 100%;
   overflow: hidden;
@@ -49,7 +49,7 @@ body,
 }
 
 .settingsInner {
-  background-color: #d8d7fa;
+  background-color: #FAEBD7;
   padding: 15px;
   display: flex;
   flex-flow: column;
@@ -76,7 +76,7 @@ body,
   background-color: #fff;
   color: #602500;
   border: 1px dotted #602500;
-  min-width:0px;  
+  min-width: 0px;
 }
 
 .settingsInner > div {
@@ -139,25 +139,35 @@ body,
   flex-flow: row wrap;
 }
 
-.noteWrapper {
-  padding: 0px 40px;
-  align-self: center;
+.voiceWrapper {
   width: 100%;
   display: flex;
+  flex-flow: column;
+  height: 100%;
   justify-content: center;
 }
 
 .note {
   width: 50px;
   justify-content: center;
+  align-items: center;
   background-color: #602500;
   cursor: grab;
-  position: relative;
+  position: absolute;
   display: flex;
   flex-flow: row;
   font-size: 1.4em;
   color: #FAEBD7;
   box-sizing: border-box;
+}
+
+.noteWrapper {
+  width: 100%;
+  padding: 0px 40px;
+  align-items: center;
+  display: flex;
+  position: relative;
+  justify-content: center;
 }
 
 .measure {
@@ -194,5 +204,5 @@ body,
 }
 
 .midiLog table tr:nth-child(odd) {
-   background-color: #ccc;
+  background-color: #ccc;
 }
