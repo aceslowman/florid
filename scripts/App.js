@@ -1,33 +1,10 @@
 /* global Tone, ReactDOM, React */
 const App = () => {
-  /*
-    here I store voices in this structure:    
-      [voices][melodies][measures][notes]
-      
-      this array is of a fixed length 
-        (number of voices, 
-        then number of measures, 
-        then number of subdivisions)
-      as notes come in thru MIDI, they are 
-      added to the start of the array, and
-      the last element is pushed off (from each voice)
-      
-      it should be initialized with 'null' in place for 
-      (num_voices, num_measures, num_subdivisions)
-  */
   let [melody, setMelody] = React.useState([
-    [
-      // voice 1
-      ["C4", "D4", "E4", "F#4"], // measure 1
-      ["G4", "A#4", "G4", "B4"], // measure 2
-      ["A#4", "G4", "F#4", "B4"] // measure 3
-    ],
-    [
-      // voice 2
-      ["C4", "D4", "E4", "F#4"], // measure 1
-      ["G4", "A#4", "G4", "B4"], // measure 2
-      ["A#4", "G4", "F#4", "B4"] // measure 3
-    ]
+    []
+    // [[{ 0: "C4" }], [{ 0: "D4" }], [{ 0: "E4" }], [{ 0: "F#4" }]],
+    // [[{ 0: "G4" }], [{ 0: "A#4" }], [{ 0: "G4" }], [{ 0: "B4" }]],
+    // [[{ 0: "A#4" }], [{ 0: "G4" }], [{ 0: "F#4" }], [{ 0: "B4" }]]
   ]);
 
   let [loop, setLoop] = React.useState(false);
@@ -133,13 +110,13 @@ const App = () => {
     // generate interval below
     let [noteon, note, velocity] = m.data;
     note = Tone.Frequency(note).toNote();
-
-    let newMelody = melody;
-
-    newMelody[0][currentStep / 4][currentStep % 4] = note;
+console.log('Melody', melody)
+    // push into the LAST MEASURE
+    melody[0].push([{0:note}])
+    // melody[0][currentStep / 4][currentStep % 4] = note;
     console.log(note);
 
-    setMelody(newMelody);
+    setMelody(melody);
     setCurrentStep(prev => prev++);
   }
 
