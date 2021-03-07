@@ -2,16 +2,13 @@
 const App = () => {
   let [melody, setMelody] = React.useState([
     [],
-    [],
-    [],
-    [],
     // [[{ 0: "C4" }], [{ 0: "D4" }], [{ 0: "E4" }], [{ 0: "F#4" }]],
     // [[{ 0: "G4" }], [{ 0: "A#4" }], [{ 0: "G4" }], [{ 0: "B4" }]],
     // [[{ 0: "A#4" }], [{ 0: "G4" }], [{ 0: "F#4" }], [{ 0: "B4" }]]
   ]);
 
   let [loop, setLoop] = React.useState(false);
-  let [numBars, setNumBars] = React.useState(4);
+  let [numBars, setNumBars] = React.useState(2);
   let [bpm, setBPM] = React.useState(120);
   let [selectedNote, setSelectedNote] = React.useState(null);
   let [midiInputs, setMidiInputs] = React.useState(null);
@@ -109,20 +106,29 @@ const App = () => {
 
   function handleMidiIn(m) {
     console.log("receiving midi", m.data);
-console.log(note);
+    if(currentStep > 0 && currentStep % 4 === 0) {
+      melody.push([])
+    }
     // generate interval below
     let [noteon, note, velocity] = m.data;
-    note = Tone.Frequency(note).toNote();
+    note = Tone.Frequency(note, "midi").toNote();
+    
+    
+    let measure = Math.floor(currentStep / 4) % numBars;
+    let beat = currentStep % 4;
     console.log('Melody', melody)
     console.log('currentStep',currentStep)
     // push into the LAST MEASURE
     // measure = melody[melody.length - 1];
-    melody[currentStep % 4].push([{0:note}])
+    if(melody[measure].length === 4) {
+      melody[measure]
+    }
+    melody[measure].push([{0:note}])
     // melody[0][currentStep / 4][currentStep % 4] = note;
     
 
     setMelody([...melody]);
-    setCurrentStep(prev => prev++);
+    setCurrentStep(currentStep++);
   }
 
   function handleLoopToggle(e) {
