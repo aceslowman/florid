@@ -106,16 +106,22 @@ const App = () => {
     
     let [noteon, note, velocity] = m.data;
     note = Tone.Frequency(note, "midi").toNote();
+    let interval = Tone.Frequency(note).transpose(6).toNote();
+    console.log('interval',interval)
 
     let measure = Math.floor(currentStep / 4) % numBars;
     let beat = currentStep % 4;
 
     if (melody[measure].length === 4) {
       melody[measure][currentStep % 4] = [{ 
-        0: note, }];
+        0: note,
+        1: interval
+      }];
     } else {
       melody[measure].push([{ 
-        0: note, }]);
+        0: note,
+        1: interval
+      }]);
     }
 
     setMelody([...melody]);
