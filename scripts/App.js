@@ -110,19 +110,23 @@ const App = () => {
     /*
       this is where the bulk of the note generation happens
       
-      each voice is stored in a separate array
-      and as each new voice is assigned it has to pass a number
+      each counter melody is stored in a separate array
+      and as each new note is assigned it has to pass a number
       of tests
       
       1. interval should be consonant, either
         a. major/minor 3rd
         b. major/minor 6th
-        
+        c. perfect fifth
         c. unison
+      2. do not repeat intervals of a fifth
+      3.1
         
       the first note should be 
     */
-    let consonants = [""];
+    let major_consonance = [0,2,4,5,7,9,11];
+    let minor_consonance = [0,2,3,5,7,8,10]; // 11 for harmonic minor
+    
     let interval = Tone.Frequency(note).transpose(6).toNote();
     console.log('interval',interval)
 
