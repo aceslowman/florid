@@ -111,9 +111,11 @@ const App = () => {
     let beat = currentStep % 4;
 
     if (melody[measure].length === 4) {
-      melody[measure][currentStep % 4] = [{ 0: note }];
+      melody[measure][currentStep % 4] = [{ 
+        0: note, }];
     } else {
-      melody[measure].push([{ 0: note }]);
+      melody[measure].push([{ 
+        0: note, }]);
     }
 
     setMelody([...melody]);
@@ -165,10 +167,6 @@ const App = () => {
   }
 
   const handleMidiInputChange = input_id => {
-    //     if(activeMidiInput)
-    //       activeMidiInput.removeEventListener('midimessage', handleMidiIn);
-
-    //     midiInputs[input_id].addEventListener('midimessage', handleMidiIn);
     setActiveMidiInput(midiInputs[input_id]);
   };
 
