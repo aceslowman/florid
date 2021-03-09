@@ -115,8 +115,14 @@ const App = () => {
       of tests
       
       1. interval should be consonant, either
-              (major/minor 3rd)
+        a. major/minor 3rd
+        b. major/minor 6th
+        
+        c. unison
+        
+      the first note should be 
     */
+    let consonants = [""];
     let interval = Tone.Frequency(note).transpose(6).toNote();
     console.log('interval',interval)
 
