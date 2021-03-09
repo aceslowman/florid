@@ -106,6 +106,17 @@ const App = () => {
     
     let [noteon, note, velocity] = m.data;
     note = Tone.Frequency(note, "midi").toNote();
+    
+    /*
+      this is where the bulk of the note generation happens
+      
+      each voice is stored in a separate array
+      and as each new voice is assigned it has to pass a number
+      of tests
+      
+      1. interval should be consonant, either
+              (major/minor 3rd)
+    */
     let interval = Tone.Frequency(note).transpose(6).toNote();
     console.log('interval',interval)
 
