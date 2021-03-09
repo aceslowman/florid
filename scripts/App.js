@@ -104,11 +104,16 @@ const App = () => {
       melody.push([]);
     }
     
-    let [noteon, note, velocity] = m.data;
-    note = Tone.Frequency(note, "midi").toNote();
+    let measure = Math.floor(currentStep / 4) % numBars;
+    let beat = currentStep % 4;
+    
+    let [noteon, currentNote, velocity] = m.data;
+    currentNote = Tone.Frequency(note, "midi").toNote();
     
     /*
       this is where the bulk of the note generation happens
+      
+      these checks require comparing both harmony and melody
       
       each counter melody is stored in a separate array
       and as each new note is assigned it has to pass a number
@@ -120,28 +125,48 @@ const App = () => {
         c. perfect fifth
         c. unison
       2. do not repeat intervals of a fifth
-      3.1
+      3. do not repeat intervals of an octave
+      4. voices moving in the same direction should not 
+         leap by a fifth  or octave
+      5. avoid the augmented fourth
+      6. avoid augmented 2nds, harmonic and melodic
+      
+      ugh and many more
+      
+      http://openmusictheory.com/firstSpecies.html
         
-      the first note should be 
+      intervals:      
+      0 | unison
+      1 | minor second
+      2 | major second
+      3 | minor third
+      4 | major third
+      5 | perfect fourth
+      6 | tritone
+      7 | perfect fifth
+      8 | minor sixth
+      9 | major sixth
+      10| minor seventh
+      11| major seventh
+      12| octave
     */
     let major_consonance = [0,2,4,5,7,9,11];
     let minor_consonance = [0,2,3,5,7,8,10]; // 11 for harmonic minor
     
-    let interval = Tone.Frequency(note).transpose(6).toNote();
-    console.log('interval',interval)
-
-    let measure = Math.floor(currentStep / 4) % numBars;
-    let beat = currentStep % 4;
+    let counterNote = null; // the eventual note
+    let previousNote = melody[measure][currentStep % 4];       // the note preceding it
+    
+    let interval = Tone.Frequency(currentNote).transpose(6).toNote();
 
     if (melody[measure].length === 4) {
       melody[measure][currentStep % 4] = [{ 
-        0: note,
-        1: interval
+        0: currentNote,
+        1: counterNote
       }];
     } else {
       melody[measure].push([{ 
-        0: note,
-        1: interval
+        0: currentNote,
+        1: counterNote
       }]);
     }
 
