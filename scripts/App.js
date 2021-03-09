@@ -103,13 +103,10 @@ const App = () => {
     if (currentStep > 0 && currentStep % 4 === 0 && melody.length < numBars) {
       melody.push([]);
     }
-    
-    let measure = Math.floor(currentStep / 4) % numBars;
-    let beat = currentStep % 4;
-    
+
     let [noteon, currentNote, velocity] = m.data;
-    currentNote = Tone.Frequency(note, "midi").toNote();
-    
+    currentNote = Tone.Frequency(currentNote, "midi").toNote();
+
     /*
       this is where the bulk of the note generation happens
       
@@ -150,24 +147,36 @@ const App = () => {
       11| major seventh
       12| octave
     */
-    let major_consonance = [0,2,4,5,7,9,11];
-    let minor_consonance = [0,2,3,5,7,8,10]; // 11 for harmonic minor
-    
+    let major_consonance = [0, 2, 4, 5, 7, 9, 11];
+    let minor_consonance = [0, 2, 3, 5, 7, 8, 10]; // 11 for harmonic minor
+
+    let measure = Math.floor(currentStep / 4) % numBars;
+    let beat = currentStep % 4;
+
     let counterNote = null; // the eventual note
-    let previousNote = melody[measure][currentStep % 4];       // the note preceding it
-    
-    let interval = Tone.Frequency(currentNote).transpose(6).toNote();
+    // let previousNote = melody[measure][(currentStep-1) % 4];       // the note preceding it
+
+    let interval = Tone.Frequency(currentNote)
+      .transpose(major_consonance[Math.floor(Math.random() * major_consonance.length)])
+      .toNote();
+
+    //temp
+    counterNote = interval;
 
     if (melody[measure].length === 4) {
-      melody[measure][currentStep % 4] = [{ 
-        0: currentNote,
-        1: counterNote
-      }];
+      melody[measure][beat] = [
+        {
+          0: currentNote,
+          1: counterNote
+        }
+      ];
     } else {
-      melody[measure].push([{ 
-        0: currentNote,
-        1: counterNote
-      }]);
+      melody[measure].push([
+        {
+          0: currentNote,
+          1: counterNote
+        }
+      ]);
     }
 
     setMelody([...melody]);
