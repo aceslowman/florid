@@ -14,7 +14,9 @@ const App = () => {
   let [isPlaying, setIsPlaying] = React.useState(false);
   let [ready, setReady] = React.useState(false);
 
-  let sequence, synth;
+  let [sequence, setSequence] = React.useState();
+  let [synth, setSynth] = React.useState();
+  // let sequence, synth;
 
   /*
     set up keybindings
@@ -40,8 +42,7 @@ const App = () => {
     document.addEventListener("keydown", keybindings, false);
     return () => document.removeEventListener("keydown", keybindings, false);
   }, []);
-  
-  
+
   /*
     startup audio context
   */
@@ -50,7 +51,7 @@ const App = () => {
       await Tone.start();
       console.log("audio context has started");
       Tone.Transport.bpm.value = parseFloat(bpm);
-      synth = new Tone.Synth().toDestination();
+      setSynth(new Tone.PolySynth().toDestination());
       setReady(true);
     };
 
@@ -63,7 +64,7 @@ const App = () => {
     return () => {
       document.removeEventListener("click", startAudioContext);
     };
-  }, [ready, synth]);
+  }, [ready, synth, setSynth]);
 
   /*
     set up midi
@@ -116,22 +117,15 @@ const App = () => {
     set up and remove listener for activeMidiInput
   */
   React.useEffect(() => {
-    if (activeMidiInput) {
-      activeMidiInput.addEventListener("midimessage", handleMidiIn);
-      return () =>
-        activeMidiInput.removeEventListener("midimessage", handleMidiIn);
-    }
-  }, [activeMidiInput]);
+    const handleMidiIn = (m) => {
+      if (currentStep > 0 && currentStep % 4 === 0 && melody.length < numBars) {
+        melody.push([]);
+      }
 
-  function handleMidiIn(m) {
-    if (currentStep > 0 && currentStep % 4 === 0 && melody.length < numBars) {
-      melody.push([]);
-    }
+      let [noteon, currentNote, velocity] = m.data;
+      currentNote = Tone.Frequency(currentNote, "midi").toNote();
 
-    let [noteon, currentNote, velocity] = m.data;
-    currentNote = Tone.Frequency(currentNote, "midi").toNote();
-
-    /*
+      /*
       this is where the bulk of the note generation happens
       
       these checks require comparing both harmony and melody
@@ -171,41 +165,49 @@ const App = () => {
       11| major seventh
       12| octave
     */
-    let major_consonance = [0, 2, 4, 5, 7, 9, 11];
-    let minor_consonance = [0, 2, 3, 5, 7, 8, 10]; // 11 for harmonic minor
+      let major_consonance = [0, 2, 4, 5, 7, 9, 11];
+      let minor_consonance = [0, 2, 3, 5, 7, 8, 10]; // 11 for harmonic minor
 
-    let measure = Math.floor(currentStep / 4) % numBars;
-    let beat = currentStep % 4;
+      let measure = Math.floor(currentStep / 4) % numBars;
+      let beat = currentStep % 4;
 
-    let counterNote = null; // the eventual note
-    // let previousNote = melody[measure][(currentStep-1) % 4];       // the note preceding it
+      let counterNote = null; // the eventual note
+      // let previousNote = melody[measure][(currentStep-1) % 4];       // the note preceding it
 
-    let interval = Tone.Frequency(currentNote)
-      .transpose(major_consonance[Math.floor(Math.random() * major_consonance.length)])
-      .toNote();
+      let interval = Tone.Frequency(currentNote)
+        .transpose(
+          major_consonance[Math.floor(Math.random() * major_consonance.length)]
+        )
+        .toNote();
 
-    //temp
-    counterNote = interval;
+      //temp
+      counterNote = interval;
 
-    if (melody[measure].length === 4) {
-      melody[measure][beat] = [
+      let newEvent = [
         {
           0: currentNote,
           1: counterNote
         }
       ];
-    } else {
-      melody[measure].push([
-        {
-          0: currentNote,
-          1: counterNote
-        }
-      ]);
+
+      if (melody[measure].length === 4) {
+        melody[measure][beat] = newEvent;
+      } else {
+        melody[measure].push(newEvent);
+      }
+
+      setMelody([...melody]);
+      setCurrentStep(currentStep++);
+      console.log("hite");
+      synth.triggerAttackRelease([currentNote, counterNote], '4n');
     }
 
-    setMelody([...melody]);
-    setCurrentStep(currentStep++);
-  }
+    if (activeMidiInput) {
+      activeMidiInput.addEventListener("midimessage", handleMidiIn);
+      return () =>
+        activeMidiInput.removeEventListener("midimessage", handleMidiIn);
+    }
+  }, [melody, synth, currentStep, numBars]);
 
   function handleLoopToggle(e) {
     if (sequence) sequence.loop.value = !loop;
