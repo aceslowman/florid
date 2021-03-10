@@ -12,9 +12,9 @@ const App = () => {
   let [activeMidiOutput, setActiveMidiOutput] = React.useState(null);
   let [currentStep, setCurrentStep] = React.useState(0);
   let [isPlaying, setIsPlaying] = React.useState(false);
+  let [ready, setReady] = React.useState(false);
 
-  const synth = new Tone.Synth().toDestination();
-  let sequence;
+  let sequence, synth;
 
   /*
     set up keybindings
@@ -40,6 +40,30 @@ const App = () => {
     document.addEventListener("keydown", keybindings, false);
     return () => document.removeEventListener("keydown", keybindings, false);
   }, []);
+  
+  
+  /*
+    startup audio context
+  */
+  React.useEffect(() => {
+    const startAudioContext = async () => {
+      await Tone.start();
+      console.log("audio context has started");
+      Tone.Transport.bpm.value = parseFloat(bpm);
+      synth = new Tone.Synth().toDestination();
+      setReady(true);
+    };
+
+    if (!ready) {
+      document.addEventListener("click", startAudioContext);
+    } else {
+      document.removeEventListener("click", startAudioContext);
+    }
+
+    return () => {
+      document.removeEventListener("click", startAudioContext);
+    };
+  }, [ready, synth]);
 
   /*
     set up midi
