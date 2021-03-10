@@ -189,7 +189,7 @@ const App = () => {
       let newMeasure = [];
 
       for (let i = 0; i < subdivisions; i++) {
-        newMeasure.push([{ 0: "B4" }]); // TEMP: TODO: should initialize as REST
+        newMeasure.push([{ 0: "" }]); // TEMP: TODO: should initialize as REST
       }
 
       setMelody(prev => [...prev, newMeasure]);
@@ -276,6 +276,7 @@ const App = () => {
         bpm={bpm}
         loop={loop}
         isPlaying={isPlaying}
+        numBars={numBars}
         midiInputs={midiInputs}
         midiOutputs={midiOutputs}
         activeMidiInput={activeMidiInput}
@@ -285,7 +286,7 @@ const App = () => {
       <MusicStaff
         melody={melody}
         onNoteChange={handleNoteChange}
-        currentStep={currentStep % (4 * numBars)}
+        currentStep={currentStep}
       />
     </React.Fragment>
   );
