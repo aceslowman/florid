@@ -13,35 +13,10 @@ const App = () => {
   let [currentStep, setCurrentStep] = React.useState(0);
   let [isPlaying, setIsPlaying] = React.useState(false);
   let [ready, setReady] = React.useState(false);
+  let [subdivisions, setSubdivisions] = React.useState(4);
 
   let [sequence, setSequence] = React.useState();
   let [synth, setSynth] = React.useState();
-  // let sequence, synth;
-
-  /*
-    set up keybindings
-  */
-  React.useEffect(() => {
-    const keybindings = function(e) {
-      switch (e.keyCode) {
-        case 32: // space bar
-          if (Tone.Transport.state === "started") {
-            Tone.Transport.stop();
-            setIsPlaying(false);
-          } else {
-            Tone.start();
-            Tone.Transport.start();
-            setIsPlaying(true);
-          }
-          break;
-        default:
-          break;
-      }
-    };
-
-    document.addEventListener("keydown", keybindings, false);
-    return () => document.removeEventListener("keydown", keybindings, false);
-  }, []);
 
   /*
     startup audio context
@@ -116,8 +91,8 @@ const App = () => {
   /*
     set up and remove listener for activeMidiInput
   */
-  React.useEffect(() => {
-    const handleMidiIn = (m) => {
+  React.useLayoutEffect(() => {
+    const handleMidiIn = m => {
       if (currentStep > 0 && currentStep % 4 === 0 && melody.length < numBars) {
         melody.push([]);
       }
@@ -197,17 +172,34 @@ const App = () => {
       }
 
       setMelody([...melody]);
-      setCurrentStep(currentStep++);
-      console.log("hite");
-      synth.triggerAttackRelease([currentNote, counterNote], '4n');
-    }
+      setCurrentStep(prev => (prev = (prev + 1) % (numBars * 4)));
+      synth.triggerAttackRelease([currentNote, counterNote], "4n");
+    };
 
     if (activeMidiInput) {
       activeMidiInput.addEventListener("midimessage", handleMidiIn);
       return () =>
         activeMidiInput.removeEventListener("midimessage", handleMidiIn);
     }
-  }, [melody, synth, currentStep, numBars]);
+  }, [melody, synth, currentStep, numBars, setMelody, setCurrentStep]);
+  
+  /* insert new measures */
+  React.useEffect(() => {
+    if (numBars > melody.length) {
+      let newMeasure = [];
+
+      for (let i = 0; i < subdivisions; i++) {
+        newMeasure.push([{ 0: "B4" }]); // TEMP: TODO: should initialize as REST
+      }
+
+      setMelody(prev => [...prev, newMeasure]);
+    } else if (numBars < melody.length && numBars > 0) {
+      setMelody(prev => {
+        prev.splice(-1, 1);
+        return prev;
+      });
+    }
+  }, [numBars, melody]);
 
   function handleLoopToggle(e) {
     if (sequence) sequence.loop.value = !loop;

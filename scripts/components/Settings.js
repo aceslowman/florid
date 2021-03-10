@@ -21,7 +21,7 @@ const Settings = props => {
             className="numBarsInput"
             type="number"
             step="1"
-            value="1"
+            value={props.numBars}
           />
         </div>
         <div className="inputGroup">
