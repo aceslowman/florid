@@ -123,6 +123,30 @@ const Settings = props => {
               </select>
             </InputGroup>
           </InputRow>
+          
+          <InputRow>
+            <InputGroup>
+              <label>
+                no tritone
+                <input
+                  onChange={props.onToggleRules('noSeconds')}
+                  checked={props.rules.noTritone}
+                  type="checkbox"
+                />
+              </label>
+            </InputGroup>
+            <InputGroup>
+              <label>
+                no seconds
+                <input
+                  onChange={props.onToggleRules('noSeconds')}
+                  checked={props.rules.noSeconds}
+                  type="checkbox"
+                />
+              </label>
+            </InputGroup>
+          </InputRow>
+          
         </InputPanel>
 
         <InputPanel title="MIDI">

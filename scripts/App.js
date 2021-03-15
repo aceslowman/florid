@@ -214,6 +214,7 @@ const App = () => {
         let isTritone = voiceInterval === 6;
         let isSecond = voiceInterval === 1 || voiceInterval === 2;
         
+        
         console.log('the distance is', voiceInterval);
         console.log('isTritone', isTritone);
         console.log('isSecond', isSecond);
@@ -314,6 +315,9 @@ const App = () => {
     
       distance from either 0 or 12
     */
+    a = Tone.Frequency(a).toMidi();
+    b = Tone.Frequency(b).toMidi();
+    
     let result = b - a;
     if (result % 12 === 0) a = 0;
 
@@ -352,6 +356,8 @@ const App = () => {
   const handleChangeVoicingKey = e => setVoicingKey(e.target.value);
 
   const handleChangeVoicingMode = e => setVoicingMode(e.target.value);
+  
+  const handleToggleRules = type => setRules(prev => ({...prev, [type]: !prev.type}))
 
   return (
     <React.Fragment>
@@ -375,6 +381,13 @@ const App = () => {
         voicingKey={voicingKey}
         onChangeVoicingMode={handleChangeVoicingMode}
         voicingMode={voicingMode}
+        
+        rules={{
+          noSeconds: true,
+          noTritone: true
+        }}
+        
+        onToggleRules={handleToggleRules}
       />
       <MusicStaff
         melody={melody}
