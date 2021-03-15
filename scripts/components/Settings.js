@@ -59,49 +59,57 @@ const Settings = props => {
     <div className="SETTINGS" style={{ width: expanded ? "300px" : "0%" }}>
       <div className="settingsInner">
         <InputPanel title="basic">
-          <InputGroup>
-            <label>number of bars</label>
-            <input
-              onChange={props.onNumBarsChange}
-              className="numBarsInput"
-              type="number"
-              step="1"
-              value={props.numBars}
-            />
-          </InputGroup>
-          <InputGroup>
-            <label>tempo</label>
-            <input
-              onChange={props.onBPMChange}
-              className="tempoInput"
-              type="number"
-              step="1"
-              value={props.bpm}
-            />
-          </InputGroup>
-          <InputGroup>
-            <label>
-              loop
+          <InputRow>
+            <InputGroup>
+              <label>number of bars</label>
               <input
-                onChange={props.onToggleLoop}
-                checked={props.loop}
-                className="loopButton"
-                type="checkbox"
+                onChange={props.onNumBarsChange}
+                className="numBarsInput"
+                type="number"
+                step="1"
+                value={props.numBars}
               />
-            </label>
-          </InputGroup>
-          <button
-            onClick={props.onTogglePlay}
-            className="playButton"
-            style={{
-              color: props.isPlaying ? "#fff" : "#602500",
-              backgroundColor: props.isPlaying ? "#602500" : "#fff"
-            }}
-          >
-            {props.isPlaying ? "stop" : "play"}
-          </button>
+            </InputGroup>
+            <InputGroup>
+              <label>tempo</label>
+              <input
+                onChange={props.onBPMChange}
+                className="tempoInput"
+                type="number"
+                step="1"
+                value={props.bpm}
+              />
+            </InputGroup>
+          </InputRow>
 
-          <InputGroup>
+          <InputRow>
+            <InputGroup>
+              <label>
+                loop
+                <input
+                  onChange={props.onToggleLoop}
+                  checked={props.loop}
+                  className="loopButton"
+                  type="checkbox"
+                />
+              </label>
+            </InputGroup>
+
+            <button
+              onClick={props.onTogglePlay}
+              className="playButton"
+              style={{
+                color: props.isPlaying ? "#fff" : "#602500",
+                backgroundColor: props.isPlaying ? "#602500" : "#fff"
+              }}
+            >
+              {props.isPlaying ? "stop" : "play"}
+            </button>
+          </InputRow>
+        </InputPanel>
+
+        <InputPanel title="MIDI">
+          <InputRow>
             <label htmlFor="midiinputs">Midi Input</label>
             <select
               name="midiinputs"
@@ -119,9 +127,10 @@ const Settings = props => {
                 })}
             </select>
 
+          </InputRow>
+          
             <MIDILog device={props.activeMidiInput} />
-          </InputGroup>
-          <InputGroup>
+          <InputRow>
             <label htmlFor="midioutputs">Midi Output</label>
             <select
               name="midioutputs"
@@ -139,16 +148,18 @@ const Settings = props => {
                 })}
             </select>
 
-            <MIDILog device={props.activeMidiOutput} />
-          </InputGroup>
+            
+          </InputRow>
+          <MIDILog device={props.activeMidiOutput} />
         </InputPanel>
-      
-      <div className="credits">
-        florid by{" "}
-        <a href="https://linktr.ee/aceslowman" target="_blank">
-          aceslowman
-        </a>{" "}
-        2021
+
+        <div className="credits">
+          florid by{" "}
+          <a href="https://linktr.ee/aceslowman" target="_blank">
+            aceslowman
+          </a>{" "}
+          2021
+        </div>
       </div>
       <div className="toggleSettings" onClick={toggleSettings}></div>
     </div>
