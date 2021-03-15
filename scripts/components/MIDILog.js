@@ -25,9 +25,9 @@ const MIDILog = props => {
   }, [props.device, log, setLog, enable]);
 
   return (
-    <div className="midiLog">
+    <div>
       {enable && (
-        <table>
+        <table style={{ width: "100%" }}>
           <thead>
             <tr>
               <th>noteon</th>
@@ -38,7 +38,12 @@ const MIDILog = props => {
           <tbody>
             {log.map((e, i) => {
               return (
-                <tr key={i}>
+                <tr
+                  key={i}
+                  style={{
+                    backgroundColor: i % 2 === 0 ? "#ccc" : "transparent"
+                  }}
+                >
                   <td>{e.noteon}</td>
                   <td>{e.note}</td>
                   <td>{e.velocity}</td>

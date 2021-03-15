@@ -8,17 +8,27 @@ const Note = props => {
       document.activeElement === ReactDOM.findDOMNode(noteRef.current)
     );
   }
-
+  
   return (
       <div
-        className="note"
         onFocus={checkIfSelected}
         onBlur={checkIfSelected}
         onKeyDown={props.onKeyDown}
         tabIndex={props.tabIndex}
         style={{
+          width: '50px',
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: '#602500',
+          cursor: 'grab',
+          position: 'absolute',
+          display: 'flex',
+          flexFlow: 'row',
+          fontSize: '1.4em',
+          color: '#FAEBD7',
+          boxSizing: 'border-box',            
           ...props.style,
-          fontWeight: selected ? "bold" : "normal"
+          fontWeight: selected ? "bold" : "normal",
         }}
         ref={noteRef}
       >
@@ -26,4 +36,3 @@ const Note = props => {
       </div>
   );
 };
-1

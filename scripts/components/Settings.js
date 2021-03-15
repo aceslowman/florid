@@ -1,4 +1,48 @@
 /* global Tone, ReactDOM, React */
+const InputPanel = props => (
+  <div
+    style={{
+      display: "flex",
+      margin: "5px 0px",
+      width: "100%",
+      flexFlow: "column",
+      border: "1px groove #602500",
+      padding: "10px"
+    }}
+  >
+    <h3 style={{ margin: "0px 0px 8px 0px" }}>{props.title}</h3>
+    {props.children}
+  </div>
+);
+
+const InputGroup = props => (
+  <div
+    style={{
+      display: "flex",
+      flexFlow: "column",
+      alignSelf: "flex-end",
+      width: "48%"
+    }}
+  >
+    {props.children}
+  </div>
+);
+
+const InputRow = props => (
+  <div
+    style={{
+      display: "flex",
+      flexFlow: "row",
+      width: "100%",
+      alignItems: "center",
+      justifyContent: "space-between",
+      paddingBottom: "5px"
+    }}
+  >
+    {props.children}
+  </div>
+);
+
 const Settings = props => {
   let [expanded, setExpanded] = React.useState();
 
@@ -12,45 +56,40 @@ const Settings = props => {
   }
 
   return (
-    <div className="SETTINGS" style={{ width: expanded ? "28%" : "0%" }}>
+    <div className="SETTINGS" style={{ width: expanded ? "300px" : "0%" }}>
       <div className="settingsInner">
-        <div className="inputGroup">
-          <label>number of bars</label>
-          <input
-            onChange={props.onNumBarsChange}
-            className="numBarsInput"
-            type="number"
-            step="1"
-            value={props.numBars}
-          />
-        </div>
-        <div className="inputGroup">
-          <label>tempo</label>
-          <input
-            onChange={props.onBPMChange}
-            className="tempoInput"
-            type="number"
-            step="1"
-            value={props.bpm}
-          />
-        </div>
-        <div className="inputGroup">
-          <label>
-            loop
+        <InputPanel title="basic">
+          <InputGroup>
+            <label>number of bars</label>
             <input
-              onChange={props.onToggleLoop}
-              checked={props.loop}
-              className="loopButton"
-              type="checkbox"
+              onChange={props.onNumBarsChange}
+              className="numBarsInput"
+              type="number"
+              step="1"
+              value={props.numBars}
             />
-          </label>
-        </div>
-        <div className="buttonGroup">
-          <button onClick={props.onRandomize} className="randomizeButton">
-            randomize
-          </button>
-        </div>
-        <div className="buttonGroup">
+          </InputGroup>
+          <InputGroup>
+            <label>tempo</label>
+            <input
+              onChange={props.onBPMChange}
+              className="tempoInput"
+              type="number"
+              step="1"
+              value={props.bpm}
+            />
+          </InputGroup>
+          <InputGroup>
+            <label>
+              loop
+              <input
+                onChange={props.onToggleLoop}
+                checked={props.loop}
+                className="loopButton"
+                type="checkbox"
+              />
+            </label>
+          </InputGroup>
           <button
             onClick={props.onTogglePlay}
             className="playButton"
@@ -61,50 +100,58 @@ const Settings = props => {
           >
             {props.isPlaying ? "stop" : "play"}
           </button>
-        </div>
-        <div className="inputGroup">
-          <label htmlFor="midiinputs">Midi Input</label>
-          <select
-            name="midiinputs"
-            value={props.activeMidiInput ? props.activeMidiInput.id : ""}
-            onChange={props.onMidiInputChange}
-          >
-            <option>select an input</option>
-            {props.midiInputs &&
-              Object.keys(props.midiInputs).map(e => {
-                return (
-                  <option key={e} value={props.midiInputs[e].id}>
-                    {props.midiInputs[e].name}
-                  </option>
-                );
-              })}
-          </select>
 
-          <MIDILog device={props.activeMidiInput} />
-        </div>
-        <div className="inputGroup">
-          <label htmlFor="midioutputs">Midi Output</label>
-          <select
-            name="midioutputs"
-            value={props.activeMidiOutput ? props.activeMidiOutput.id : ""}
-            onChange={props.onMidiOutputChange}
-          >
-            <option>select an output</option>
-            {props.midiOutputs &&
-              Object.keys(props.midiOutputs).map(e => {
-                return (
-                  <option key={e} value={props.midiOutputs[e].id}>
-                    {props.midiOutputs[e].name}
-                  </option>
-                );
-              })}
-          </select>
+          <InputGroup>
+            <label htmlFor="midiinputs">Midi Input</label>
+            <select
+              name="midiinputs"
+              value={props.activeMidiInput ? props.activeMidiInput.id : ""}
+              onChange={props.onMidiInputChange}
+            >
+              <option>select an input</option>
+              {props.midiInputs &&
+                Object.keys(props.midiInputs).map(e => {
+                  return (
+                    <option key={e} value={props.midiInputs[e].id}>
+                      {props.midiInputs[e].name}
+                    </option>
+                  );
+                })}
+            </select>
 
-          <MIDILog device={props.activeMidiOutput} />
-        </div>
+            <MIDILog device={props.activeMidiInput} />
+          </InputGroup>
+          <InputGroup>
+            <label htmlFor="midioutputs">Midi Output</label>
+            <select
+              name="midioutputs"
+              value={props.activeMidiOutput ? props.activeMidiOutput.id : ""}
+              onChange={props.onMidiOutputChange}
+            >
+              <option>select an output</option>
+              {props.midiOutputs &&
+                Object.keys(props.midiOutputs).map(e => {
+                  return (
+                    <option key={e} value={props.midiOutputs[e].id}>
+                      {props.midiOutputs[e].name}
+                    </option>
+                  );
+                })}
+            </select>
+
+            <MIDILog device={props.activeMidiOutput} />
+          </InputGroup>
+        </InputPanel>
+      
+      <div className="credits">
+        florid by{" "}
+        <a href="https://linktr.ee/aceslowman" target="_blank">
+          aceslowman
+        </a>{" "}
+        2021
       </div>
-      <div className="credits">florid by aceslowman 2021</div>
       <div className="toggleSettings" onClick={toggleSettings}></div>
     </div>
   );
 };
+1;
