@@ -117,6 +117,7 @@ const App = () => {
   }, [bpm]);
 
   /*
+    GENERATE VOICES
     set up and remove listener for activeMidiInput
   */
   React.useLayoutEffect(() => {
@@ -168,8 +169,24 @@ const App = () => {
       11| major seventh
       12| octave
     */
-      let major_consonance = [0, 2, 4, 5, 7, 9, 11];
-      let minor_consonance = [0, 2, 3, 5, 7, 8, 10]; // 11 for harmonic minor
+      let base_mode = [2, 2, 1, 2, 2, 2, 1];
+
+      for (let i = 0; i < voicingMode; i++) {
+        base_mode = arrayRotate(base_mode);
+      }
+
+      let base_octave = 4;
+
+      let acc = 0;
+      let keyScale = base_mode.map(e => {
+        let next_note = Tone.Frequency(`${voicingKey}${base_octave}`)
+          .transpose(acc)
+          .toNote();
+
+        acc = acc + e;
+
+        return next_note;
+      });
 
       let measure = Math.floor(currentStep / 4) % numBars;
       let beat = currentStep % 4;
@@ -177,15 +194,18 @@ const App = () => {
       let counterNote = null; // the eventual note
       // let previousNote = melody[measure][(currentStep-1) % 4];       // the note preceding it
 
-      let interval = Tone.Frequency(currentNote)
-        .transpose(
-          major_consonance[Math.floor(Math.random() * major_consonance.length)]
-        )
-        .toNote();
-
-      //temp
-      counterNote = interval;
-
+      // get random note in scale
+      let new_note = keyScale[Math.floor(Math.random() * keyScale.length)];
+      
+      counterNote = new_note;
+      
+      // HERE while new_note is a certain distance from currentNote, pick a new one
+      let failsafe = true;
+      while(getNoteDistance(currentNote, new_note) && true) {
+        
+      }
+      
+      
       let newEvent = [
         {
           0: currentNote,
@@ -263,7 +283,7 @@ const App = () => {
 
     setMelody(newMelody);
   };
-  
+
   const getNoteDistance = (a, b) => {
     /*
       this method gets the 'absolute' difference
