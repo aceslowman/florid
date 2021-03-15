@@ -81,31 +81,6 @@ const Settings = props => {
               />
             </InputGroup>
           </InputRow>
-
-          <InputRow>
-            <InputGroup>
-              <label>
-                loop
-                <input
-                  onChange={props.onToggleLoop}
-                  checked={props.loop}
-                  className="loopButton"
-                  type="checkbox"
-                />
-              </label>
-            </InputGroup>
-
-            <button
-              onClick={props.onTogglePlay}
-              className="playButton"
-              style={{
-                color: props.isPlaying ? "#fff" : "#602500",
-                backgroundColor: props.isPlaying ? "#602500" : "#fff"
-              }}
-            >
-              {props.isPlaying ? "stop" : "play"}
-            </button>
-          </InputRow>
         </InputPanel>
 
         <InputPanel title="MIDI">
@@ -153,12 +128,46 @@ const Settings = props => {
           <MIDILog device={props.activeMidiOutput} />
         </InputPanel>
 
+        
+        <InputPanel title="playback">
+          <InputRow>
+            <InputGroup>
+              <label>
+                loop
+                <input
+                  onChange={props.onToggleLoop}
+                  checked={props.loop}
+                  type="checkbox"
+                />
+              </label>
+            </InputGroup>
+            <InputGroup>
+              <label>
+                sound
+                <input
+                  onChange={props.onToggleSoundOn}
+                  checked={props.soundOn}
+                  type="checkbox"
+                />
+              </label>
+            </InputGroup>
+          </InputRow>
+          <button
+            onClick={props.onTogglePlay}
+            style={{
+              color: props.isPlaying ? "#fff" : "#602500",
+              backgroundColor: props.isPlaying ? "#602500" : "#fff"
+            }}
+          >
+            {props.isPlaying ? "stop" : "play"}
+          </button>
+        </InputPanel>
         <div className="credits">
           florid by{" "}
           <a href="https://linktr.ee/aceslowman" target="_blank">
             aceslowman
           </a>{" "}
-          2021
+          &nbsp; 2021
         </div>
       </div>
       <div className="toggleSettings" onClick={toggleSettings}></div>

@@ -184,22 +184,22 @@ const App = () => {
   }, [melody, synth, currentStep, numBars, setMelody, setCurrentStep]);
   
   /* insert new measures */
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     if (numBars > melody.length) {
       let newMeasure = [];
 
       for (let i = 0; i < subdivisions; i++) {
-        newMeasure.push([{ 0: "" }]); // TEMP: TODO: should initialize as REST
+        newMeasure.push([{ 0: "B4" }]); // TEMP: TODO: should initialize as REST
       }
 
       setMelody(prev => [...prev, newMeasure]);
     } else if (numBars < melody.length && numBars > 0) {
       setMelody(prev => {
-        prev.splice(-1, 1);
-        return prev;
+        prev.pop();
+        return [...prev];
       });
     }
-  }, [numBars, melody]);
+  }, [numBars, melody, setMelody, subdivisions]);
 
   function handleLoopToggle(e) {
     if (sequence) sequence.loop.value = !loop;
