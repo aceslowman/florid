@@ -197,15 +197,31 @@ const App = () => {
       // get random note in scale
       let new_note = keyScale[Math.floor(Math.random() * keyScale.length)];
       
-      counterNote = new_note;
-      
       // HERE while new_note is a certain distance from currentNote, pick a new one
-      let failsafe = true;
-      while(getNoteDistance(currentNote, new_note) && true) {
+      let failsafe = 0;
+      let passing = false
+      while(!passing && failsafe < 10) {
         
+        
+        new_note = keyScale[Math.floor(Math.random() * keyScale.length)];
+        
+        console.log(`comparing ${current_note} to voicing: ${new_note}`)
+        /* 
+          disallow list: 
+        */
+        let voiceInterval = getNoteDistance(currentNote, new_note);
+        let isTritone = voiceInterval === 6;
+        let isSecond = voiceInterval === 1 || voiceInterval === 2;
+        
+        passing = !isTritone && !isSecond;
+        failsafe++;
       }
       
       
+      
+      // apply
+      counterNote = new_note;
+
       let newEvent = [
         {
           0: currentNote,
