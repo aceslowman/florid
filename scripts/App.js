@@ -24,6 +24,11 @@ const App = () => {
   let [subdivisions, setSubdivisions] = React.useState(4);
   let [ready, setReady] = React.useState(false);
 
+  let [rules, setRules] = React.useState({
+    noSeconds: true,
+    noTritone: true
+  });
+
   /*
     set up keybindings
   */
@@ -196,36 +201,38 @@ const App = () => {
 
       // get random note in scale
       let new_note = keyScale[Math.floor(Math.random() * keyScale.length)];
-      
+
       // HERE while new_note is a certain distance from currentNote, pick a new one
       let failsafe = 0;
-      let passing = false
-      while(!passing && failsafe < 10) {
-        
-        
+      let passing = false;
+      while (!passing && failsafe < 10) {
         new_note = keyScale[Math.floor(Math.random() * keyScale.length)];
+
+        console.group();
+        console.log(
+          `comparing current: ${currentNote} to voicing: ${new_note}`
+        );
         
-        console.group()
-        console.log(`comparing current: ${currentNote} to voicing: ${new_note}`)
         /* 
-          disallow list: 
+          disallowed harmony: 
         */
         let voiceInterval = getNoteDistance(currentNote, new_note);
         let isTritone = voiceInterval === 6;
         let isSecond = voiceInterval === 1 || voiceInterval === 2;
         
-        
-        console.log('the distance is', voiceInterval);
-        console.log('isTritone', isTritone);
-        console.log('isSecond', isSecond);
+        /*
+          disallowed sequence
+        */
+
+        console.log("the distance is", voiceInterval);
+        console.log("isTritone", isTritone);
+        console.log("isSecond", isSecond);
         console.groupEnd();
-        
-        passing = !isTritone && !isSecond;
+
+        passing = (rules.isTritone && !isTritone) && (rules.isSecond && !isSecond);
         failsafe++;
       }
-      
-      
-      
+
       // apply
       counterNote = new_note;
 
@@ -317,7 +324,7 @@ const App = () => {
     */
     a = Tone.Frequency(a).toMidi();
     b = Tone.Frequency(b).toMidi();
-    
+
     let result = b - a;
     if (result % 12 === 0) a = 0;
 
@@ -356,8 +363,9 @@ const App = () => {
   const handleChangeVoicingKey = e => setVoicingKey(e.target.value);
 
   const handleChangeVoicingMode = e => setVoicingMode(e.target.value);
-  
-  const handleToggleRules = type => setRules(prev => ({...prev, [type]: !prev.type}))
+
+  const handleToggleRules = type =>
+    setRules(prev => ({ ...prev, [type]: !prev[type] }));
 
   return (
     <React.Fragment>
@@ -381,12 +389,7 @@ const App = () => {
         voicingKey={voicingKey}
         onChangeVoicingMode={handleChangeVoicingMode}
         voicingMode={voicingMode}
-        
-        rules={{
-          noSeconds: true,
-          noTritone: true
-        }}
-        
+        rules={rules}
         onToggleRules={handleToggleRules}
       />
       <MusicStaff

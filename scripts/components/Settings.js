@@ -129,7 +129,7 @@ const Settings = props => {
               <label>
                 no tritone
                 <input
-                  onChange={props.onToggleRules('noSeconds')}
+                  onChange={()=>props.onToggleRules('noTritone')}
                   checked={props.rules.noTritone}
                   type="checkbox"
                 />
@@ -139,7 +139,7 @@ const Settings = props => {
               <label>
                 no seconds
                 <input
-                  onChange={props.onToggleRules('noSeconds')}
+                  onChange={()=>props.onToggleRules('noSeconds')}
                   checked={props.rules.noSeconds}
                   type="checkbox"
                 />
