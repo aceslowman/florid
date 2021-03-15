@@ -205,13 +205,19 @@ const App = () => {
         
         new_note = keyScale[Math.floor(Math.random() * keyScale.length)];
         
-        console.log(`comparing ${current_note} to voicing: ${new_note}`)
+        console.group()
+        console.log(`comparing current: ${currentNote} to voicing: ${new_note}`)
         /* 
           disallow list: 
         */
         let voiceInterval = getNoteDistance(currentNote, new_note);
         let isTritone = voiceInterval === 6;
         let isSecond = voiceInterval === 1 || voiceInterval === 2;
+        
+        console.log('the distance is', voiceInterval);
+        console.log('isTritone', isTritone);
+        console.log('isSecond', isSecond);
+        console.groupEnd();
         
         passing = !isTritone && !isSecond;
         failsafe++;
