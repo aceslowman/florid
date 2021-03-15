@@ -2,21 +2,45 @@
 const App = () => {
   let [melody, setMelody] = React.useState([[]]);
 
-  let [loop, setLoop] = React.useState(false);
   let [numBars, setNumBars] = React.useState(1);
+  let [loop, setLoop] = React.useState(false);
   let [bpm, setBPM] = React.useState(120);
-  let [selectedNote, setSelectedNote] = React.useState(null);
+  let [voicingKey, setVoicingKey] = React.useState("G");
+  let [voicingMode, setVoicingMode] = React.useState(0);
+
+  let [soundOn, setSoundOn] = React.useState(false);
+  let [sequence, setSequence] = React.useState();
+  let [synth, setSynth] = React.useState();
+
   let [midiInputs, setMidiInputs] = React.useState(null);
   let [midiOutputs, setMidiOutputs] = React.useState(null);
   let [activeMidiInput, setActiveMidiInput] = React.useState(null);
   let [activeMidiOutput, setActiveMidiOutput] = React.useState(null);
+
+  let [selectedNote, setSelectedNote] = React.useState(null);
   let [currentStep, setCurrentStep] = React.useState(0);
   let [isPlaying, setIsPlaying] = React.useState(false);
-  let [ready, setReady] = React.useState(false);
-  let [subdivisions, setSubdivisions] = React.useState(4);
 
-  let [sequence, setSequence] = React.useState();
-  let [synth, setSynth] = React.useState();
+  let [subdivisions, setSubdivisions] = React.useState(4);
+  let [ready, setReady] = React.useState(false);
+
+  /*
+    set up keybindings
+  */
+  React.useEffect(() => {
+    const keybindings = e => {
+      switch (e.keyCode) {
+        case 32: // space bar
+          handleTogglePlay();
+          break;
+        default:
+          break;
+      }
+    };
+
+    document.addEventListener("keydown", keybindings, false);
+    return () => document.removeEventListener("keydown", keybindings, false);
+  }, [handleTogglePlay, sequence, setIsPlaying, isPlaying]);
 
   /*
     startup audio context
@@ -87,7 +111,7 @@ const App = () => {
 
     initMIDI();
   }, [midiInputs, midiOutputs]);
-  
+
   React.useEffect(() => {
     if (ready) Tone.Transport.bpm.value = parseFloat(bpm);
   }, [bpm]);
@@ -205,10 +229,10 @@ const App = () => {
     }
   }, [numBars, melody, setMelody, subdivisions]);
 
-  const handleLoopToggle = (e) => {
+  const handleLoopToggle = e => {
     if (sequence) sequence.loop.value = !loop;
     setLoop(prev => !prev);
-  }
+  };
 
   const handleNoteChange = (e, measure_id, beat_id, voice_id) => {
     let currentNote = melody[measure_id][beat_id][0][voice_id];
@@ -238,8 +262,8 @@ const App = () => {
     }
 
     setMelody(newMelody);
-  }
-  
+  };
+
   const handleNumBarsChange = e => setNumBars(e.target.value);
   const handleBPMChange = e => setBPM(parseFloat(e.target.value));
 
@@ -259,15 +283,10 @@ const App = () => {
       setIsPlaying(true);
     }
   };
-  
-  
-  const handleChangeVoicingKey = e => {
-    
-  }
-  
-  const handleChangeVoicingMode = e => {
-    setVoicingMode()
-  }
+
+  const handleChangeVoicingKey = e => setVoicingKey(e.target.value);
+
+  const handleChangeVoicingMode = e => setVoicingMode(e.target.value);
 
   return (
     <React.Fragment>
