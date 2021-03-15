@@ -263,6 +263,29 @@ const App = () => {
 
     setMelody(newMelody);
   };
+  
+  const getNoteDistance = (a, b) => {
+    /*
+      this method gets the 'absolute' difference
+      between two notes. This means that an interval
+      of an octave is 0, this is essentially:
+    
+      distance from either 0 or 12
+    */
+    let result = b - a;
+    if (result % 12 === 0) a = 0;
+
+    if (Math.abs(result) >= 6) result = (12 - result) * -1;
+
+    return result;
+  };
+
+  // https://stackoverflow.com/questions/1985260/rotate-the-elements-in-an-array-in-javascript
+  const arrayRotate = (arr, reverse) => {
+    if (reverse) arr.unshift(arr.pop());
+    else arr.push(arr.shift());
+    return arr;
+  };
 
   const handleNumBarsChange = e => setNumBars(e.target.value);
   const handleBPMChange = e => setBPM(parseFloat(e.target.value));
