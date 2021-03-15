@@ -3,7 +3,7 @@ const App = () => {
   let [melody, setMelody] = React.useState([[]]);
 
   let [loop, setLoop] = React.useState(false);
-  let [numBars, setNumBars] = React.useState(2);
+  let [numBars, setNumBars] = React.useState(1);
   let [bpm, setBPM] = React.useState(120);
   let [selectedNote, setSelectedNote] = React.useState(null);
   let [midiInputs, setMidiInputs] = React.useState(null);
@@ -87,6 +87,10 @@ const App = () => {
 
     initMIDI();
   }, [midiInputs, midiOutputs]);
+  
+  React.useEffect(() => {
+    if (ready) Tone.Transport.bpm.value = parseFloat(bpm);
+  }, [bpm]);
 
   /*
     set up and remove listener for activeMidiInput
@@ -182,7 +186,7 @@ const App = () => {
         activeMidiInput.removeEventListener("midimessage", handleMidiIn);
     }
   }, [melody, synth, currentStep, numBars, setMelody, setCurrentStep]);
-  
+
   /* insert new measures */
   React.useLayoutEffect(() => {
     if (numBars > melody.length) {
@@ -201,21 +205,12 @@ const App = () => {
     }
   }, [numBars, melody, setMelody, subdivisions]);
 
-  function handleLoopToggle(e) {
+  const handleLoopToggle = (e) => {
     if (sequence) sequence.loop.value = !loop;
     setLoop(prev => !prev);
   }
 
-  function handleNumBarsChange(e) {
-    setNumBars(e.target.value);
-  }
-
-  function handleBPMChange(e) {
-    setBPM(parseFloat(e.target.value));
-    Tone.Transport.bpm.value = parseFloat(e.target.value);
-  }
-
-  function handleNoteChange(e, measure_id, beat_id, voice_id) {
+  const handleNoteChange = (e, measure_id, beat_id, voice_id) => {
     let currentNote = melody[measure_id][beat_id][0][voice_id];
     let newMelody = [...melody];
 
@@ -244,14 +239,15 @@ const App = () => {
 
     setMelody(newMelody);
   }
+  
+  const handleNumBarsChange = e => setNumBars(e.target.value);
+  const handleBPMChange = e => setBPM(parseFloat(e.target.value));
 
-  const handleMidiInputChange = input_id => {
+  const handleMidiInputChange = input_id =>
     setActiveMidiInput(midiInputs[input_id]);
-  };
 
-  const handleMidiOutputChange = output_id => {
+  const handleMidiOutputChange = output_id =>
     setActiveMidiOutput(midiOutputs[output_id]);
-  };
 
   const handleTogglePlay = e => {
     if (Tone.Transport.state === "started") {
@@ -263,6 +259,15 @@ const App = () => {
       setIsPlaying(true);
     }
   };
+  
+  
+  const handleChangeVoicingKey = e => {
+    
+  }
+  
+  const handleChangeVoicingMode = e => {
+    setVoicingMode()
+  }
 
   return (
     <React.Fragment>
@@ -282,6 +287,10 @@ const App = () => {
         activeMidiInput={activeMidiInput}
         activeMidiOutput={activeMidiOutput}
         currentStep={currentStep}
+        onChangeVoicingKey={handleChangeVoicingKey}
+        voicingKey={voicingKey}
+        onChangeVoicingMode={handleChangeVoicingMode}
+        voicingMode={voicingMode}
       />
       <MusicStaff
         melody={melody}

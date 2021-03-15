@@ -83,6 +83,48 @@ const Settings = props => {
           </InputRow>
         </InputPanel>
 
+        <InputPanel title="voicing">
+          <InputRow>
+            <InputGroup>
+              <label htmlFor="keyselect">key</label>
+              <select
+                id="keyselect"
+                onChange={props.onChangeVoicingKey}
+                value={props.voicingKey}
+              >
+                <option value="C">C</option>
+                <option value="C#">C#</option>
+                <option value="D">D</option>
+                <option value="D#">D#</option>
+                <option value="E">E</option>
+                <option value="F">F</option>
+                <option value="F#">F#</option>
+                <option value="G">G</option>
+                <option value="G#">G#</option>
+                <option value="A">A</option>
+                <option value="A#">A#</option>
+                <option value="B">B</option>
+              </select>
+            </InputGroup>
+            <InputGroup>
+              <label htmlFor="modeselect">mode</label>
+              <select
+                id="modeselect"
+                onChange={props.onChangeVoicingMode}
+                value={props.voicingMode}
+              >
+                <option value="0">Ionian (major)</option>
+                <option value="1">Dorian</option>
+                <option value="2">Phrygian</option>
+                <option value="3">Lydian</option>
+                <option value="4">Mixolydian</option>
+                <option value="5">Aeolian (natural minor)</option>
+                <option value="6">Locrian</option>
+              </select>
+            </InputGroup>
+          </InputRow>
+        </InputPanel>
+
         <InputPanel title="MIDI">
           <InputRow>
             <label htmlFor="midiinputs">Midi Input</label>
@@ -101,10 +143,9 @@ const Settings = props => {
                   );
                 })}
             </select>
-
           </InputRow>
-          
-            <MIDILog device={props.activeMidiInput} />
+
+          <MIDILog device={props.activeMidiInput} />
           <InputRow>
             <label htmlFor="midioutputs">Midi Output</label>
             <select
@@ -122,13 +163,10 @@ const Settings = props => {
                   );
                 })}
             </select>
-
-            
           </InputRow>
           <MIDILog device={props.activeMidiOutput} />
         </InputPanel>
 
-        
         <InputPanel title="playback">
           <InputRow>
             <InputGroup>

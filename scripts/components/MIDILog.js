@@ -2,7 +2,7 @@
 const MIDILog = props => {
   const [enable, setEnable] = React.useState(true);
   const [log, setLog] = React.useState([]);
-  const tail_length = 10; // limit length of log
+  const tail_length = 5; // limit length of log
 
   React.useEffect(() => {
     if (!enable) return;
