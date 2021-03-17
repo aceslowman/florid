@@ -233,7 +233,7 @@ const App = () => {
         /*
           disallowed sequence
         */
-        let sequenceInterval = getNoteDistance(currentNote, previousNote);
+        let sequenceInterval = previousNote ? getNoteDistance(currentNote, previousNote[1]) : null;
         let seqIsTritone = sequenceInterval === 6;
         let seqIsSecond = sequenceInterval === 1 || sequenceInterval === 2;
 
@@ -246,7 +246,7 @@ const App = () => {
           (rules.harmony.isTritone && !harmIsTritone) &&
           (rules.harmony.isSecond && !harmIsSecond);
         
-        let passing_sequence =  
+        let passing_sequence = previousNote === undefined || 
           (rules.sequence.isTritone && !seqIsTritone) &&
           (rules.sequence.isSecond && !seqIsSecond);
         
