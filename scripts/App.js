@@ -25,8 +25,14 @@ const App = () => {
   let [ready, setReady] = React.useState(false);
 
   let [rules, setRules] = React.useState({
-    noSeconds: true,
-    noTritone: true
+    sequence: {
+      noSeconds: true,
+      noTritone: true
+    },
+    harmony: {
+      noSeconds: true,
+      noTritone: true
+    }    
   });
 
   /*
@@ -229,7 +235,7 @@ const App = () => {
         console.log("isSecond", isSecond);
         console.groupEnd();
 
-        passing = (rules.isTritone && !isTritone) && (rules.isSecond && !isSecond);
+        passing = (rules.harmony.isTritone && !isTritone) && (rules.harmony.isSecond && !isSecond);
         failsafe++;
       }
 
@@ -364,8 +370,8 @@ const App = () => {
 
   const handleChangeVoicingMode = e => setVoicingMode(e.target.value);
 
-  const handleToggleRules = type =>
-    setRules(prev => ({ ...prev, [type]: !prev[type] }));
+  const handleToggleRules = (mode, type) =>
+    setRules(prev => ({ ...prev, [mode]: {[type]: !prev[type]} }));
 
   return (
     <React.Fragment>

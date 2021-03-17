@@ -130,8 +130,8 @@ const Settings = props => {
                 <label>
                   no tritone
                   <input
-                    onChange={()=>props.onToggleRules('noTritone')}
-                    checked={props.rules.noTritone}
+                    onChange={()=>props.onToggleRules('sequence','noTritone')}
+                    checked={props.rules.sequence.noTritone}
                     type="checkbox"
                   />
                 </label>
@@ -140,8 +140,8 @@ const Settings = props => {
                 <label>
                   no seconds
                   <input
-                    onChange={()=>props.onToggleRules('noSeconds')}
-                    checked={props.rules.noSeconds}
+                    onChange={()=>props.onToggleRules('sequence','noSeconds')}
+                    checked={props.rules.sequence.noSeconds}
                     type="checkbox"
                   />
                 </label>
@@ -154,8 +154,8 @@ const Settings = props => {
                 <label>
                   no tritone
                   <input
-                    onChange={()=>props.onToggleRules('noTritone')}
-                    checked={props.rules.noTritone}
+                    onChange={()=>props.onToggleRules('harmony','noTritone')}
+                    checked={props.rules.harmony.noTritone}
                     type="checkbox"
                   />
                 </label>
@@ -164,8 +164,8 @@ const Settings = props => {
                 <label>
                   no seconds
                   <input
-                    onChange={()=>props.onToggleRules('noSeconds')}
-                    checked={props.rules.noSeconds}
+                    onChange={()=>props.onToggleRules('harmony','noSeconds')}
+                    checked={props.rules.harmony.noSeconds}
                     type="checkbox"
                   />
                 </label>
