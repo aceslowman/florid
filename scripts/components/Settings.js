@@ -123,29 +123,57 @@ const Settings = props => {
               </select>
             </InputGroup>
           </InputRow>
+          <InputPanel title="rules">
+            <InputPanel title="sequence">
+            <InputRow>
+              <InputGroup>
+                <label>
+                  no tritone
+                  <input
+                    onChange={()=>props.onToggleRules('noTritone')}
+                    checked={props.rules.noTritone}
+                    type="checkbox"
+                  />
+                </label>
+              </InputGroup>
+              <InputGroup>
+                <label>
+                  no seconds
+                  <input
+                    onChange={()=>props.onToggleRules('noSeconds')}
+                    checked={props.rules.noSeconds}
+                    type="checkbox"
+                  />
+                </label>
+              </InputGroup>
+            </InputRow>
+            </InputPanel>
+            <InputPanel title="harmony">
+            <InputRow>
+              <InputGroup>
+                <label>
+                  no tritone
+                  <input
+                    onChange={()=>props.onToggleRules('noTritone')}
+                    checked={props.rules.noTritone}
+                    type="checkbox"
+                  />
+                </label>
+              </InputGroup>
+              <InputGroup>
+                <label>
+                  no seconds
+                  <input
+                    onChange={()=>props.onToggleRules('noSeconds')}
+                    checked={props.rules.noSeconds}
+                    type="checkbox"
+                  />
+                </label>
+              </InputGroup>
+            </InputRow>
+            </InputPanel>
+          </InputPanel>
           
-          <InputRow>
-            <InputGroup>
-              <label>
-                no tritone
-                <input
-                  onChange={()=>props.onToggleRules('noTritone')}
-                  checked={props.rules.noTritone}
-                  type="checkbox"
-                />
-              </label>
-            </InputGroup>
-            <InputGroup>
-              <label>
-                no seconds
-                <input
-                  onChange={()=>props.onToggleRules('noSeconds')}
-                  checked={props.rules.noSeconds}
-                  type="checkbox"
-                />
-              </label>
-            </InputGroup>
-          </InputRow>
           
         </InputPanel>
 
