@@ -32,7 +32,7 @@ const App = () => {
     harmony: {
       noSeconds: true,
       noTritone: true
-    }    
+    }
   });
 
   /*
@@ -218,14 +218,14 @@ const App = () => {
         console.log(
           `comparing current: ${currentNote} to voicing: ${new_note}`
         );
-        
+
         /* 
           disallowed harmony: 
         */
         let voiceInterval = getNoteDistance(currentNote, new_note);
         let isTritone = voiceInterval === 6;
         let isSecond = voiceInterval === 1 || voiceInterval === 2;
-        
+
         /*
           disallowed sequence
         */
@@ -235,7 +235,10 @@ const App = () => {
         console.log("isSecond", isSecond);
         console.groupEnd();
 
-        passing = (rules.harmony.isTritone && !isTritone) && (rules.harmony.isSecond && !isSecond);
+        passing =
+          rules.harmony.isTritone &&
+          !isTritone &&
+          (rules.harmony.isSecond && !isSecond);
         failsafe++;
       }
 
@@ -370,8 +373,14 @@ const App = () => {
 
   const handleChangeVoicingMode = e => setVoicingMode(e.target.value);
 
-  const handleToggleRules = (mode, type) =>
-    setRules(prev => ({ ...prev, [mode]: {[type]: !prev[type]} }));
+  const handleToggleRules = (mode, rule) =>
+    setRules(prev => ({
+      ...prev,
+      [mode]: {
+        ...prev[mode],
+        [rule]: !prev[mode][rule]
+      }
+    }));
 
   return (
     <React.Fragment>
