@@ -2,7 +2,7 @@
 const App = () => {
   let [melody, setMelody] = React.useState([[]]);
 
-  let [numBars, setNumBars] = React.useState(1);
+  let [numBars, setNumBars] = React.useState(3);
   let [loop, setLoop] = React.useState(false);
   let [bpm, setBPM] = React.useState(120);
   let [voicingKey, setVoicingKey] = React.useState("G");
@@ -242,11 +242,16 @@ const App = () => {
         // console.log("isSecond", isSecond);
         
 
-        passing =
+        let passing_harmony =
           (rules.harmony.isTritone && !harmIsTritone) &&
-          (rules.harmony.isSecond && !harmIsSecond) && 
+          (rules.harmony.isSecond && !harmIsSecond);
+        
+        let passing_sequence =  
           (rules.sequence.isTritone && !seqIsTritone) &&
           (rules.sequence.isSecond && !seqIsSecond);
+        
+        passing = passing_harmony && passing_sequence;
+        
         failsafe++;
       }
       

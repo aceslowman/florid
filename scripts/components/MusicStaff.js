@@ -156,6 +156,7 @@ const MusicStaff = props => {
                           style={{
                             height: lineHeight * 2,
                             bottom: position,
+                            border: n_i ? '2px dotted white' : '1px solid white',
                             backgroundColor:
                               props.currentStep + 1 === iter
                                 ? "#ff5454"
