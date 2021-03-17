@@ -233,9 +233,9 @@ const App = () => {
         /*
           disallowed sequence
         */
-        // let sequenceInterval = getNoteDistance(currentNote, previousNote);
-        // let seqIsTritone = sequenceInterval === 6;
-        // let seqIsSecond = sequenceInterval === 1 || sequenceInterval === 2;
+        let sequenceInterval = getNoteDistance(currentNote, previousNote);
+        let seqIsTritone = sequenceInterval === 6;
+        let seqIsSecond = sequenceInterval === 1 || sequenceInterval === 2;
 
         // console.log("the distance is", voiceInterval);
         // console.log("isTritone", isTritone);
@@ -244,9 +244,9 @@ const App = () => {
 
         passing =
           (rules.harmony.isTritone && !harmIsTritone) &&
-          (rules.harmony.isSecond && !harmIsSecond) &&
-          // (rules.sequence.isTritone && !seqIsTritone) &&
-          // (rules.sequence.isSecond && !seqIsSecond) &&
+          (rules.harmony.isSecond && !harmIsSecond) && 
+          (rules.sequence.isTritone && !seqIsTritone) &&
+          (rules.sequence.isSecond && !seqIsSecond);
         failsafe++;
       }
       
