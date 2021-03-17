@@ -274,6 +274,12 @@ const App = () => {
       }
 
       setMelody([...melody]);
+      
+      /*
+        this works differently than in 
+        cantus-firmus because this relies 
+        on the midi to dictate timing
+      */
       setCurrentStep(prev => (prev = (prev + 1) % (numBars * 4)));
       synth.triggerAttackRelease([currentNote, counterNote], "4n");
     };
