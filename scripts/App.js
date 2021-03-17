@@ -203,47 +203,57 @@ const App = () => {
       let beat = currentStep % 4;
 
       let counterNote = null; // the eventual note
-      // let previousNote = melody[measure][(currentStep-1) % 4];       // the note preceding it
+      let previousNote = melody[measure][(currentStep-1) % 4];       // the note preceding it
 
+      
+        console.group();
+      console.log('currentNote', currentNote)
+      console.log('previousNote', previousNote)
+      
       // get random note in scale
-      let new_note = keyScale[Math.floor(Math.random() * keyScale.length)];
+      let newNote = keyScale[Math.floor(Math.random() * keyScale.length)];
 
       // HERE while new_note is a certain distance from currentNote, pick a new one
       let failsafe = 0;
       let passing = false;
       while (!passing && failsafe < 10) {
-        new_note = keyScale[Math.floor(Math.random() * keyScale.length)];
+        newNote = keyScale[Math.floor(Math.random() * keyScale.length)];
 
-        console.group();
         console.log(
-          `comparing current: ${currentNote} to voicing: ${new_note}`
+          `comparing current: ${currentNote} to voicing: ${newNote}`
         );
 
         /* 
           disallowed harmony: 
         */
-        let voiceInterval = getNoteDistance(currentNote, new_note);
-        let isTritone = voiceInterval === 6;
-        let isSecond = voiceInterval === 1 || voiceInterval === 2;
+        let harmonicInterval = getNoteDistance(currentNote, newNote);
+        let harmIsTritone = harmonicInterval === 6;
+        let harmIsSecond = harmonicInterval === 1 || harmonicInterval === 2;
 
         /*
           disallowed sequence
         */
+        // let sequenceInterval = getNoteDistance(currentNote, previousNote);
+        // let seqIsTritone = sequenceInterval === 6;
+        // let seqIsSecond = sequenceInterval === 1 || sequenceInterval === 2;
 
-        console.log("the distance is", voiceInterval);
-        console.log("isTritone", isTritone);
-        console.log("isSecond", isSecond);
-        console.groupEnd();
+        // console.log("the distance is", voiceInterval);
+        // console.log("isTritone", isTritone);
+        // console.log("isSecond", isSecond);
+        
 
         passing =
-          rules.harmony.isTritone &&
-          !isTritone &&
-          (rules.harmony.isSecond && !isSecond);
+          (rules.harmony.isTritone && !harmIsTritone) &&
+          (rules.harmony.isSecond && !harmIsSecond) &&
+          // (rules.sequence.isTritone && !seqIsTritone) &&
+          // (rules.sequence.isSecond && !seqIsSecond) &&
         failsafe++;
       }
+      
+      console.groupEnd();
 
       // apply
-      counterNote = new_note;
+      counterNote = newNote;
 
       let newEvent = [
         {
