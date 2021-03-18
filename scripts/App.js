@@ -131,7 +131,7 @@ const App = () => {
     GENERATE VOICES
     set up and remove listener for activeMidiInput
   */
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     const handleMidiIn = m => {
       /*
       this is where the bulk of the note generation happens
@@ -193,7 +193,7 @@ const App = () => {
       });
 
       let measure = Math.floor(currentStep / 4) % numBars;
-      let beat = currentStep % 4;
+      let beat = (currentStep + 1) % 4;
 
       if (currentStep > 0 && currentStep % 4 === 0 && melody.length < numBars) {
         melody.push([]);
@@ -267,6 +267,7 @@ const App = () => {
         }
       ];
 
+      // if measure is full, assign note
       if (melody[measure].length === 4) {
         melody[measure][beat] = newEvent;
       } else {
@@ -280,7 +281,7 @@ const App = () => {
         cantus-firmus because this relies 
         on the midi to dictate timing
       */
-      setCurrentStep(prev => (prev = (prev + 1) % (numBars * 4)));
+      setCurrentStep(prev => (prev + 1) % ((numBars * 4) + 1));
       synth.triggerAttackRelease([currentNote /*, counterNote*/], "4n");
     };
 
@@ -296,9 +297,9 @@ const App = () => {
     if (numBars > melody.length) {
       let newMeasure = [];
 
-      // for (let i = 0; i < subdivisions; i++) {
-      //   newMeasure.push([{ 0: "REST" }]); // TEMP: TODO: should initialize as REST
-      // }
+      for (let i = 0; i < subdivisions; i++) {
+        newMeasure.push([{ 0: "REST" }]); // TEMP: TODO: should initialize as REST
+      }
 
       setMelody(prev => [...prev, newMeasure]);
     } else if (numBars < melody.length && numBars > 0) {
