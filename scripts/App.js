@@ -195,6 +195,7 @@ const App = () => {
         return next_note;
       });
 
+      // get the current beat and measure
       let currentMeasure = Math.floor(currentStep / 4) % numBars;
       let currentBeat = currentStep % 4;
 
@@ -202,39 +203,40 @@ const App = () => {
         previousMeasure,
         previousBeat = null;
 
+      // get previous beat and measure
       if (currentStep > 0) {
         previousMeasure = Math.floor((currentStep - 1) / 4) % numBars;
         previousBeat = (currentStep - 1) % 4;
         previousNote = melody[previousMeasure][previousBeat];
       }
 
-      if (currentStep > 0 && currentStep % 4 === 0 && melody.length < numBars) {
-        melody.push([]);
-      }
-
+      // grab incoming note
       let [noteon, currentNote, velocity] = m.data;
       currentNote = Tone.Frequency(currentNote, "midi").toNote();
       let counterNote; // the eventual note
 
-      console.group();
-      console.log("measure", currentMeasure);
-      console.log("beat", currentBeat);
-      console.log("currentStep", currentStep);
-      console.log("currentNote", currentNote);
-      console.log("previousNote", previousNote);
+      // console.group();
+      // console.log("measure", currentMeasure);
+      // console.log("beat", currentBeat);
+      // console.log("currentStep", currentStep);
+      // console.log("currentNote", currentNote);
+      // console.log("previousNote", previousNote);
 
       // get random note in scale
       let newNote = keyScale[Math.floor(Math.random() * keyScale.length)];
 
-      // HERE while new_note is a certain distance from currentNote, pick a new one
+      /*
+        continue testing the newNote until it passes all rules
+        fail out after 100 checks, shouldn't happen
+      */
       let failsafe = 0;
       let passing = false;
       while (!passing && failsafe < 100) {
         newNote = keyScale[Math.floor(Math.random() * keyScale.length)];
 
-        console.log(
-          `comparing harmony between current: ${currentNote} to new voice: ${newNote}`
-        );
+        // console.log(
+        //   `comparing harmony between current: ${currentNote} to new voice: ${newNote}`
+        // );
 
         /* 
           disallowed harmony: 
@@ -246,13 +248,13 @@ const App = () => {
           Math.abs(harmonicInterval) === 1 || Math.abs(harmonicInterval) === 2;
         let harmIsUnison = harmonicInterval === 0;
 
-        console.log("harmonic interval:", harmonicInterval);
-        console.log("harmIsTritone?", harmIsTritone);
-        console.log("harmIsSecond?", harmIsSecond);
-        console.log("harmIsUnison?", harmIsUnison);
-        console.log("noTritone", rules.harmony.noTritone === !harmIsTritone);
-        console.log("noSecond", rules.harmony.noSecond === !harmIsSecond);
-        console.log("noUnison", rules.harmony.noUnison === !harmIsUnison);
+        // console.log("harmonic interval:", harmonicInterval);
+        // console.log("harmIsTritone?", harmIsTritone);
+        // console.log("harmIsSecond?", harmIsSecond);
+        // console.log("harmIsUnison?", harmIsUnison);
+        // console.log("noTritone", rules.harmony.noTritone === !harmIsTritone);
+        // console.log("noSecond", rules.harmony.noSecond === !harmIsSecond);
+        // console.log("noUnison", rules.harmony.noUnison === !harmIsUnison);
 
         if (rules.harmony.noTritone)
           passing_harmony = passing_harmony && !harmIsTritone;
@@ -263,7 +265,7 @@ const App = () => {
         if (rules.harmony.noUnison)
           passing_harmony = passing_harmony && !harmIsUnison;
 
-        console.log("passing harmony?", passing_harmony);
+        // console.log("passing harmony?", passing_harmony);
 
         let passing_sequence = true;
         /*
@@ -286,9 +288,9 @@ const App = () => {
             }`
           );
 
-          console.log("sequence interval:", sequenceInterval);
-          console.log("seqIsTritone?", seqIsTritone);
-          console.log("seqIsSecond?", seqIsSecond);
+          // console.log("sequence interval:", sequenceInterval);
+          // console.log("seqIsTritone?", seqIsTritone);
+          // console.log("seqIsSecond?", seqIsSecond);
 
           if (rules.sequence.noTritone)
             passing_sequence = passing_sequence && !seqIsTritone;
@@ -300,7 +302,7 @@ const App = () => {
             passing_sequence = passing_sequence && !seqIsUnison;
         }
         
-        console.log('passing sequence? ', passing_sequence)
+        // console.log('passing sequence? ', passing_sequence)
 
         passing = passing_harmony && passing_sequence;
         // passing = passing_harmony;
@@ -309,7 +311,7 @@ const App = () => {
         failsafe++;
       }
 
-      console.groupEnd();
+      // console.groupEnd();
 
       // apply
       counterNote = newNote;
