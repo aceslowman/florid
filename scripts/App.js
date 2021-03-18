@@ -240,7 +240,6 @@ const App = () => {
         let harmonicInterval = getNoteDistance(currentNote, newNote);
         let harmIsTritone = harmonicInterval === 6;
         let harmIsSecond = harmonicInterval === 1 || harmonicInterval === 2;
-        // isUnison
         let harmIsUnison = harmonicInterval === 0;
 
         console.log("harmonic interval:", harmonicInterval);
@@ -274,18 +273,14 @@ const App = () => {
           console.log("seqIsSecond?", seqIsSecond);
 
           passing_sequence =
-            previousNote === undefined ||
-            (rules.sequence.isTritone &&
-              !seqIsTritone &&
-              (rules.sequence.isSecond && !seqIsSecond));
+            rules.sequence.noTritone === !seqIsTritone &&
+            rules.sequence.noSecond === !seqIsSecond;
         }
 
         let passing_harmony =
-          (rules.harmony.noTritone &&
-          !harmIsTritone) &&
-          (rules.harmony.noSecond &&
-          !harmIsSecond) &&
-          (rules.harmony.noUnison && !harmIsUnison);
+          rules.harmony.noTritone === !harmIsTritone &&
+          rules.harmony.noSecond === !harmIsSecond &&
+          rules.harmony.noUnison === !harmIsUnison;
 
         passing = passing_harmony && passing_sequence;
 
