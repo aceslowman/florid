@@ -26,7 +26,7 @@ const App = () => {
 
   let [rules, setRules] = React.useState({
     sequence: {
-      second: false,
+      second: true,
       tritone: false,
       unison: false
     },
@@ -301,7 +301,7 @@ const App = () => {
               console.log(`checking whether or not ${rule_name} is false for ${harmonyIs[rule_name]}`)
 
               if (!passing_sequence) console.log(`${rule_name} failed!`, rule);
-              // if (!passing_sequence) break;
+              if (!passing_sequence) break;
             }
           };
         }
