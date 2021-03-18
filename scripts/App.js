@@ -226,7 +226,7 @@ const App = () => {
       */
       let failsafe = 0;
       let passing = false;
-      while (!passing && failsafe < 20) {
+      while (!passing && failsafe < 100) {
         newNote = keyScale[Math.floor(Math.random() * keyScale.length)];
 
         /* 
@@ -311,7 +311,7 @@ const App = () => {
 
         passing = passing_harmony && passing_sequence;
 
-        if (failsafe === 19) console.log("fail out!");
+        if (failsafe === 99) console.log("fail out!");
         failsafe++;
       }
 
