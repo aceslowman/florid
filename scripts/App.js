@@ -177,20 +177,21 @@ const App = () => {
     */
       let base_mode = [2, 2, 1, 2, 2, 2, 1];
 
+      // rotate ionian base mode to other mode
       for (let i = 0; i < voicingMode; i++) {
         base_mode = arrayRotate(base_mode);
       }
 
+      // TEMP
       let base_octave = 4;
 
+      // generate full scale in key
       let acc = 0;
       let keyScale = base_mode.map(e => {
         let next_note = Tone.Frequency(`${voicingKey}${base_octave}`)
           .transpose(acc)
           .toNote();
-
         acc = acc + e;
-
         return next_note;
       });
 
