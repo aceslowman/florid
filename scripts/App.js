@@ -192,8 +192,18 @@ const App = () => {
         return next_note;
       });
 
-      let measure = Math.floor(currentStep / 4) % numBars;
-      let beat = currentStep % 4;
+      let currentMeasure = Math.floor(currentStep / 4) % numBars;
+      let currentBeat = currentStep % 4;
+
+      let previousNote,
+        previousMeasure,
+        previousBeat = null;
+
+      if (currentStep > 0) {
+        previousMeasure = Math.floor((currentStep - 1) / 4) % numBars;
+        previousBeat = (currentStep - 1) % 4;
+        previousNote = melody[previousMeasure][previousBeat];
+      }
 
       if (currentStep > 0 && currentStep % 4 === 0 && melody.length < numBars) {
         melody.push([]);
@@ -201,16 +211,11 @@ const App = () => {
 
       let [noteon, currentNote, velocity] = m.data;
       currentNote = Tone.Frequency(currentNote, "midi").toNote();
-      let counterNote,
-        previousNote = null; // the eventual note
-
-      // if(melody[measure])
-      setCurrentStep(prev => (prev + 1) % (numBars * 4));
-      previousNote = melody[measure][(currentStep - 1) % 4];
+      let counterNote; // the eventual note
 
       console.group();
-      console.log("measure", measure);
-      console.log("beat", beat);
+      console.log("measure", currentMeasure);
+      console.log("beat", currentBeat);
       console.log("currentStep", currentStep);
       console.log("currentNote", currentNote);
       console.log("previousNote", previousNote);
@@ -224,9 +229,9 @@ const App = () => {
       while (!passing && failsafe < 10) {
         newNote = keyScale[Math.floor(Math.random() * keyScale.length)];
 
-        console.log(`comparing harmony between current: ${currentNote} to voicing: ${newNote}`);
-        if(previousNote && previousNote.length)
-          console.log(`comparing sequence between current: ${currentNote} and previous: ${previousNote[1]}`)
+        console.log(
+          `comparing harmony between current: ${currentNote} to new voice: ${newNote}`
+        );
 
         /* 
           disallowed harmony: 
@@ -235,25 +240,36 @@ const App = () => {
         let harmIsTritone = harmonicInterval === 6;
         let harmIsSecond = harmonicInterval === 1 || harmonicInterval === 2;
 
+        let passing_sequence = true;
         /*
-          disallowed sequence
+          disallowed sequences
         */
-        let sequenceInterval = previousNote
-          ? getNoteDistance(currentNote, previousNote[1])
-          : null;
-        let seqIsTritone = sequenceInterval === 6;
-        let seqIsSecond = sequenceInterval === 1 || sequenceInterval === 2;
+        if (previousNote && previousNote.length) {        
+          let sequenceInterval = previousNote
+            ? getNoteDistance(currentNote, previousNote[1])
+            : null;
+          let seqIsTritone = sequenceInterval === 6;
+          let seqIsSecond = sequenceInterval === 1 || sequenceInterval === 2;
+
+          if (previousNote && previousNote.length)
+            console.log(
+              `comparing sequence between new: ${newNote} and previous: ${
+                previousNote[0][1]
+              }`
+            );
+          
+          passing_sequence =
+          previousNote === undefined ||
+          (rules.sequence.isTritone &&
+            !seqIsTritone &&
+            (rules.sequence.isSecond && !seqIsSecond));
+        }
 
         let passing_harmony =
           rules.harmony.isTritone &&
           !harmIsTritone &&
           (rules.harmony.isSecond && !harmIsSecond);
 
-        let passing_sequence =
-          previousNote === undefined ||
-          (rules.sequence.isTritone &&
-            !seqIsTritone &&
-            (rules.sequence.isSecond && !seqIsSecond));
 
         passing = passing_harmony && passing_sequence;
 
@@ -273,10 +289,10 @@ const App = () => {
       ];
 
       // if measure is full, assign note
-      if (melody[measure].length === 4) {
-        melody[measure][beat] = newEvent;
+      if (melody[currentMeasure].length === 4) {
+        melody[currentMeasure][currentBeat] = newEvent;
       } else {
-        melody[measure].push(newEvent);
+        melody[currentMeasure].push(newEvent);
       }
 
       setMelody([...melody]);
