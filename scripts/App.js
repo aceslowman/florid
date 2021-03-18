@@ -252,14 +252,16 @@ const App = () => {
 
         console.log("harmonic interval", harmonicInterval);
 
-        Object.keys(rules.harmony).forEach((rule_name, i) => {
-          let rule = rules.harmony[rule_name];
+        for(let i = 0; i < Object.keys(rules.harmony).length; i++) {
+          let rule_name = Object.keys(rules.harmony);
+          let rule = rules.harmony[rule_name];          
           if (!rule) {
             passing_harmony = passing_harmony && !harmonyIs[rule_name];
 
             if (!passing_harmony) console.log(`${rule_name} failed!`);
+            if (!passing_harmony) break;
           }
-        });
+        }
 
         /*
           SEQUENCE RULES
