@@ -193,7 +193,7 @@ const App = () => {
       });
 
       let measure = Math.floor(currentStep / 4) % numBars;
-      let beat = (currentStep) % 4;
+      let beat = currentStep % 4;
 
       if (currentStep > 0 && currentStep % 4 === 0 && melody.length < numBars) {
         melody.push([]);
@@ -208,8 +208,8 @@ const App = () => {
       previousNote = melody[measure][(currentStep - 1) % 4];
 
       console.group();
-      console.log('measure', measure)
-      console.log('beat', beat)
+      console.log("measure", measure);
+      console.log("beat", beat);
       console.log("currentStep", currentStep);
       console.log("currentNote", currentNote);
       console.log("previousNote", previousNote);
@@ -264,8 +264,8 @@ const App = () => {
 
       let newEvent = [
         {
-          0: currentNote
-          // 1: counterNote
+          0: currentNote,
+          1: counterNote
         }
       ];
 
@@ -283,8 +283,8 @@ const App = () => {
         cantus-firmus because this relies 
         on the midi to dictate timing
       */
-      setCurrentStep(prev => (prev + 1) % ((numBars * 4)));
-      synth.triggerAttackRelease([currentNote /*, counterNote*/], "4n");
+      setCurrentStep(prev => (prev + 1) % (numBars * 4));
+      synth.triggerAttackRelease([currentNote, counterNote], "4n");
     };
 
     if (activeMidiInput) {
@@ -299,9 +299,9 @@ const App = () => {
     if (numBars > melody.length) {
       let newMeasure = [];
 
-      for (let i = 0; i < subdivisions; i++) {
-        newMeasure.push([{ 0: "REST" }]); // TEMP: TODO: should initialize as REST
-      }
+      // for (let i = 0; i < subdivisions; i++) {
+      //   newMeasure.push([{ 0: "REST" }]); // TEMP: TODO: should initialize as REST
+      // }
 
       setMelody(prev => [...prev, newMeasure]);
     } else if (numBars < melody.length && numBars > 0) {

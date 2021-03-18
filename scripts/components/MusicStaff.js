@@ -158,7 +158,7 @@ const MusicStaff = props => {
                             bottom: position,
                             border: n_i ? '2px dotted white' : '1px solid white',
                             backgroundColor:
-                              props.currentStep === iter
+                              props.currentStep === iter // NOTE: this is different than in cantus-firmus!
                                 ? "#ff5454"
                                 : "#602500"
                           }}
