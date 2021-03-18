@@ -296,9 +296,9 @@ const App = () => {
     if (numBars > melody.length) {
       let newMeasure = [];
 
-      for (let i = 0; i < subdivisions; i++) {
-        newMeasure.push([{ 0: "B4" }]); // TEMP: TODO: should initialize as REST
-      }
+      // for (let i = 0; i < subdivisions; i++) {
+      //   newMeasure.push([{ 0: "REST" }]); // TEMP: TODO: should initialize as REST
+      // }
 
       setMelody(prev => [...prev, newMeasure]);
     } else if (numBars < melody.length && numBars > 0) {
