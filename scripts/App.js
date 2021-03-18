@@ -298,6 +298,8 @@ const App = () => {
           if (rules.sequence.noUnison)
             passing_sequence = passing_sequence && !seqIsUnison;
         }
+        
+        console.log('passing sequence? ', passing_sequence)
 
         passing = passing_harmony && passing_sequence;
         // passing = passing_harmony;
