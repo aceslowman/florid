@@ -202,11 +202,13 @@ const App = () => {
       let measure = Math.floor(currentStep / 4) % numBars;
       let beat = currentStep % 4;
 
-      let counterNote = null; // the eventual note
-      let previousNote = melody[measure][(currentStep-1) % 4];       // the note preceding it
-
+      let counterNote, previousNote = null; // the eventual note
       
-        console.group();
+      
+      // if(melody[measure])
+      previousNote = melody[measure][(currentStep-1) % 4];
+      
+      console.group();
       console.log('currentNote', currentNote)
       console.log('previousNote', previousNote)
       
@@ -236,12 +238,7 @@ const App = () => {
         let sequenceInterval = previousNote ? getNoteDistance(currentNote, previousNote[1]) : null;
         let seqIsTritone = sequenceInterval === 6;
         let seqIsSecond = sequenceInterval === 1 || sequenceInterval === 2;
-
-        // console.log("the distance is", voiceInterval);
-        // console.log("isTritone", isTritone);
-        // console.log("isSecond", isSecond);
         
-
         let passing_harmony =
           (rules.harmony.isTritone && !harmIsTritone) &&
           (rules.harmony.isSecond && !harmIsSecond);
@@ -280,7 +277,7 @@ const App = () => {
         cantus-firmus because this relies 
         on the midi to dictate timing
       */
-      setCurrentStep(prev => (prev = (prev + 1) % (numBars * 4)));
+      setCurrentStep(prev => (prev = (prev) % (numBars * 4)));
       synth.triggerAttackRelease([currentNote, counterNote], "4n");
     };
 
