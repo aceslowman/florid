@@ -1,6 +1,11 @@
 /* global Tone, ReactDOM, React */
 
-/* */
+/* 
+  this is slightly different than what you'll find in cantus-firmus
+  the main issue was with the 'currentStep' indicator, and for some
+  reason this wouldn't work without using the modulus of the iterator
+  for the beat elements. i know this is vague, sorry
+*/
 const MusicStaff = props => {
   let lineRef = React.useRef();
   let [ready, setReady] = React.useState(0);

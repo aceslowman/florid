@@ -205,6 +205,7 @@ const App = () => {
         previousNote = null; // the eventual note
 
       // if(melody[measure])
+      setCurrentStep(prev => (prev + 1) % (numBars * 4));
       previousNote = melody[measure][(currentStep - 1) % 4];
 
       console.group();
@@ -223,7 +224,9 @@ const App = () => {
       while (!passing && failsafe < 10) {
         newNote = keyScale[Math.floor(Math.random() * keyScale.length)];
 
-        // console.log(`comparing current: ${currentNote} to voicing: ${newNote}`);
+        console.log(`comparing harmony between current: ${currentNote} to voicing: ${newNote}`);
+        if(previousNote && previousNote.length)
+          console.log(`comparing sequence between current: ${currentNote} and previous: ${previousNote[1]}`)
 
         /* 
           disallowed harmony: 
@@ -284,7 +287,7 @@ const App = () => {
         on the midi to dictate timing
       */
       setCurrentStep(prev => (prev + 1) % (numBars * 4));
-      synth.triggerAttackRelease([currentNote, counterNote], "4n");
+      if (soundOn) synth.triggerAttackRelease([currentNote, counterNote], "4n");
     };
 
     if (activeMidiInput) {
@@ -292,7 +295,7 @@ const App = () => {
       return () =>
         activeMidiInput.removeEventListener("midimessage", handleMidiIn);
     }
-  }, [melody, synth, currentStep, numBars, setMelody, setCurrentStep]);
+  }, [melody, synth, currentStep, numBars, setMelody, setCurrentStep, soundOn]);
 
   /* insert new measures */
   React.useLayoutEffect(() => {
@@ -397,6 +400,8 @@ const App = () => {
 
   const handleChangeVoicingMode = e => setVoicingMode(e.target.value);
 
+  const handleToggleSoundOn = e => setSoundOn(prev => !prev);
+
   const handleToggleRules = (mode, rule) =>
     setRules(prev => ({
       ...prev,
@@ -415,6 +420,8 @@ const App = () => {
         onToggleLoop={handleLoopToggle}
         onNumBarsChange={handleNumBarsChange}
         onBPMChange={handleBPMChange}
+        onToggleSoundOn={handleToggleSoundOn}
+        soundOn={soundOn}
         bpm={bpm}
         loop={loop}
         isPlaying={isPlaying}
