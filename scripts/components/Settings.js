@@ -124,7 +124,7 @@ const Settings = props => {
             </InputGroup>
           </InputRow>
           <InputPanel title="rules">
-            <InputPanel title="sequence">
+            <InputPanel title="sequence (allow)">
               <InputRow>
                 {Object.keys(props.rules.sequence).map((rule_name, i) => {
                   return (
@@ -144,7 +144,7 @@ const Settings = props => {
                 })}
               </InputRow>
             </InputPanel>
-            <InputPanel title="harmony">
+            <InputPanel title="harmony (allow)">
               <InputRow>
                 {Object.keys(props.rules.harmony).map((rule_name, i) => {
                   return (
