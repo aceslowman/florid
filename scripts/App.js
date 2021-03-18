@@ -215,7 +215,7 @@ const App = () => {
       currentNote = Tone.Frequency(currentNote, "midi").toNote();
       let counterNote; // the eventual note
 
-      console.group(currentNote);
+      console.groupCollapsed(currentNote);
       // console.log("measure", currentMeasure);
       // console.log("beat", currentBeat);
       // console.log("currentStep", currentStep);
@@ -231,8 +231,8 @@ const App = () => {
       */
       let failsafe = 0;
       let passing = false;
-      while (!passing && failsafe < 100) {
-        newNote = keyScale[Math.floor(Math.random() * keyScale.length)];        
+      while (!passing && failsafe < 20) {
+        newNote = keyScale[Math.floor(Math.random() * keyScale.length)];
 
         /* 
           HARMONIC RULES
@@ -249,15 +249,15 @@ const App = () => {
             Math.abs(harmonicInterval) === 2,
           unison: harmonicInterval === 0
         };
-        
-        console.log('harmonic interval', harmonicInterval)
-        
-        Object.keys(rules.harmony).forEach((rule_name,i) => {
+
+        console.log("harmonic interval", harmonicInterval);
+
+        Object.keys(rules.harmony).forEach((rule_name, i) => {
           let rule = rules.harmony[rule_name];
-          if(!rule) {
+          if (!rule) {
             passing_harmony = passing_harmony && !harmonyIs[rule_name];
-            
-            if(!passing_harmony) console.log(`${rule_name} failed!`, rule)
+
+            if (!passing_harmony) console.log(`${rule_name} failed!`);
           }
         });
 
@@ -287,16 +287,16 @@ const App = () => {
           //   }`
           // );
 
-          Object.keys(rules.sequence).forEach((rule_name,i) => {
-            let rule = rules.sequence[rule_name];
-            // if the rule disallows this sequence, it will only
-            // pass if the sequence is false
-            if(!rule) {
-              passing_sequence = passing_sequence && !sequenceIs[rule_name];
-              
-              if(!passing_sequence) console.log(`${rule_name} failed!`, rule)
-            } 
-          })
+//           Object.keys(rules.sequence).forEach((rule_name, i) => {
+//             let rule = rules.sequence[rule_name];
+//             // if the rule disallows this sequence, it will only
+//             // pass if the sequence is false
+//             if (!rule) {
+//               passing_sequence = passing_sequence && !sequenceIs[rule_name];
+
+//               if (!passing_sequence) console.log(`${rule_name} failed!`, rule);
+//             }
+//           });
         }
 
         // console.log('passing sequence? ', passing_sequence)
@@ -306,8 +306,8 @@ const App = () => {
         if (failsafe === 99) console.log("fail out!");
         failsafe++;
       }
-      
-      console.log('new note:', newNote)
+
+      console.log("new note:", newNote);
       console.groupEnd();
 
       // apply
