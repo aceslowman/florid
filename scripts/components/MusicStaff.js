@@ -75,6 +75,7 @@ const MusicStaff = props => {
           </div>
           {measure.map((beats, b_i) => {
             iter++;
+            
             return (
               <div
                 style={{
@@ -149,7 +150,7 @@ const MusicStaff = props => {
 
                       return (
                         <Note
-                          tabIndex={iter + 1}
+                          tabIndex={iter}
                           key={m_i + "_" + b_i + "_" + v_i + "_" + n_i}
                           onKeyDown={e => props.onNoteChange(e, m_i, b_i, n_i)}
                           value={note}
