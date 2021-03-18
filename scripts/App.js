@@ -216,11 +216,6 @@ const App = () => {
       let counterNote; // the eventual note
 
       console.groupCollapsed(currentNote);
-      // console.log("measure", currentMeasure);
-      // console.log("beat", currentBeat);
-      // console.log("currentStep", currentStep);
-      // console.log("currentNote", currentNote);
-      // console.log("previousNote", previousNote);
 
       // get random note in scale
       let newNote = keyScale[Math.floor(Math.random() * keyScale.length)];
@@ -253,12 +248,14 @@ const App = () => {
         console.log("harmonic interval", harmonicInterval);
 
         for(let i = 0; i < Object.keys(rules.harmony).length; i++) {
-          let rule_name = Object.keys(rules.harmony);
+          let rule_name = Object.keys(rules.harmony)[i];
           let rule = rules.harmony[rule_name];  
           // if the rule disallows this sequence, it will only
           // pass if the sequence is false
           if (!rule) {
             passing_harmony = passing_harmony && !harmonyIs[rule_name];
+            
+            console.log(`checking whether or not ${rule_name} is false for ${harmonyIs[rule_name]}`)
 
             if (!passing_harmony) console.log(`${rule_name} failed!`);
             if (!passing_harmony) break;
@@ -294,7 +291,7 @@ const App = () => {
           console.log("sequence interval", sequenceInterval);
 
           for(let i = 0; i < Object.keys(rules.sequence).length; i++) {
-            let rule_name = Object.keys(rules.sequence);
+            let rule_name = Object.keys(rules.sequence)[i];
             let rule = rules.sequence[rule_name];
             // if the rule disallows this sequence, it will only
             // pass if the sequence is false
