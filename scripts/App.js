@@ -27,7 +27,8 @@ const App = () => {
   let [rules, setRules] = React.useState({
     sequence: {
       noSeconds: true,
-      noTritone: true
+      noTritone: true,
+      noUnison: true
     },
     harmony: {
       noSeconds: true,
@@ -240,37 +241,28 @@ const App = () => {
         let passing_harmony = true;
         let harmonicInterval = getNoteDistance(currentNote, newNote);
         let harmIsTritone = harmonicInterval === 6;
-        let harmIsSecond = harmonicInterval === 1 || harmonicInterval === 2;
+        let harmIsSecond =
+          Math.abs(harmonicInterval) === 1 || Math.abs(harmonicInterval) === 2;
         let harmIsUnison = harmonicInterval === 0;
 
         console.log("harmonic interval:", harmonicInterval);
         console.log("harmIsTritone?", harmIsTritone);
         console.log("harmIsSecond?", harmIsSecond);
         console.log("harmIsUnison?", harmIsUnison);
-        console.log("noTritone",rules.harmony.noTritone === !harmIsTritone)
-        console.log("noSecond", rules.harmony.noSecond === !harmIsSecond)
-        console.log("noUnison", rules.harmony.noUnison === !harmIsUnison)
-        
-//         let passing_harmony =
-//           (rules.harmony.noTritone && !harmIsTritone) ||
-//           (!rules.harmony.noTritone && !harmIsTritone) &&
-//           rules.harmony.noSecond === !harmIsSecond &&
-//           rules.harmony.noUnison === !harmIsUnison;
-        
-//         if(rules.harmony.noTritone === true && harmIsTritone === false)
-        if(rules.harmony.noTritone) {
-          passing_harmony &= !harmIsTritone;
-        }
-        
-        if(rules.harmony.noSecond) {
-          passing_harmony &= !harmIsSecond;
-        }
-        
-        if(rules.harmony.noUnison) {
-          passing_harmony &= !harmIsUnison;
-        }
-        
-        console.log('passing harmony?', passing_harmony)
+        console.log("noTritone", rules.harmony.noTritone === !harmIsTritone);
+        console.log("noSecond", rules.harmony.noSecond === !harmIsSecond);
+        console.log("noUnison", rules.harmony.noUnison === !harmIsUnison);
+
+        if (rules.harmony.noTritone)
+          passing_harmony = passing_harmony && !harmIsTritone;
+
+        if (rules.harmony.noSeconds)
+          passing_harmony = passing_harmony && !harmIsSecond;
+
+        if (rules.harmony.noUnison)
+          passing_harmony = passing_harmony && !harmIsUnison;
+
+        console.log("passing harmony?", passing_harmony);
 
         let passing_sequence = true;
         /*
@@ -284,8 +276,8 @@ const App = () => {
             previousNote[0][1]
           );
           let seqIsTritone = sequenceInterval === 6;
-          let seqIsSecond = sequenceInterval === 1 || sequenceInterval === 2;
-          // isUnison
+          let seqIsSecond = Math.abs(sequenceInterval) === 1 || Math.abs(sequenceInterval) === 2;
+          let seqIsUnison = sequenceInterval === 0;
 
           console.log(
             `comparing sequence between new: ${newNote} and previous: ${
@@ -297,17 +289,20 @@ const App = () => {
           console.log("seqIsTritone?", seqIsTritone);
           console.log("seqIsSecond?", seqIsSecond);
 
-          passing_sequence =
-            rules.sequence.noTritone === !seqIsTritone &&
-            rules.sequence.noSecond === !seqIsSecond;
+          if (rules.sequence.noTritone)
+            passing_sequence = passing_sequence && !seqIsTritone;
+
+          if (rules.sequence.noSeconds)
+            passing_sequence = passing_sequence && !seqIsSecond;
+
+          if (rules.sequence.noUnison)
+            passing_sequence = passing_sequence && !seqIsUnison;
         }
 
+        passing = passing_harmony && passing_sequence;
+        // passing = passing_harmony;
 
-
-        // passing = passing_harmony && passing_sequence;
-        passing = passing_harmony;
-
-        if(failsafe===99) console.log('fail out!')
+        if (failsafe === 99) console.log("fail out!");
         failsafe++;
       }
 

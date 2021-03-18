@@ -146,6 +146,16 @@ const Settings = props => {
                   />
                 </label>
               </InputGroup>
+              <InputGroup>
+                <label>
+                  no unison
+                  <input
+                    onChange={()=>props.onToggleRules('sequence','noUnison')}
+                    checked={props.rules.sequence.noUnison}
+                    type="checkbox"
+                  />
+                </label>
+              </InputGroup>
             </InputRow>
             </InputPanel>
             <InputPanel title="harmony">
