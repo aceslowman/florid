@@ -250,7 +250,7 @@ const App = () => {
             Math.abs(harmonicInterval) === 2,
           isUnison: harmonicInterval === 0
         };
-        
+
         if (rules.harmony.noTritone)
           passing_harmony = passing_harmony && !harmonyIs.tritone;
 
@@ -262,12 +262,12 @@ const App = () => {
 
         // console.log("passing harmony?", passing_harmony);
 
-        let passing_sequence = true;
         /*
           disallowed sequences
           note: only necessary when there is a previous voice
           to harmonize with
         */
+        let passing_sequence = true;
         if (previousNote && previousNote.length) {
           let sequenceInterval = getNoteDistance(
             currentNote,
@@ -282,11 +282,11 @@ const App = () => {
             unison: sequenceInterval === 0
           };
 
-          console.log(
-            `comparing sequence between new: ${newNote} and previous: ${
-              previousNote[0][1]
-            }`
-          );
+          // console.log(
+          //   `comparing sequence between new: ${newNote} and previous: ${
+          //     previousNote[0][1]
+          //   }`
+          // );
 
           // console.log("sequence interval:", sequenceInterval);
           // console.log("seqIsTritone?", seqIsTritone);
@@ -305,7 +305,6 @@ const App = () => {
         // console.log('passing sequence? ', passing_sequence)
 
         passing = passing_harmony && passing_sequence;
-        // passing = passing_harmony;
 
         if (failsafe === 99) console.log("fail out!");
         failsafe++;
