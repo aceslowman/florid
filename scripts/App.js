@@ -227,7 +227,7 @@ const App = () => {
       // HERE while new_note is a certain distance from currentNote, pick a new one
       let failsafe = 0;
       let passing = false;
-      while (!passing && failsafe < 10) {
+      while (!passing && failsafe < 100) {
         newNote = keyScale[Math.floor(Math.random() * keyScale.length)];
 
         console.log(
@@ -246,6 +246,16 @@ const App = () => {
         console.log("harmIsTritone?", harmIsTritone);
         console.log("harmIsSecond?", harmIsSecond);
         console.log("harmIsUnison?", harmIsUnison);
+        console.log("noTritone",rules.harmony.noTritone === !harmIsTritone)
+        console.log("noSecond", rules.harmony.noSecond === !harmIsSecond)
+        console.log("noUnison", rules.harmony.noUnison === !harmIsUnison)
+        
+        let passing_harmony =
+          rules.harmony.noTritone === !harmIsTritone &&
+          rules.harmony.noSecond === !harmIsSecond &&
+          rules.harmony.noUnison === !harmIsUnison;
+        
+        console.log('passing harmony?', passing_harmony)
 
         let passing_sequence = true;
         /*
@@ -277,13 +287,11 @@ const App = () => {
             rules.sequence.noSecond === !seqIsSecond;
         }
 
-        let passing_harmony =
-          rules.harmony.noTritone === !harmIsTritone &&
-          rules.harmony.noSecond === !harmIsSecond &&
-          rules.harmony.noUnison === !harmIsUnison;
+
 
         passing = passing_harmony && passing_sequence;
 
+        if(failsafe===99) console.log('fail out!')
         failsafe++;
       }
 
