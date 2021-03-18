@@ -31,7 +31,8 @@ const App = () => {
     },
     harmony: {
       noSeconds: true,
-      noTritone: true
+      noTritone: true,
+      noUnison: true
     }
   });
 
@@ -239,37 +240,52 @@ const App = () => {
         let harmonicInterval = getNoteDistance(currentNote, newNote);
         let harmIsTritone = harmonicInterval === 6;
         let harmIsSecond = harmonicInterval === 1 || harmonicInterval === 2;
+        // isUnison
+        let harmIsUnison = harmonicInterval === 0;
+
+        console.log("harmonic interval:", harmonicInterval);
+        console.log("harmIsTritone?", harmIsTritone);
+        console.log("harmIsSecond?", harmIsSecond);
+        console.log("harmIsUnison?", harmIsUnison);
 
         let passing_sequence = true;
         /*
           disallowed sequences
+          note: only necessary when there is a previous voice
+          to harmonize with
         */
-        if (previousNote && previousNote.length) {        
-          let sequenceInterval = previousNote
-            ? getNoteDistance(currentNote, previousNote[1])
-            : null;
+        if (previousNote && previousNote.length) {
+          let sequenceInterval = getNoteDistance(
+            currentNote,
+            previousNote[0][1]
+          );
           let seqIsTritone = sequenceInterval === 6;
           let seqIsSecond = sequenceInterval === 1 || sequenceInterval === 2;
+          // isUnison
 
-          if (previousNote && previousNote.length)
-            console.log(
-              `comparing sequence between new: ${newNote} and previous: ${
-                previousNote[0][1]
-              }`
-            );
-          
+          console.log(
+            `comparing sequence between new: ${newNote} and previous: ${
+              previousNote[0][1]
+            }`
+          );
+
+          console.log("sequence interval:", sequenceInterval);
+          console.log("seqIsTritone?", seqIsTritone);
+          console.log("seqIsSecond?", seqIsSecond);
+
           passing_sequence =
-          previousNote === undefined ||
-          (rules.sequence.isTritone &&
-            !seqIsTritone &&
-            (rules.sequence.isSecond && !seqIsSecond));
+            previousNote === undefined ||
+            (rules.sequence.isTritone &&
+              !seqIsTritone &&
+              (rules.sequence.isSecond && !seqIsSecond));
         }
 
         let passing_harmony =
-          rules.harmony.isTritone &&
-          !harmIsTritone &&
-          (rules.harmony.isSecond && !harmIsSecond);
-
+          (rules.harmony.noTritone &&
+          !harmIsTritone) &&
+          (rules.harmony.noSecond &&
+          !harmIsSecond) &&
+          (rules.harmony.noUnison && !harmIsUnison);
 
         passing = passing_harmony && passing_sequence;
 
