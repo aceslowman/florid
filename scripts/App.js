@@ -193,7 +193,7 @@ const App = () => {
       });
 
       let measure = Math.floor(currentStep / 4) % numBars;
-      let beat = (currentStep + 1) % 4;
+      let beat = (currentStep) % 4;
 
       if (currentStep > 0 && currentStep % 4 === 0 && melody.length < numBars) {
         melody.push([]);
@@ -208,6 +208,8 @@ const App = () => {
       previousNote = melody[measure][(currentStep - 1) % 4];
 
       console.group();
+      console.log('measure', measure)
+      console.log('beat', beat)
       console.log("currentStep", currentStep);
       console.log("currentNote", currentNote);
       console.log("previousNote", previousNote);
@@ -221,7 +223,7 @@ const App = () => {
       while (!passing && failsafe < 10) {
         newNote = keyScale[Math.floor(Math.random() * keyScale.length)];
 
-        console.log(`comparing current: ${currentNote} to voicing: ${newNote}`);
+        // console.log(`comparing current: ${currentNote} to voicing: ${newNote}`);
 
         /* 
           disallowed harmony: 
@@ -281,7 +283,7 @@ const App = () => {
         cantus-firmus because this relies 
         on the midi to dictate timing
       */
-      setCurrentStep(prev => (prev + 1) % ((numBars * 4) + 1));
+      setCurrentStep(prev => (prev + 1) % ((numBars * 4)));
       synth.triggerAttackRelease([currentNote /*, counterNote*/], "4n");
     };
 
