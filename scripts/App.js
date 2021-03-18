@@ -297,18 +297,21 @@ const App = () => {
             // pass if the sequence is false
             if (!rule) {
               passing_sequence = passing_sequence && !sequenceIs[rule_name];
+              
+              console.log(`checking whether or not ${rule_name} is false for ${harmonyIs[rule_name]}`)
 
               if (!passing_sequence) console.log(`${rule_name} failed!`, rule);
-              if (!passing_sequence) break;
+              // if (!passing_sequence) break;
             }
           };
         }
 
-        // console.log('passing sequence? ', passing_sequence)
+        console.log('passing harmony?', passing_harmony)
+        console.log('passing sequence? ', passing_sequence)
 
         passing = passing_harmony && passing_sequence;
 
-        if (failsafe === 99) console.log("fail out!");
+        if (failsafe === 19) console.log("fail out!");
         failsafe++;
       }
 
