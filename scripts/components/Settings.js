@@ -125,76 +125,46 @@ const Settings = props => {
           </InputRow>
           <InputPanel title="rules">
             <InputPanel title="sequence">
-            <InputRow>
-              <InputGroup>
-                <label>
-                  no tritone
-                  <input
-                    onChange={()=>props.onToggleRules('sequence','noTritone')}
-                    checked={props.rules.sequence.noTritone}
-                    type="checkbox"
-                  />
-                </label>
-              </InputGroup>
-              <InputGroup>
-                <label>
-                  no seconds
-                  <input
-                    onChange={()=>props.onToggleRules('sequence','noSeconds')}
-                    checked={props.rules.sequence.noSeconds}
-                    type="checkbox"
-                  />
-                </label>
-              </InputGroup>
-              <InputGroup>
-                <label>
-                  no unison
-                  <input
-                    onChange={()=>props.onToggleRules('sequence','noUnison')}
-                    checked={props.rules.sequence.noUnison}
-                    type="checkbox"
-                  />
-                </label>
-              </InputGroup>
-            </InputRow>
+              <InputRow>
+                {Object.keys(props.rules.sequence).map((rule_name, i) => {
+                  return (
+                    <InputGroup key={rule_name}>
+                      <label>
+                        {rule_name}
+                        <input
+                          onChange={() =>
+                            props.onToggleRules("sequence", rule_name)
+                          }
+                          checked={props.rules.sequence[rule_name]}
+                          type="checkbox"
+                        />
+                      </label>
+                    </InputGroup>
+                  );
+                })}
+              </InputRow>
             </InputPanel>
             <InputPanel title="harmony">
-            <InputRow>
-              <InputGroup>
-                <label>
-                  no tritone
-                  <input
-                    onChange={()=>props.onToggleRules('harmony','noTritone')}
-                    checked={props.rules.harmony.noTritone}
-                    type="checkbox"
-                  />
-                </label>
-              </InputGroup>
-              <InputGroup>
-                <label>
-                  no seconds
-                  <input
-                    onChange={()=>props.onToggleRules('harmony','noSeconds')}
-                    checked={props.rules.harmony.noSeconds}
-                    type="checkbox"
-                  />
-                </label>
-              </InputGroup>
-              <InputGroup>
-                <label>
-                  no unison
-                  <input
-                    onChange={()=>props.onToggleRules('harmony','noUnison')}
-                    checked={props.rules.harmony.noUnison}
-                    type="checkbox"
-                  />
-                </label>
-              </InputGroup>
-            </InputRow>
+              <InputRow>
+                {Object.keys(props.rules.harmony).map((rule_name, i) => {
+                  return (
+                    <InputGroup key={rule_name}>
+                      <label>
+                        {rule_name}
+                        <input
+                          onChange={() =>
+                            props.onToggleRules("harmony", rule_name)
+                          }
+                          checked={props.rules.harmony[rule_name]}
+                          type="checkbox"
+                        />
+                      </label>
+                    </InputGroup>
+                  );
+                })}
+              </InputRow>
             </InputPanel>
           </InputPanel>
-          
-          
         </InputPanel>
 
         <InputPanel title="MIDI">

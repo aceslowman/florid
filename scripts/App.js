@@ -251,14 +251,15 @@ const App = () => {
         };
         // console.log("passing harmony?", passing_harmony);
         
-        rules.harmony.forEach((rule,i) => {
-          if(rule) passing_harmony = passing_harmony && harmonyIs[rule];
+        Object.keys(rules.harmony).forEach((rule_name,i) => {
+          let rule = rules.harmony[rule_name];
+          if(!rule) passing_harmony = passing_harmony && !harmonyIs[rule_name];
         });
 
         /*
           SEQUENCE RULES
           note: only necessary when there is a previous voice
-          to harmonize with
+          to compare to
         */
         let passing_sequence = true;
         if (previousNote && previousNote.length) {
@@ -281,8 +282,15 @@ const App = () => {
           //   }`
           // );
 
-          rules.sequence.forEach((rule,i) => {
-            if(rule) passing_sequence = passing_sequence && sequenceIs[rule];
+          Object.keys(rules.sequence).forEach((rule_name,i) => {
+            let rule = rules.harmony[rule_name];
+            // if the rule disallows this sequence, it will only
+            // pass if the sequence is false
+            if(!rule) {
+              passing_sequence = passing_sequence && !sequenceIs[rule_name];
+              
+              if(!passing_sequence) console.log(`${rule_name}`, rule)
+            } 
           })
         }
 
