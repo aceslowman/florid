@@ -131,15 +131,8 @@ const App = () => {
     GENERATE VOICES
     set up and remove listener for activeMidiInput
   */
-  React.useLayoutEffect(() => {
+  React.useEffect(() => {
     const handleMidiIn = m => {
-      if (currentStep > 0 && currentStep % 4 === 0 && melody.length < numBars) {
-        melody.push([]);
-      }
-
-      let [noteon, currentNote, velocity] = m.data;
-      currentNote = Tone.Frequency(currentNote, "midi").toNote();
-
       /*
       this is where the bulk of the note generation happens
       
@@ -202,16 +195,23 @@ const App = () => {
       let measure = Math.floor(currentStep / 4) % numBars;
       let beat = currentStep % 4;
 
-      let counterNote, previousNote = null; // the eventual note
-      
-      
+      if (currentStep > 0 && currentStep % 4 === 0 && melody.length < numBars) {
+        melody.push([]);
+      }
+
+      let [noteon, currentNote, velocity] = m.data;
+      currentNote = Tone.Frequency(currentNote, "midi").toNote();
+      let counterNote,
+        previousNote = null; // the eventual note
+
       // if(melody[measure])
-      previousNote = melody[measure][(currentStep-1) % 4];
-      
+      previousNote = melody[measure][(currentStep - 1) % 4];
+
       console.group();
-      console.log('currentNote', currentNote)
-      console.log('previousNote', previousNote)
-      
+      console.log("currentStep", currentStep);
+      console.log("currentNote", currentNote);
+      console.log("previousNote", previousNote);
+
       // get random note in scale
       let newNote = keyScale[Math.floor(Math.random() * keyScale.length)];
 
@@ -221,9 +221,7 @@ const App = () => {
       while (!passing && failsafe < 10) {
         newNote = keyScale[Math.floor(Math.random() * keyScale.length)];
 
-        console.log(
-          `comparing current: ${currentNote} to voicing: ${newNote}`
-        );
+        console.log(`comparing current: ${currentNote} to voicing: ${newNote}`);
 
         /* 
           disallowed harmony: 
@@ -235,23 +233,28 @@ const App = () => {
         /*
           disallowed sequence
         */
-        let sequenceInterval = previousNote ? getNoteDistance(currentNote, previousNote[1]) : null;
+        let sequenceInterval = previousNote
+          ? getNoteDistance(currentNote, previousNote[1])
+          : null;
         let seqIsTritone = sequenceInterval === 6;
         let seqIsSecond = sequenceInterval === 1 || sequenceInterval === 2;
-        
+
         let passing_harmony =
-          (rules.harmony.isTritone && !harmIsTritone) &&
+          rules.harmony.isTritone &&
+          !harmIsTritone &&
           (rules.harmony.isSecond && !harmIsSecond);
-        
-        let passing_sequence = previousNote === undefined || 
-          (rules.sequence.isTritone && !seqIsTritone) &&
-          (rules.sequence.isSecond && !seqIsSecond);
-        
+
+        let passing_sequence =
+          previousNote === undefined ||
+          (rules.sequence.isTritone &&
+            !seqIsTritone &&
+            (rules.sequence.isSecond && !seqIsSecond));
+
         passing = passing_harmony && passing_sequence;
-        
+
         failsafe++;
       }
-      
+
       console.groupEnd();
 
       // apply
@@ -259,8 +262,8 @@ const App = () => {
 
       let newEvent = [
         {
-          0: currentNote,
-          1: counterNote
+          0: currentNote
+          // 1: counterNote
         }
       ];
 
@@ -271,14 +274,14 @@ const App = () => {
       }
 
       setMelody([...melody]);
-      
+
       /*
         this works differently than in 
         cantus-firmus because this relies 
         on the midi to dictate timing
       */
-      setCurrentStep(prev => (prev = (prev) % (numBars * 4)));
-      synth.triggerAttackRelease([currentNote, counterNote], "4n");
+      setCurrentStep(prev => (prev = (prev + 1) % (numBars * 4)));
+      synth.triggerAttackRelease([currentNote /*, counterNote*/], "4n");
     };
 
     if (activeMidiInput) {
