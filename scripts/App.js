@@ -254,7 +254,9 @@ const App = () => {
 
         for(let i = 0; i < Object.keys(rules.harmony).length; i++) {
           let rule_name = Object.keys(rules.harmony);
-          let rule = rules.harmony[rule_name];          
+          let rule = rules.harmony[rule_name];  
+          // if the rule disallows this sequence, it will only
+          // pass if the sequence is false
           if (!rule) {
             passing_harmony = passing_harmony && !harmonyIs[rule_name];
 
@@ -273,7 +275,7 @@ const App = () => {
           let sequenceInterval = getNoteDistance(
             currentNote,
             previousNote[0][1]
-          );
+          );          
 
           let sequenceIs = {
             tritone: sequenceInterval === 6,
@@ -283,22 +285,26 @@ const App = () => {
             unison: sequenceInterval === 0
           };
 
-          // console.log(
-          //   `comparing sequence between new: ${newNote} and previous: ${
-          //     previousNote[0][1]
-          //   }`
-          // );
+          console.log(
+            `comparing sequence between new: ${newNote} and previous: ${
+              previousNote[0][1]
+            }`
+          );
+          
+          console.log("sequence interval", sequenceInterval);
 
-//           Object.keys(rules.sequence).forEach((rule_name, i) => {
-//             let rule = rules.sequence[rule_name];
-//             // if the rule disallows this sequence, it will only
-//             // pass if the sequence is false
-//             if (!rule) {
-//               passing_sequence = passing_sequence && !sequenceIs[rule_name];
+          for(let i = 0; i < Object.keys(rules.sequence).length; i++) {
+            let rule_name = Object.keys(rules.sequence);
+            let rule = rules.sequence[rule_name];
+            // if the rule disallows this sequence, it will only
+            // pass if the sequence is false
+            if (!rule) {
+              passing_sequence = passing_sequence && !sequenceIs[rule_name];
 
-//               if (!passing_sequence) console.log(`${rule_name} failed!`, rule);
-//             }
-//           });
+              if (!passing_sequence) console.log(`${rule_name} failed!`, rule);
+              if (!passing_sequence) break;
+            }
+          };
         }
 
         // console.log('passing sequence? ', passing_sequence)
