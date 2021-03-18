@@ -26,14 +26,14 @@ const App = () => {
 
   let [rules, setRules] = React.useState({
     sequence: {
-      noSeconds: true,
-      noTritone: true,
-      noUnison: true
+      seconds: true,
+      tritone: true,
+      unison: true
     },
     harmony: {
-      noSeconds: true,
-      noTritone: true,
-      noUnison: true
+      seconds: true,
+      tritone: true,
+      unison: true
     }
   });
 
@@ -215,7 +215,7 @@ const App = () => {
       currentNote = Tone.Frequency(currentNote, "midi").toNote();
       let counterNote; // the eventual note
 
-      // console.group();
+      console.group(currentNote);
       // console.log("measure", currentMeasure);
       // console.log("beat", currentBeat);
       // console.log("currentStep", currentStep);
@@ -232,38 +232,31 @@ const App = () => {
       let failsafe = 0;
       let passing = false;
       while (!passing && failsafe < 100) {
-        newNote = keyScale[Math.floor(Math.random() * keyScale.length)];
+        newNote = keyScale[Math.floor(Math.random() * keyScale.length)];        
 
+        /* 
+          HARMONIC RULES
+        */
         // console.log(
         //   `comparing harmony between current: ${currentNote} to new voice: ${newNote}`
         // );
-
-        /* 
-          disallowed harmony: 
-        */
         let passing_harmony = true;
         let harmonicInterval = getNoteDistance(currentNote, newNote);
         let harmonyIs = {
-          isTritone: harmonicInterval === 6,
-          isSecond:
+          tritone: harmonicInterval === 6,
+          second:
             Math.abs(harmonicInterval) === 1 ||
             Math.abs(harmonicInterval) === 2,
-          isUnison: harmonicInterval === 0
+          unison: harmonicInterval === 0
         };
-
-        if (rules.harmony.noTritone)
-          passing_harmony = passing_harmony && !harmonyIs.tritone;
-
-        if (rules.harmony.noSeconds)
-          passing_harmony = passing_harmony && !harmonyIs.second;
-
-        if (rules.harmony.noUnison)
-          passing_harmony = passing_harmony && !harmonyIs.unison;
-
         // console.log("passing harmony?", passing_harmony);
+        
+        rules.harmony.forEach((rule,i) => {
+          if(rule) passing_harmony = passing_harmony && harmonyIs[rule];
+        });
 
         /*
-          disallowed sequences
+          SEQUENCE RULES
           note: only necessary when there is a previous voice
           to harmonize with
         */
@@ -288,18 +281,9 @@ const App = () => {
           //   }`
           // );
 
-          // console.log("sequence interval:", sequenceInterval);
-          // console.log("seqIsTritone?", seqIsTritone);
-          // console.log("seqIsSecond?", seqIsSecond);
-
-          if (rules.sequence.noTritone)
-            passing_sequence = passing_sequence && !sequenceIs.tritone;
-
-          if (rules.sequence.noSeconds)
-            passing_sequence = passing_sequence && !sequenceIs.second;
-
-          if (rules.sequence.noUnison)
-            passing_sequence = passing_sequence && !sequenceIs.unison;
+          rules.sequence.forEach((rule,i) => {
+            if(rule) passing_sequence = passing_sequence && sequenceIs[rule];
+          })
         }
 
         // console.log('passing sequence? ', passing_sequence)
@@ -309,8 +293,9 @@ const App = () => {
         if (failsafe === 99) console.log("fail out!");
         failsafe++;
       }
-
-      // console.groupEnd();
+      
+      console.log('new note:', newNote)
+      console.groupEnd();
 
       // apply
       counterNote = newNote;
