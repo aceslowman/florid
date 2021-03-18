@@ -1,4 +1,6 @@
 /* global Tone, ReactDOM, React */
+
+/* */
 const MusicStaff = props => {
   let lineRef = React.useRef();
   let [ready, setReady] = React.useState(0);
@@ -75,7 +77,7 @@ const MusicStaff = props => {
           </div>
           {measure.map((beats, b_i) => {
             iter++;
-            
+
             return (
               <div
                 style={{
@@ -159,7 +161,7 @@ const MusicStaff = props => {
                             bottom: position,
                             border: n_i ? '2px dotted white' : '1px solid white',
                             backgroundColor:
-                              props.currentStep === iter // NOTE: this is different than in cantus-firmus!
+                              props.currentStep=== iter % (props.melody.length * 4)  // NOTE: this is different than in cantus-firmus!
                                 ? "#ff5454"
                                 : "#602500"
                           }}
