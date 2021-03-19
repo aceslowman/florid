@@ -28,7 +28,8 @@ const App = () => {
     sequence: {
       second: true,
       tritone: false,
-      unison: false
+      unison: false,
+      parallelFifths: false
     },
     harmony: {
       second: false,
@@ -219,7 +220,7 @@ const App = () => {
         previousNote = melody[previousMeasure][previousBeat];
       }
 
-      console.groupCollapsed(currentNote);
+      // console.groupCollapsed(currentNote);
 
       // get random note in scale
       let newNote = keyScale[Math.floor(Math.random() * keyScale.length)];
@@ -249,7 +250,7 @@ const App = () => {
           unison: harmonicInterval === 0
         };
 
-        console.log("harmonic interval", harmonicInterval);
+        // console.log("harmonic interval", harmonicInterval);
 
         for(let i = 0; i < Object.keys(rules.harmony).length; i++) {
           let rule_name = Object.keys(rules.harmony)[i];
@@ -277,22 +278,30 @@ const App = () => {
             currentNote,
             previousNote[0][1]
           );          
+          
+          let previousHarmonicInterval = getNoteDistance(previousNote[0][0], previousNote[0][1]);
 
           let sequenceIs = {
             tritone: sequenceInterval === 6,
             second:
               Math.abs(sequenceInterval) === 1 ||
               Math.abs(sequenceInterval) === 2,
-            unison: sequenceInterval === 0
+            unison: sequenceInterval === 0,
+            parallelFifths: (
+              // interval between the previous pair
+              // and current
+              // should not both be 7 (perfect fifth)
+              (harmonicInterval === 7) && (previousHarmonicInterval === 7)
+            )
           };
 
-          console.log(
-            `comparing sequence between new: ${newNote} and previous: ${
-              previousNote[0][1]
-            }`
-          );
+          // console.log(
+          //   `comparing sequence between new: ${newNote} and previous: ${
+          //     previousNote[0][1]
+          //   }`
+          // );
           
-          console.log("sequence interval", sequenceInterval);
+          // console.log("sequence interval", sequenceInterval);
 
           for(let i = 0; i < Object.keys(rules.sequence).length; i++) {
             let rule_name = Object.keys(rules.sequence)[i];
@@ -302,25 +311,25 @@ const App = () => {
             if (!rule) {
               passing_sequence = passing_sequence && !sequenceIs[rule_name];
               
-              console.log(`checking whether or not ${rule_name} is false for ${harmonyIs[rule_name]}`)
+              // console.log(`checking whether or not ${rule_name} is false for ${harmonyIs[rule_name]}`)
 
-              if (!passing_sequence) console.log(`${rule_name} failed!`, rule);
+              // if (!passing_sequence) console.log(`${rule_name} failed!`, rule);
               if (!passing_sequence) break;
             }
           };
         }
 
-        console.log('passing harmony?', passing_harmony)
-        console.log('passing sequence? ', passing_sequence)
+        // console.log('passing harmony?', passing_harmony)
+        // console.log('passing sequence? ', passing_sequence)
 
         passing = passing_harmony && passing_sequence;
 
-        if (failsafe === 99) console.log("fail out!");
+        // if (failsafe === 99) console.log("fail out!");
         failsafe++;
       }
 
-      console.log("new note:", newNote);
-      console.groupEnd();
+      // console.log("new note:", newNote);
+      // console.groupEnd();
 
       // apply
       counterNote = newNote;
