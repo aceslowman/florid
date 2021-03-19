@@ -200,6 +200,7 @@ const App = () => {
       });
 
       // get the current beat and measure
+      // should be moved to its own utility function
       let currentMeasure = Math.floor(currentStep / 4) % numBars;
       let currentBeat = currentStep % 4;
 
