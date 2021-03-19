@@ -36,7 +36,7 @@ body,
   -moz-transition: width 1s ease-in-out;
   -o-transition: width 1s ease-in-out;
   transition: width 1s ease-in-out;
-  z-index: 2; 
+  z-index: 2;
   overflow-y: overlay;
 }
 
@@ -96,18 +96,15 @@ body,
   box-shadow: 2px 2px 6px 0px;
 }
 
-
-
 .credits {
   color: #602500;
   line-break: anywhere;
   white-space: pre;
   margin: 15px 0px;
+  padding: 5px;
 }
 
 /* MUSIC STAFF */
-
-
 
 .MEASURELINES {
   display: flex;
@@ -135,4 +132,3 @@ body,
   min-height: 100px;
   margin: 15%;
 }
-
