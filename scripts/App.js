@@ -2,11 +2,11 @@
 const App = () => {
   let [melody, setMelody] = React.useState([[]]);
 
-  let [numBars, setNumBars] = React.useState(3);
+  let [numBars, setNumBars] = React.useState(4);
   let [loop, setLoop] = React.useState(false);
   let [bpm, setBPM] = React.useState(120);
-  let [voicingKey, setVoicingKey] = React.useState("G");
-  let [voicingMode, setVoicingMode] = React.useState(0);
+  let [voicingKey, setVoicingKey] = React.useState("C");
+  let [voicingMode, setVoicingMode] = React.useState(5);
 
   let [soundOn, setSoundOn] = React.useState(false);
   let [sequence, setSequence] = React.useState();
@@ -139,7 +139,7 @@ const App = () => {
       // grab incoming note
       let [noteon, currentNote, velocity] = m.data;
       if(noteon === 0x91) {
-        console.log('This is a ditdah message, bail out')
+        // console.log('This is a ditdah message, bail out')
         return;
       }
       currentNote = Tone.Frequency(currentNote, "midi").toNote();
@@ -237,9 +237,9 @@ const App = () => {
         /* 
           HARMONIC RULES
         */
-        console.log(
-          `comparing harmony between current: ${currentNote} to new voice: ${newNote}`
-        );
+        // console.log(
+        //   `comparing harmony between current: ${currentNote} to new voice: ${newNote}`
+        // );
         let passing_harmony = true;
         let harmonicInterval = getNoteDistance(currentNote, newNote);
         let harmonyIs = {
@@ -260,9 +260,9 @@ const App = () => {
           if (!rule) {
             passing_harmony = passing_harmony && !harmonyIs[rule_name];
             
-            console.log(`checking whether or not ${rule_name} is false for ${harmonyIs[rule_name]}`)
+            // console.log(`checking whether or not ${rule_name} is false for ${harmonyIs[rule_name]}`)
 
-            if (!passing_harmony) console.log(`${rule_name} failed!`);
+            // if (!passing_harmony) console.log(`${rule_name} failed!`);
             if (!passing_harmony) break;
           }
         }
