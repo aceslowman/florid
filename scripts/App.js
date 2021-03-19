@@ -137,6 +137,10 @@ const App = () => {
     const handleMidiIn = m => {
       // grab incoming note
       let [noteon, currentNote, velocity] = m.data;
+      if(noteon === 0x91) {
+        console.log('This is a ditdah message, bail out')
+        return;
+      }
       currentNote = Tone.Frequency(currentNote, "midi").toNote();
       let counterNote; // the eventual note
       /*
