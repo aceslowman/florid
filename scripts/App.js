@@ -135,6 +135,10 @@ const App = () => {
   */
   React.useLayoutEffect(() => {
     const handleMidiIn = m => {
+      // grab incoming note
+      let [noteon, currentNote, velocity] = m.data;
+      currentNote = Tone.Frequency(currentNote, "midi").toNote();
+      let counterNote; // the eventual note
       /*
       this is where the bulk of the note generation happens
       
@@ -209,11 +213,6 @@ const App = () => {
         previousBeat = (currentStep - 1) % 4;
         previousNote = melody[previousMeasure][previousBeat];
       }
-
-      // grab incoming note
-      let [noteon, currentNote, velocity] = m.data;
-      currentNote = Tone.Frequency(currentNote, "midi").toNote();
-      let counterNote; // the eventual note
 
       console.groupCollapsed(currentNote);
 
