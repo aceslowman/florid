@@ -8,7 +8,7 @@ const App = () => {
   let [voicingKey, setVoicingKey] = React.useState("C");
   let [voicingMode, setVoicingMode] = React.useState(5);
 
-  let [soundOn, setSoundOn] = React.useState(false);
+  let [soundOn, setSoundOn] = React.useState(true);
   let [sequence, setSequence] = React.useState();
   let [synth, setSynth] = React.useState();
 
@@ -356,7 +356,7 @@ const App = () => {
         on the midi to dictate timing
       */
       setCurrentStep(prev => (prev + 1) % (numBars * 4));
-      if (soundOn) synth.triggerAttackRelease([currentNote, counterNote], "4n");
+      if (soundOn) synth.triggerAttackRelease([currentNote, counterNote], "2n", Tone.now(), velocity/128);
     };
 
     if (activeMidiInput) {
